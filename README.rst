@@ -6,16 +6,20 @@ Dry Dock
     :target: http://badge.fury.io/py/drydock
     
 .. image:: https://travis-ci.org/Nekroze/drydock.png?branch=master
-        :target: https://travis-ci.org/Nekroze/drydock
+    :target: https://travis-ci.org/Nekroze/drydock
 
 .. image:: https://pypip.in/d/drydock/badge.png
-        :target: https://crate.io/packages/drydock?version=latest
+    :target: https://crate.io/packages/drydock?version=latest
 
 
 A Docker cluster construction utility.
+
+Dry Dock allows simple configuration file to be constructed into a cluster
+of docker containers. This tool can automatically configure reverse proxying
+with nginx and handle exposing ports through the host as required.
 
 
 Features
 --------
 
-* TODO
+* Docker cluster provisioning
