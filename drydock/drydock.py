@@ -7,13 +7,13 @@ import json
 import os
 import sys
 from .construction import construct
-from .duster import parse
+from .duster import MetaContainer
 
 
 def main():
     try:
         with open('drydock.json') as drydock:
-            spec = parse(json.load(drydock))
+            spec = MetaContainer(**json.load(drydock))
             construct(spec)
     except IOError:
         print("ERROR: Cannot find 'drydock.json' config in ", os.getcwd())
