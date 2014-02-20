@@ -14,6 +14,13 @@ class Container(object):
         self.external = external
         self.commands = [] if not commands else commands
 
+    def write_supervisor_config(self):
+        with open("{0}.conf".format(self.name), 'w') as config:
+            config.write("""[program:{0}]
+command=docker start {0}
+autostart=true
+autorestart=true""".format(self.name))
+
 
 class MetaContainer(Container):
     """A container that stores containers."""
