@@ -14,7 +14,7 @@ def main():
     try:
         with open('drydock.yaml') as drydock:
             spec = MetaContainer(**yaml.load(drydock.read()))
-            construct(spec)
+            return spec
     except IOError:
         print("ERROR: Cannot find 'drydock.yaml' config in ", os.getcwd())
         sys.exit(1)
