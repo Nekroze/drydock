@@ -20,7 +20,7 @@ class Container(object):
         self.fqdn = self.name + '.' + self.domain
 
     def get_container_commands(self):
-        self.commands = []
+        commands = []
         run = 'docker run -d'.split(' ')
 
         run.append("--name {0}".format(self.name))
@@ -29,12 +29,12 @@ class Container(object):
             run.append("-p {0}:{1}".format(external, internal))
 
         run.append(self.base)
-        self.commands.append("RUN " + ' '.join(run))
-        self.commands.append("ADD supervisor/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
+        commands.append("RUN " + ' '.join(run))
+        commands.append("ADD supervisor/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
 
         if self.http_port or self.https_port:
-            self.commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
-        return self.commands
+            commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
+        return commands.extend(self.commands)
 
     def write_supervisor_config(self):
         if not os.path.exists("supervisor"):
