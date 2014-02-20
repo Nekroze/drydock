@@ -20,6 +20,7 @@ class Container(object):
         self.fqdn = self.name + '.' + self.domain
 
     def get_container_commands(self):
+        """Return a list of commands required to construct and use this container specification."""
         commands = []
         run = 'docker run -d'.split(' ')
 
@@ -37,16 +38,18 @@ class Container(object):
         return commands.extend(self.commands)
 
     def write_supervisor_config(self):
+        """Write this containers supervisor configuration file to `./supervisor/{Container.name}.conf`"""
         if not os.path.exists("supervisor"):
             os.makedirs("supervisor")
 
-        with open("{0}.conf".format(self.name), 'w') as config:
+        with open("supervisor/{0}.conf".format(self.name), 'w') as config:
             config.write("""[program:{0}]
 command=docker start {0}
 autostart=true
 autorestart=true""".format(self.name))
 
     def write_nginx_config(self, domain):
+        """Write this containers nginx site configuration to `./sites/{Container.fqdn}`"""
         if not self.http_port and not self.https_port:
             return False
 
@@ -76,6 +79,7 @@ class MetaContainer(Container):
             self.add_container(Container(**sub))
 
     def add_container(self, container):
+        """Add the given container object to this meta container."""
         self.containers[container.name] = container
         self.exposed_ports.update(container.exposed_ports)
 
