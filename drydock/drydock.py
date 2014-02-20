@@ -3,7 +3,7 @@ DryDock can automatically provision a cluster of docker containers based on
 a simple configuration file.
 """
 from __future__ import print_function
-import json
+import yaml
 import os
 import sys
 from .construction import construct
@@ -12,8 +12,8 @@ from .duster import MetaContainer
 
 def main():
     try:
-        with open('drydock.json') as drydock:
-            spec = MetaContainer(**json.load(drydock))
+        with open('drydock.yaml') as drydock:
+            spec = MetaContainer(**yaml.load(drydock.read()))
             construct(spec)
     except IOError:
         print("ERROR: Cannot find 'drydock.json' config in ", os.getcwd())
