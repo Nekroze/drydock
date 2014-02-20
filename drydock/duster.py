@@ -1,11 +1,14 @@
 """DryDock cluster specification."""
+from . import templates
+import os
 
 
 class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None,
-                 external=False, http_port=0, https_port=0):
+                 external=False, http_port=0, https_port=0, domain=""):
         self.name = name
+        self.domain = domain
         self.base = base
         self.exposed_ports = {}
         self.exposed_ports.update(exposed_ports)
@@ -13,6 +16,8 @@ class Container(object):
         self.https_port = 0
         self.external = external
         self.commands = []
+        self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
+        self.fqdn = self.name + '.' + self.domain
 
     def get_container_commands(self):
         self.commands = []
@@ -25,21 +30,45 @@ class Container(object):
 
         run.append(self.base)
         self.commands.append("RUN " + ' '.join(run))
-        self.commands.append("ADD {0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
+        self.commands.append("ADD supervisor/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
+
+        if self.http_port or self.https_port:
+            self.commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
+        return self.commands
 
     def write_supervisor_config(self):
+        if not os.path.exists("supervisor"):
+            os.makedirs("supervisor")
+
         with open("{0}.conf".format(self.name), 'w') as config:
             config.write("""[program:{0}]
 command=docker start {0}
 autostart=true
 autorestart=true""".format(self.name))
 
+    def write_nginx_config(self, domain):
+        if not self.http_port and not self.https_port:
+            return False
+
+        config = [templates.NGINX_UPSTREAM.format(name=self.name, skyfqdn=self.skyfqdn)]
+
+        if self.http_port:
+            config.append(templates.NGINX_HTTP.format(name=self.name, port=self.http_port, fqdn=self.fqdn))
+
+        if self.https_port:
+            config.append(templates.NGINX_HTTPS.format(name=self.name, port=self.https_port, fqdn=self.fqdn))
+
+        if not os.path.exists("sites"):
+            os.makedirs("sites")
+
+        with open("sites/{0}".format(self.fqdn), 'w') as nginx:
+            nginx.write('\n'.join(config))
+
 
 class MetaContainer(Container):
     """A container that stores containers."""
     def __init__(self, name, domain, subcontainers, base="nekroze/drydock"):
-        super(MetaContainer, self).__init__(name=name, base=base)
-        self.domain = domain
+        super(MetaContainer, self).__init__(name=name, base=base, domain=domain)
         self.containers = {}
         self.reverse_proxies = {}
 
@@ -52,7 +81,7 @@ class MetaContainer(Container):
 
         fqdn = container.name + '.' + self.domain
         self.reverse_proxies[fqdn] = {
-            "skyfqdn": '.'.join([container.name, container.base.split('/')[-1], "containers", "drydock"]),
+            "skyfqdn": container.skyfqdn,
             "external": container.external,
             "http": container.http_port,
             "https": container.https_port
