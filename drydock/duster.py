@@ -4,7 +4,7 @@
 class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None,
-                 external=False, http_port=0, https_port=0, commands=None):
+                 external=False, http_port=0, https_port=0):
         self.name = name
         self.base = base
         self.exposed_ports = {}
@@ -12,7 +12,17 @@ class Container(object):
         self.http_port = 0
         self.https_port = 0
         self.external = external
-        self.commands = [] if not commands else commands
+        self.commands = []
+
+    def get_container_commands(self):
+        self.commands = 'docker run -d'.split(' ')
+
+        self.commands.append("--name {0}".format(self.name))
+
+        for external, internal in self.exposed_ports.items():
+            self.commands.append("-p {0}:{1}".format(external, internal))
+
+        self.commands.append(self.base)
 
     def write_supervisor_config(self):
         with open("{0}.conf".format(self.name), 'w') as config:
@@ -24,8 +34,8 @@ autorestart=true""".format(self.name))
 
 class MetaContainer(Container):
     """A container that stores containers."""
-    def __init__(self, name, domain, subcontainers, commands=None, base="nekroze/drydock"):
-        super(MetaContainer, self).__init__(name=name, base=base, commands=commands)
+    def __init__(self, name, domain, subcontainers, base="nekroze/drydock"):
+        super(MetaContainer, self).__init__(name=name, base=base)
         self.domain = domain
         self.containers = {}
         self.reverse_proxies = {}
