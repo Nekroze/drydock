@@ -32,6 +32,7 @@ class MetaContainer(Container):
 
         fqdn = container.name + '.' + self.domain
         self.reverse_proxies[fqdn] = {
+            "skyfqdn": '.'.join([container.name, container.base.split('/')[-1], "containers", "drydock"]),
             "external": container.external,
             "http": container.http_port,
             "https": container.https_port
