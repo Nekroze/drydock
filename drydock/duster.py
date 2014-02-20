@@ -15,14 +15,17 @@ class Container(object):
         self.commands = []
 
     def get_container_commands(self):
-        self.commands = 'docker run -d'.split(' ')
+        self.commands = []
+        run = 'docker run -d'.split(' ')
 
-        self.commands.append("--name {0}".format(self.name))
+        run.append("--name {0}".format(self.name))
 
         for external, internal in self.exposed_ports.items():
-            self.commands.append("-p {0}:{1}".format(external, internal))
+            run.append("-p {0}:{1}".format(external, internal))
 
-        self.commands.append(self.base)
+        run.append(self.base)
+        self.commands.append("RUN " + ' '.join(run))
+        self.commands.append("ADD {0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
 
     def write_supervisor_config(self):
         with open("{0}.conf".format(self.name), 'w') as config:
