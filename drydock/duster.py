@@ -53,19 +53,11 @@ autorestart=true""".format(self.name))
         if not self.http_port and not self.https_port:
             return False
 
-        config = [templates.NGINX_UPSTREAM.format(name=self.name, skyfqdn=self.skyfqdn)]
-
-        if self.http_port:
-            config.append(templates.NGINX_HTTP.format(name=self.name, port=self.http_port, fqdn=self.fqdn))
-
-        if self.https_port:
-            config.append(templates.NGINX_HTTPS.format(name=self.name, port=self.https_port, fqdn=self.fqdn))
-
         if not os.path.exists("sites"):
             os.makedirs("sites")
 
         with open("sites/{0}".format(self.fqdn), 'w') as nginx:
-            nginx.write('\n'.join(config))
+            nginx.write(templates.render_nginx_config(self))
 
 
 class MetaContainer(Container):
