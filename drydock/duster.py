@@ -44,7 +44,7 @@ command=docker start {0}
 autostart=true
 autorestart=true""".format(self.name)
 
-    def get_nginx_config(self, domain):
+    def get_nginx_config(self):
         """Write this containers nginx site configuration to `./sites/{Container.fqdn}`"""
         return templates.render_nginx_config(self)
 
