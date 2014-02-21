@@ -1,8 +1,8 @@
 """
-Tests for `drydock.duster` module.
+Tests for `drydock.container` module.
 """
 import pytest
-from drydock.duster import Container, MetaContainer
+from drydock.duster import Container
 import yaml
 
 
