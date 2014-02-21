@@ -1,5 +1,5 @@
 NGINX_UPSTREAM = """upstream {name} {
-    server {fqdn};
+    server {skyfqdn};
 }"""
 
 NGINX_HTTP = """server {
