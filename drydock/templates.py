@@ -47,3 +47,18 @@ NGINX_HTTPS = """server {
         proxy_pass https://{name}:{port}/;
     }
 }"""
+
+
+def render_nginx_config(container):
+    if not container.http_port and not container.https_port:
+        return ""
+
+    config = [NGINX_UPSTREAM.format(name=container.name, skyfqdn=container.skyfqdn)]
+
+    if container.http_port:
+        config.append(NGINX_HTTP.format(name=container.name, port=container.http_port, fqdn=container.fqdn))
+
+    if container.https_port:
+        config.append(NGINX_HTTPS.format(name=container.name, port=container.https_port, fqdn=container.fqdn))
+
+    return '\n'.join(config)
