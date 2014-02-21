@@ -37,3 +37,62 @@ external: No
 command=docker start blog
 autostart=true
 autorestart=true"""
+
+    def test_nginx(self):
+        container = Container(**yaml.load(self.config))
+        expected = """upstream blog {
+    server blog.wordpress.containers.drydock;
+}
+server {
+    listen       80;
+    server_name  blog.nekroze.com;
+
+    deny all;
+    allow 192.168.1.0/24;
+    allow 192.168.0.0/24;
+
+    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  main;
+    error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_redirect off;
+        proxy_buffering off;
+
+        proxy_pass https://blog:8081/;
+    }
+}
+server {
+    listen 443;
+    server_name blog.nekroze.com;
+
+    deny all;
+    allow 192.168.1.0/24;
+    allow 192.168.0.0/24;
+
+    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  main;
+    error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
+
+    ssl on;
+    ssl_session_timeout 5m;
+    ssl_protocols SSLv2 SSLv3 TLSv1;
+    ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_prefer_server_ciphers on;
+    ssl_certificate /etc/nginx/certs/server.crt;
+    ssl_certificate_key /etc/nginx/certs/server.key;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_redirect off;
+        proxy_buffering off;
+
+        proxy_pass https://blog:4431/;
+    }
+}"""
+        assert container.get_nginx_config() == expected

@@ -7,7 +7,6 @@ NGINX_HTTP = """server {{
     server_name  {fqdn};
 
     {rules}
-
     access_log  /var/log/nginx/log/{fqdn}.access.log  main;
     error_log  /var/log/nginx/log/{fqdn}.error.log;
 
@@ -28,7 +27,6 @@ NGINX_HTTPS = """server {{
     server_name {fqdn};
 
     {rules}
-
     access_log  /var/log/nginx/log/{fqdn}.access.log  main;
     error_log  /var/log/nginx/log/{fqdn}.error.log;
 
