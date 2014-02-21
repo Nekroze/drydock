@@ -1,8 +1,8 @@
-NGINX_UPSTREAM = """upstream {name} {
+NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
-}"""
+}}"""
 
-NGINX_HTTP = """server {
+NGINX_HTTP = """server {{
     listen       80;
     server_name  {fqdn};
 
@@ -11,7 +11,7 @@ NGINX_HTTP = """server {
     access_log  /var/log/nginx/log/{fqdn}.access.log  main;
     error_log  /var/log/nginx/log/{fqdn}.error.log;
 
-    location / {
+    location / {{
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -21,9 +21,9 @@ NGINX_HTTP = """server {
 
         proxy_pass https://{name}:{port}/;
     }
-}"""
+}}"""
 
-NGINX_HTTPS = """server {
+NGINX_HTTPS = """server {{
     listen 443;
     server_name {fqdn};
 
@@ -40,7 +40,7 @@ NGINX_HTTPS = """server {
     ssl_certificate /etc/nginx/certs/server.crt;
     ssl_certificate_key /etc/nginx/certs/server.key;
 
-    location / {
+    location / {{
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -49,8 +49,8 @@ NGINX_HTTPS = """server {
         proxy_buffering off;
 
         proxy_pass https://{name}:{port}/;
-    }
-}"""
+    }}
+}}"""
 
 NGINX_RULES_INTERNAL = """deny all;
     allow 192.168.1.0/24;
