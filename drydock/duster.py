@@ -12,8 +12,8 @@ class Container(object):
         self.base = base
         self.exposed_ports = {}
         self.exposed_ports.update(exposed_ports)
-        self.http_port = 0
-        self.https_port = 0
+        self.http_port = http_port
+        self.https_port = https_port
         self.external = external
         self.commands = []
         self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
