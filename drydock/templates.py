@@ -20,7 +20,7 @@ NGINX_HTTP = """server {{
         proxy_buffering off;
 
         proxy_pass https://{name}:{port}/;
-    }
+    }}
 }}"""
 
 NGINX_HTTPS = """server {{
@@ -69,9 +69,11 @@ def render_nginx_config(container):
         rules = ""
 
     if container.http_port:
-        config.append(NGINX_HTTP.format(name=container.name, port=container.http_port, fqdn=container.fqdn, rules=rules))
+        config.append(NGINX_HTTP.format(name=container.name, port=container.http_port,
+                                        fqdn=container.fqdn, rules=rules))
 
     if container.https_port:
-        config.append(NGINX_HTTPS.format(name=container.name, port=container.https_port, fqdn=container.fqdn, rules=rules))
+        config.append(NGINX_HTTPS.format(name=container.name, port=container.https_port,
+                                         fqdn=container.fqdn,rules=rules))
 
     return '\n'.join(config)
