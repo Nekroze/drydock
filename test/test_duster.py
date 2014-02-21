@@ -6,10 +6,8 @@ from drydock.duster import Container, MetaContainer
 import yaml
 
 
-class TestCotnainer(object):
-
-    def test_construction(self):
-        config = """---
+class TestContainer(object):
+    config = """---
 name: blog
 base: nekroze/wordpress
 domain: nekroze.com
@@ -20,7 +18,9 @@ http_port: 8081
 https_port: 4431
 external: No
 ..."""
-        container = Container(**yaml.load(config))
+
+    def test_construction(self):
+        container = Container(**yaml.load(self.config))
         assert container.name == "blog"
         assert container.base == "nekroze/wordpress"
         assert container.domain == "nekroze.com"
