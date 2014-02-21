@@ -37,27 +37,16 @@ class Container(object):
             commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
         return commands.extend(self.commands)
 
-    def write_supervisor_config(self):
+    def get_supervisor_config(self):
         """Write this containers supervisor configuration file to `./supervisor/{Container.name}.conf`"""
-        if not os.path.exists("supervisor"):
-            os.makedirs("supervisor")
-
-        with open("supervisor/{0}.conf".format(self.name), 'w') as config:
-            config.write("""[program:{0}]
+        return """[program:{0}]
 command=docker start {0}
 autostart=true
-autorestart=true""".format(self.name))
+autorestart=true""".format(self.name)
 
-    def write_nginx_config(self, domain):
+    def get_nginx_config(self, domain):
         """Write this containers nginx site configuration to `./sites/{Container.fqdn}`"""
-        if not self.http_port and not self.https_port:
-            return False
-
-        if not os.path.exists("sites"):
-            os.makedirs("sites")
-
-        with open("sites/{0}".format(self.fqdn), 'w') as nginx:
-            nginx.write(templates.render_nginx_config(self))
+        return templates.render_nginx_config(self)
 
 
 class MetaContainer(Container):
