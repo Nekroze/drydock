@@ -14,12 +14,12 @@ Dry Dock
 
 A Docker cluster construction utility.
 
-Dry Dock allows simple configuration file to be constructed into a cluster
-of docker containers. This tool can automatically configure reverse proxying
-with nginx and handle exposing ports through the host as required.
-
+Dry Dock can convert a simple configuration file into a Dockerfile and accomponying files that when built will run a
+cluster of docker containers that will automatically setup with reverse proxying, exposure of ports and even persistant
+storage to allow for easy future upgrading by simply rebuilding the DryDock Dockerfile!
 
 Features
 --------
 
-* Docker cluster provisioning
+* Automatic Docker cluster provisioning
+* Nginx reverse proxy configuration with HTTPS/SSL support
