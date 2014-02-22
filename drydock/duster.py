@@ -96,7 +96,7 @@ class MetaContainer(Container):
         template = "-p {0}:{1}"
         portmaps = [template.format("80", "80"), template.format("443", "443")]
 
-        for container in self.containers:
+        for container in self.containers.values():
             for port in container.exposed_ports.keys():
 
                 portmap = template.format(port, port)
