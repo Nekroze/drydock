@@ -127,10 +127,9 @@ class MetaContainer(Container):
         return ' ' + ' '.join(set(volumes))
 
     def get_docker_commands(self):
-        commands = ["docker build -t {name}-img .".format(name=self.name)]
-        commands.append("docker run -d -t --name {name} {name}-img {portmaps}{volumes}".format(
-            name=self.name, portmaps=self.get_portmaps(), volumes=self.get_volumemaps()))
-
+        commands = ["docker build -t {name}-img .".format(name=self.name),
+                    "docker run -d -t --name {name} {name}-img {portmaps}{volumes}".format(
+                        name=self.name, portmaps=self.get_portmaps(), volumes=self.get_volumemaps())]
         return "\n".join(commands)
 
     def get_dockerfile(self):
