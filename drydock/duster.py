@@ -78,7 +78,7 @@ class MetaContainer(Container):
 
     def add_container(self, container):
         """Add the given container object to this meta container."""
-        if self.domain:
+        if not container.domain and self.domain:
             container.set_domain(self.domain)
 
         self.containers[container.name] = container
