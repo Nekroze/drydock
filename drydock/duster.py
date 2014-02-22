@@ -109,3 +109,15 @@ class MetaContainer(Container):
             name=self.name, portmaps=self.get_portmaps()))
 
         return "\n".join(commands)
+
+    def get_dockerfile(self):
+        commands = ["FROM " + self.base, ""]
+        ports = []
+
+        for container in self.containers.values():
+            ports.extend(list(container.exposed_ports.keys()))
+            commands.extend(container.get_container_commands())
+            commands.append("")
+
+        commands.append("EXPOSE " + ' '.join(ports))
+        return '\n'.join(commands)
