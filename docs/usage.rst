@@ -73,7 +73,7 @@ Any container can define the following information.
 
 ``https_port`` = 443 - port that serves https for the reverse proxy to point to.
 
-``volumes`` - list of paths to be externally available under ``/var/lib/{name}/{containername}/{volume}``.
+``volumes`` = none - list of paths to be externally available under ``/var/lib/{name}/{containername}/{volume}``.
 
 DryDock Specification:
 ++++++++++++++++++++++
