@@ -19,7 +19,8 @@ class Container(object):
         self.external = external
         self.volumes = volumes if volumes else []
         self.commands = []
-        self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
+        self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1],
+                                 "containers", "drydock"])
 
     def set_domain(self, domain):
         """Set fqdn and domain."""
@@ -30,44 +31,59 @@ class Container(object):
             self.fqdn = self.name + '.' + self.domain
 
     def get_container_commands(self):
-        """Return a list of commands required to construct and use this container specification."""
+        """
+        Return a list of commands required to construct and use this
+        container specification.
+        """
         commands = []
         run = 'docker run -d'.split(' ')
 
         run.append("--name {0}".format(self.name))
 
         for external in sorted(self.exposed_ports.keys()):
-            run.append("-p {0}:{1}".format(external, self.exposed_ports[external]))
+            run.append("-p {0}:{1}".format(external,
+                                           self.exposed_ports[external]))
 
         for path in self.volumes:
             run.append("-v /var/lib/{0}{1}:{1}".format(self.name, path))
 
         run.append(self.base)
         commands.append("RUN " + ' '.join(run))
-        commands.append("ADD supervisor/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(self.name))
+        commands.append(
+            "ADD supervisor/{0}.conf /etc/supervisor/conf.d/{0}.conf".format(
+                self.name))
 
         if self.http_port or self.https_port:
-            commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
+            commands.append(
+                "ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
 
         commands.extend(self.commands)
         return '\n'.join(commands)
 
     def get_supervisor_config(self):
-        """Write this containers supervisor configuration file to `./supervisor/{Container.name}.conf`"""
+        """
+        Write this containers supervisor configuration file to
+        ``./supervisor/{Container.name}.conf``.
+        """
         return """[program:{0}]
 command=docker start {0}
 autostart=true
 autorestart=true""".format(self.name)
 
     def get_nginx_config(self):
-        """Write this containers nginx site configuration to `./sites/{Container.fqdn}`"""
+        """
+        Write this containers nginx site configuration to
+        ``./sites/{Container.fqdn}``
+        """
         return templates.render_nginx_config(self)
 
 
 class MetaContainer(Container):
     """A container that stores containers."""
-    def __init__(self, name, domain, subcontainers, base="nekroze/drydock", *args, **kwargs):
-        super(MetaContainer, self).__init__(*args, name=name, base=base, domain=domain, **kwargs)
+    def __init__(self, name, domain, subcontainers, base="nekroze/drydock",
+                 *args, **kwargs):
+        super(MetaContainer, self).__init__(*args, name=name, base=base,
+                                            domain=domain, **kwargs)
         self.containers = {}
         self.reverse_proxies = {}
         self.fqdn = domain
@@ -97,6 +113,7 @@ class MetaContainer(Container):
         }
 
     def get_portmaps(self):
+        """return docker args for subcontainer port maps."""
         template = "-p {0}:{1}"
         portmaps = [template.format("80", "80"), template.format("443", "443")]
 
@@ -111,6 +128,7 @@ class MetaContainer(Container):
         return ' '.join(portmaps)
 
     def get_volumemaps(self):
+        """return docker args for subcontainer volume maps."""
         volumes = []
 
         for volume in self.volumes:
@@ -122,17 +140,21 @@ class MetaContainer(Container):
 
             for volume in container.volumes:
                 volumes.append("-v {statedir}/{name}{volume}:{volume}".format(
-                    statedir="/var/lib/" + self.name, name=container.name, volume=volume))
+                    statedir="/var/lib/" + self.name, name=container.name,
+                    volume=volume))
 
         return ' ' + ' '.join(set(volumes))
 
     def get_docker_commands(self):
+        """Get commands required to build and run the final product."""
         commands = ["docker build -t {name}-img .".format(name=self.name),
-                    "docker run -d -t --name {name} {name}-img {portmaps}{volumes}".format(
-                        name=self.name, portmaps=self.get_portmaps(), volumes=self.get_volumemaps())]
+                    "docker run -d -t --name {0} {0}-img {1}{2}".format(
+                        name=self.name, portmaps=self.get_portmaps(),
+                        volumes=self.get_volumemaps())]
         return "\n".join(commands)
 
     def get_dockerfile(self):
+        """Render the dockerfile according to specifications."""
         commands = ["FROM " + self.base, ""]
         ports = [80, 443]
         volumes = []
@@ -145,7 +167,8 @@ class MetaContainer(Container):
             commands.append("")
 
             for volume in container.volumes:
-                volumes.append("/var/lib/{0}{1}".format(container.name, volume))
+                volumes.append("/var/lib/{0}{1}".format(container.name,
+                                                        volume))
 
         commands.append("EXPOSE " + ' '.join([str(port) for port in ports]))
 

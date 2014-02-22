@@ -11,6 +11,7 @@ from .duster import MetaContainer
 
 
 def main():
+    """Main entry point."""
     try:
         with open('drydock.yaml') as drydock:
             spec = MetaContainer(**yaml.load(drydock.read()))

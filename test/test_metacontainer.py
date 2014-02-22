@@ -8,7 +8,7 @@ import yaml
 
 class TestContainer(object):
     config = """
-name: nekroze.com-1
+name: nekroze.com
 domain: nekroze.com
 
 subcontainers:
@@ -28,10 +28,11 @@ subcontainers:
     http_port: 80
     https_port: 443
 """
+
     def test_construction(self):
         meta = MetaContainer(**yaml.load(self.config))
 
-        assert meta.name == "nekroze.com-1"
+        assert meta.name == "nekroze.com"
         assert meta.domain == "nekroze.com"
         assert meta.fqdn == "nekroze.com"
 
@@ -63,8 +64,8 @@ subcontainers:
     def test_docker_commands(self):
         meta = MetaContainer(**yaml.load(self.config))
 
-        assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
-docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222 -v /var/lib/nekroze.com-1/blog/var/lib/mysql:/var/lib/mysql"""
+        assert meta.get_docker_commands() == """docker build -t nekroze.com-img .
+docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222 -v /var/lib/nekroze.com/blog/var/lib/mysql:/var/lib/mysql"""
 
     def test_dockerfile(self):
         meta = MetaContainer(**yaml.load(self.config))

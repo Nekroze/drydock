@@ -1,3 +1,5 @@
+"""A collection of templates and rendering functions."""
+
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
 }}"""
@@ -55,11 +57,16 @@ NGINX_RULES_INTERNAL = """deny all;
     allow 192.168.0.0/24;
 """
 
+
 def render_nginx_config(container):
+    """
+    Render the nginx reverse proxy configuration for the given container.
+    """
     if not container.http_port and not container.https_port:
         return ""
 
-    config = [NGINX_UPSTREAM.format(name=container.name, skyfqdn=container.skyfqdn)]
+    config = [NGINX_UPSTREAM.format(name=container.name,
+                                    skyfqdn=container.skyfqdn)]
 
     if not container.external:
         rules = NGINX_RULES_INTERNAL
@@ -67,11 +74,13 @@ def render_nginx_config(container):
         rules = ""
 
     if container.http_port:
-        config.append(NGINX_HTTP.format(name=container.name, port=container.http_port,
+        config.append(NGINX_HTTP.format(name=container.name,
+                                        port=container.http_port,
                                         fqdn=container.fqdn, rules=rules))
 
     if container.https_port:
-        config.append(NGINX_HTTPS.format(name=container.name, port=container.https_port,
-                                         fqdn=container.fqdn,rules=rules))
+        config.append(NGINX_HTTPS.format(name=container.name,
+                                         port=container.https_port,
+                                         fqdn=container.fqdn, rules=rules))
 
     return '\n'.join(config)
