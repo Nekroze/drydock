@@ -40,7 +40,7 @@ class Container(object):
             run.append("-p {0}:{1}".format(external, self.exposed_ports[external]))
 
         for path in self.volumes:
-            run.append("-v {0}:{0}".format(path))
+            run.append("-v /var/lib/{0}{1}:{1}".format(self.name, path))
 
         run.append(self.base)
         commands.append("RUN " + ' '.join(run))
@@ -121,8 +121,8 @@ class MetaContainer(Container):
             container = self.containers[name]
 
             for volume in container.volumes:
-                volumes.append("-v {statedir}{volume}:{volume}".format(
-                    statedir="/var/lib/" + self.name, volume=volume))
+                volumes.append("-v {statedir}/{name}{volume}:{volume}".format(
+                    statedir="/var/lib/" + self.name, name=container.name, volume=volume))
 
         return ' ' + ' '.join(set(volumes))
 
@@ -144,7 +144,8 @@ class MetaContainer(Container):
             commands.append(container.get_container_commands())
             commands.append("")
 
-            volumes.extend(container.volumes)
+            for volume in container.volumes:
+                volumes.append("/var/lib/{0}{1}".format(container.name, volume))
 
         commands.append("EXPOSE " + ' '.join([str(port) for port in ports]))
 

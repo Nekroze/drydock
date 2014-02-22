@@ -64,14 +64,14 @@ subcontainers:
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
-docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222 -v /var/lib/nekroze.com-1/var/lib/mysql:/var/lib/mysql"""
+docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222 -v /var/lib/nekroze.com-1/blog/var/lib/mysql:/var/lib/mysql"""
 
     def test_dockerfile(self):
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_dockerfile() == """FROM nekroze/drydock
 
-RUN docker run -d --name blog -p 22:22 -p 2222:222 -v /var/lib/mysql:/var/lib/mysql nekroze/wordpress
+RUN docker run -d --name blog -p 22:22 -p 2222:222 -v /var/lib/blog/var/lib/mysql:/var/lib/mysql nekroze/wordpress
 ADD supervisor/blog.conf /etc/supervisor/conf.d/blog.conf
 ADD sites/blog.nekroze.com /etc/nginx/sites-enabled/blog.nekroze.com
 
@@ -80,4 +80,4 @@ ADD supervisor/root.conf /etc/supervisor/conf.d/root.conf
 ADD sites/nekroze.com /etc/nginx/sites-enabled/nekroze.com
 
 EXPOSE 80 443 22 2222
-VOLUME ["/var/lib/mysql"]"""
+VOLUME ["/var/lib/blog/var/lib/mysql"]"""
