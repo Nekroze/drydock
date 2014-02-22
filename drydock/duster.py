@@ -89,3 +89,23 @@ class MetaContainer(Container):
             "http": container.http_port,
             "https": container.https_port
         }
+
+    def get_portmaps(self):
+        template = "-p {0}:{1}"
+        portmaps = [template.format("80", "80"), template.format("443", "443"), template.format("6969", "6969")]
+
+        for container in self.containers:
+            for port in container.exposed_ports.keys():
+
+                portmap = template.format(port, port)
+                if portmap not in portmaps:
+                    portmaps.append(portmap)
+
+        return ' '.join(portmaps)
+
+    def get_docker_commands(self):
+        commands = ["docker build -t {name}-img .".format(name=self.name)]
+        commands.append("docker run -d -t --name {name} {name}-img {portmaps}".format(
+            name=self.name, portmaps=self.get_portmaps()))
+
+        return "\n".join(commands)
