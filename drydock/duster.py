@@ -92,7 +92,7 @@ class MetaContainer(Container):
 
     def get_portmaps(self):
         template = "-p {0}:{1}"
-        portmaps = [template.format("80", "80"), template.format("443", "443"), template.format("6969", "6969")]
+        portmaps = [template.format("80", "80"), template.format("443", "443")]
 
         for container in self.containers:
             for port in container.exposed_ports.keys():

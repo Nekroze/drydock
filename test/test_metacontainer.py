@@ -63,4 +63,4 @@ subcontainers:
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
-docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 6969:6969 -p 22:22 -p 2222:2222"""
+docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222"""
