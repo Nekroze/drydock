@@ -1,6 +1,5 @@
 """DryDock cluster specification."""
 from . import templates
-import os
 
 
 class Container(object):
