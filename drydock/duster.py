@@ -21,6 +21,7 @@ class Container(object):
         self.fqdn = self.name + '.' + self.domain
 
     def set_domain(self, domain):
+        """Set fqdn and domain."""
         self.domain = domain
         self.fqdn = self.name + '.' + self.domain
 
@@ -60,9 +61,15 @@ class MetaContainer(Container):
         super(MetaContainer, self).__init__(*args, name=name, base=base, domain=domain, **kwargs)
         self.containers = {}
         self.reverse_proxies = {}
+        self.fqdn = domain
 
         for sub in subcontainers:
             self.add_container(Container(**sub))
+
+    def set_domain(self, domain):
+        """Set fqdn and domain."""
+        self.domain = domain
+        self.fqdn = domain
 
     def add_container(self, container):
         """Add the given container object to this meta container."""
