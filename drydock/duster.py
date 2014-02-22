@@ -35,7 +35,8 @@ class Container(object):
 
         run.append("--name {0}".format(self.name))
 
-        for external, internal in self.exposed_ports.items():
+        for external in sorted(self.exposed_ports.keys()):
+            internal = self.exposed_ports[external]
             run.append("-p {0}:{1}".format(external, internal))
 
         run.append(self.base)
@@ -96,8 +97,9 @@ class MetaContainer(Container):
         template = "-p {0}:{1}"
         portmaps = [template.format("80", "80"), template.format("443", "443")]
 
-        for container in self.containers.values():
-            for port in container.exposed_ports.keys():
+        for name in sorted(self.containers.keys()):
+            container = self.containers[name]
+            for port in sorted(container.exposed_ports.keys()):
 
                 portmap = template.format(port, port)
                 if portmap not in portmaps:
@@ -116,8 +118,10 @@ class MetaContainer(Container):
         commands = ["FROM " + self.base, ""]
         ports = [80, 443]
 
-        for container in self.containers.values():
-            ports.extend(list(container.exposed_ports.keys()))
+        for name in sorted(self.containers.keys()):
+            container = self.containers[name]
+
+            ports.extend(sorted(list(container.exposed_ports.keys())))
             commands.append(container.get_container_commands())
             commands.append("")
 

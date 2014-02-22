@@ -63,19 +63,19 @@ subcontainers:
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
-docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 2222:2222 -p 22:22"""
+docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222"""
 
     def test_dockerfile(self):
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_dockerfile() == """FROM nekroze/drydock
 
+RUN docker run -d --name blog -p 22:22 -p 2222:222 nekroze/wordpress
+ADD supervisor/blog.conf /etc/supervisor/conf.d/blog.conf
+ADD sites/blog.nekroze.com /etc/nginx/sites-enabled/blog.nekroze.com
+
 RUN docker run -d --name root nekroze/drupal
 ADD supervisor/root.conf /etc/supervisor/conf.d/root.conf
 ADD sites/nekroze.com /etc/nginx/sites-enabled/nekroze.com
 
-RUN docker run -d --name blog -p 2222:222 -p 22:22 nekroze/wordpress
-ADD supervisor/blog.conf /etc/supervisor/conf.d/blog.conf
-ADD sites/blog.nekroze.com /etc/nginx/sites-enabled/blog.nekroze.com
-
-EXPOSE 80 443 2222 22"""
+EXPOSE 80 443 22 2222"""

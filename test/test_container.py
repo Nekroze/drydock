@@ -100,6 +100,6 @@ server {
     def test_container_commands(self):
         container = Container(**yaml.load(self.config))
 
-        assert container.get_container_commands() == """RUN docker run -d --name blog -p 2222:222 -p 22:22 nekroze/wordpress
+        assert container.get_container_commands() == """RUN docker run -d --name blog -p 22:22 -p 2222:222 nekroze/wordpress
 ADD supervisor/blog.conf /etc/supervisor/conf.d/blog.conf
 ADD sites/blog.nekroze.com /etc/nginx/sites-enabled/blog.nekroze.com"""
