@@ -59,7 +59,7 @@ subcontainers:
         assert subcontainer.domain == "nekroze.com"
         assert subcontainer.fqdn == "nekroze.com"
 
-    def get_docker_commands(self):
+    def test_docker_commands(self):
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
