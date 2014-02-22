@@ -22,6 +22,7 @@ running *drupal*.
         exposed_ports:
             2222: 22
         http_port: 80
+        volumes: [/var/lib/mysql]
 
       - name: lab
         base: crashsystems/gitlab-docker
@@ -71,6 +72,8 @@ Any container can define the following information.
 ``http_port`` = 80 - port that serves http for the reverse proxy to point to.
 
 ``https_port`` = 443 - port that serves https for the reverse proxy to point to.
+
+``volumes`` - list of paths to be externally available under ``/var/lib/{name}``.
 
 DryDock Specification:
 ++++++++++++++++++++++
