@@ -7,7 +7,7 @@ import yaml
 
 
 class TestContainer(object):
-    config = """---
+    config = """
 name: blog
 base: nekroze/wordpress
 domain: nekroze.com
@@ -17,7 +17,7 @@ exposed_ports:
 http_port: 8081
 https_port: 4431
 external: No
-..."""
+"""
 
     def test_construction(self):
         container = Container(**yaml.load(self.config))

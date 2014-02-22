@@ -7,7 +7,7 @@ import yaml
 
 
 class TestContainer(object):
-    config = """---
+    config = """
 name: nekroze.com-1
 domain: nekroze.com
 subcontainers:
@@ -19,7 +19,7 @@ subcontainers:
     http_port: 8081
     https_port: 4431
     external: No
-..."""
+"""
     def test_construction(self):
         meta = MetaContainer(**yaml.load(self.config))
 
