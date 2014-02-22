@@ -11,7 +11,8 @@ class Container(object):
         self.domain = domain
         self.base = base
         self.exposed_ports = {}
-        self.exposed_ports.update(exposed_ports)
+        if exposed_ports:
+            self.exposed_ports.update(exposed_ports)
         self.http_port = http_port
         self.https_port = https_port
         self.external = external
