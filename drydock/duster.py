@@ -111,7 +111,7 @@ class MetaContainer(Container):
         return ' '.join(portmaps)
 
     def get_volumemaps(self):
-        volumes = [""]
+        volumes = []
 
         for volume in self.volumes:
             volumes.append("-v {statedir}{volume}:{volume}".format(
@@ -124,7 +124,7 @@ class MetaContainer(Container):
                 volumes.append("-v {statedir}{volume}:{volume}".format(
                     statedir="/var/lib/" + self.name, volume=volume))
 
-        return ' '.join(set(volumes))
+        return ' ' + ' '.join(set(volumes))
 
     def get_docker_commands(self):
         commands = ["docker build -t {name}-img .".format(name=self.name)]
