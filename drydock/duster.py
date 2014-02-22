@@ -44,7 +44,7 @@ class Container(object):
 
         if self.http_port or self.https_port:
             commands.append("ADD sites/{0} /etc/nginx/sites-enabled/{0}".format(self.fqdn))
-        return commands.extend(self.commands)
+        return '\n'.join(commands.extend(self.commands))
 
     def get_supervisor_config(self):
         """Write this containers supervisor configuration file to `./supervisor/{Container.name}.conf`"""
