@@ -20,6 +20,10 @@ class Container(object):
         self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
         self.fqdn = self.name + '.' + self.domain
 
+    def set_domain(self, domain):
+        self.domain = domain
+        self.fqdn = self.name + '.' + self.domain
+
     def get_container_commands(self):
         """Return a list of commands required to construct and use this container specification."""
         commands = []
@@ -63,7 +67,7 @@ class MetaContainer(Container):
     def add_container(self, container):
         """Add the given container object to this meta container."""
         if self.domain:
-            container.domain = self.domain
+            container.set_domain(self.domain)
 
         self.containers[container.name] = container
         self.exposed_ports.update(container.exposed_ports)
