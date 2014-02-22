@@ -7,7 +7,9 @@ class Container(object):
     def __init__(self, name, base="ubuntu", exposed_ports=None,
                  external=False, http_port=0, https_port=0, domain=""):
         self.name = name
-        self.domain = domain
+        self.domain = ""
+        self.fqdn = ""
+        self.set_domain(domain)
         self.base = base
         self.exposed_ports = {}
         if exposed_ports:
@@ -17,12 +19,14 @@ class Container(object):
         self.external = external
         self.commands = []
         self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
-        self.fqdn = self.name + '.' + self.domain
 
     def set_domain(self, domain):
         """Set fqdn and domain."""
         self.domain = domain
-        self.fqdn = self.name + '.' + self.domain
+        if self.name == "root":
+            self.fqdn = self.domain
+        else:
+            self.fqdn = self.name + '.' + self.domain
 
     def get_container_commands(self):
         """Return a list of commands required to construct and use this container specification."""
