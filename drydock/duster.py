@@ -61,6 +61,9 @@ class MetaContainer(Container):
 
     def add_container(self, container):
         """Add the given container object to this meta container."""
+        if self.domain:
+            container.domain = self.domain
+
         self.containers[container.name] = container
         self.exposed_ports.update(container.exposed_ports)
 
