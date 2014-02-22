@@ -11,6 +11,7 @@ def construct(specification):
     construct_supervisors(specification)
     construct_sites(specification)
     construct_dockerfile(specification)
+    construct_buildscript(specification)
 
 
 def construct_supervisors(specification):
@@ -32,3 +33,9 @@ def construct_sites(specification):
 def construct_dockerfile(specification):
     with open("Dockerfile", 'w') as dockerfile:
         dockerfile.write('\n'.join(specification.get_dockerfile()))
+
+
+def construct_buildscript(specification):
+    with open("build.sh", 'w') as builder:
+        builder.write("#!/bin/sh")
+        builder.write(specification.get_docker_commands())
