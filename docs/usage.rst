@@ -6,7 +6,7 @@ Primarily DryDock is used to generate a working Dockerfile out of a simple yaml 
 of docker containers.
 
 Here is an example of a ``drydock.yaml`` file that will construct ``nekroze.com`` with wordpress and gitlab available
-at ``blog.nekroze.com`` and ``lab.nekroze.com``, respectively. Finally the config describes a special `root` container
+at ``blog.nekroze.com`` and ``lab.nekroze.com``, respectively. Finally the config describes a special ``root`` container
 that serves the root of the domain, in this case ``nekroze.com`` gets passed to the ``root`` sub-container running
 drupal.
 
