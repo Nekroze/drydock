@@ -51,8 +51,8 @@ autorestart=true""".format(self.name)
 
 class MetaContainer(Container):
     """A container that stores containers."""
-    def __init__(self, name, domain, subcontainers, base="nekroze/drydock"):
-        super(MetaContainer, self).__init__(name=name, base=base, domain=domain)
+    def __init__(self, name, domain, subcontainers, base="nekroze/drydock", *args, **kwargs):
+        super(MetaContainer, self).__init__(*args, name=name, base=base, domain=domain, **kwargs)
         self.containers = {}
         self.reverse_proxies = {}
 
