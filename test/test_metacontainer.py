@@ -21,6 +21,7 @@ subcontainers:
     http_port: 8081
     https_port: 4431
     external: Yes
+    volumes: [/var/lib/mysql]
 
   - name: root
     base: nekroze/drupal
@@ -63,14 +64,14 @@ subcontainers:
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_docker_commands() == """docker build -t nekroze.com-1-img .
-docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222"""
+docker run -d -t --name nekroze.com-1 nekroze.com-1-img -p 80:80 -p 443:443 -p 22:22 -p 2222:2222 -v /var/lib/nekroze.com-1/var/lib/mysql:/var/lib/mysql"""
 
     def test_dockerfile(self):
         meta = MetaContainer(**yaml.load(self.config))
 
         assert meta.get_dockerfile() == """FROM nekroze/drydock
 
-RUN docker run -d --name blog -p 22:22 -p 2222:222 nekroze/wordpress
+RUN docker run -d --name blog -p 22:22 -p 2222:222 -v /var/lib/mysql:/var/lib/mysql nekroze/wordpress
 ADD supervisor/blog.conf /etc/supervisor/conf.d/blog.conf
 ADD sites/blog.nekroze.com /etc/nginx/sites-enabled/blog.nekroze.com
 
@@ -78,4 +79,5 @@ RUN docker run -d --name root nekroze/drupal
 ADD supervisor/root.conf /etc/supervisor/conf.d/root.conf
 ADD sites/nekroze.com /etc/nginx/sites-enabled/nekroze.com
 
-EXPOSE 80 443 22 2222"""
+EXPOSE 80 443 22 2222
+VOLUME ["/var/lib/mysql"]"""

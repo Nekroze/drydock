@@ -4,8 +4,8 @@ from . import templates
 
 class Container(object):
     """A docker container specification."""
-    def __init__(self, name, base="ubuntu", exposed_ports=None,
-                 external=False, http_port=0, https_port=0, domain=""):
+    def __init__(self, name, base="ubuntu", exposed_ports=None, external=False,
+                 http_port=0, https_port=0, domain="", volumes=None):
         self.name = name
         self.domain = ""
         self.fqdn = ""
@@ -17,6 +17,7 @@ class Container(object):
         self.http_port = http_port
         self.https_port = https_port
         self.external = external
+        self.volumes = volumes if volumes else []
         self.commands = []
         self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1], "containers", "drydock"])
 
@@ -36,8 +37,10 @@ class Container(object):
         run.append("--name {0}".format(self.name))
 
         for external in sorted(self.exposed_ports.keys()):
-            internal = self.exposed_ports[external]
-            run.append("-p {0}:{1}".format(external, internal))
+            run.append("-p {0}:{1}".format(external, self.exposed_ports[external]))
+
+        for path in self.volumes:
+            run.append("-v {0}:{0}".format(path))
 
         run.append(self.base)
         commands.append("RUN " + ' '.join(run))
@@ -107,16 +110,33 @@ class MetaContainer(Container):
 
         return ' '.join(portmaps)
 
+    def get_volumemaps(self):
+        volumes = [""]
+
+        for volume in self.volumes:
+            volumes.append("-v {statedir}{volume}:{volume}".format(
+                statedir="/var/lib/" + self.name, volume=volume))
+
+        for name in sorted(self.containers.keys()):
+            container = self.containers[name]
+
+            for volume in container.volumes:
+                volumes.append("-v {statedir}{volume}:{volume}".format(
+                    statedir="/var/lib/" + self.name, volume=volume))
+
+        return ' '.join(set(volumes))
+
     def get_docker_commands(self):
         commands = ["docker build -t {name}-img .".format(name=self.name)]
-        commands.append("docker run -d -t --name {name} {name}-img {portmaps}".format(
-            name=self.name, portmaps=self.get_portmaps()))
+        commands.append("docker run -d -t --name {name} {name}-img {portmaps}{volumes}".format(
+            name=self.name, portmaps=self.get_portmaps(), volumes=self.get_volumemaps()))
 
         return "\n".join(commands)
 
     def get_dockerfile(self):
         commands = ["FROM " + self.base, ""]
         ports = [80, 443]
+        volumes = []
 
         for name in sorted(self.containers.keys()):
             container = self.containers[name]
@@ -125,5 +145,12 @@ class MetaContainer(Container):
             commands.append(container.get_container_commands())
             commands.append("")
 
+            volumes.extend(container.volumes)
+
         commands.append("EXPOSE " + ' '.join([str(port) for port in ports]))
+
+        volumes = ['"{0}"'.format(volume) for volume in volumes]
+        if volumes:
+            commands.append("VOLUME [{0}]".format(", ".join(set(volumes))))
+
         return '\n'.join(commands)
