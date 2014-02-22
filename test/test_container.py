@@ -1,5 +1,5 @@
 """
-Tests for `drydock.container` module.
+Tests for `drydock.duster` module and Container object.
 """
 import pytest
 from drydock.duster import Container
