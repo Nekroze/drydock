@@ -9,41 +9,43 @@ def ensure_empty_dir(path):
     os.makedirs(path)
 
 
-def construct(specification):
+def construct(specification, path):
     """Construct the given specification into files."""
-    construct_supervisors(specification)
-    construct_sites(specification)
-    construct_dockerfile(specification)
-    construct_buildscript(specification)
+    construct_supervisors(specification, path)
+    construct_sites(specification, path)
+    construct_dockerfile(specification, path)
+    construct_buildscript(specification, path)
 
 
-def construct_supervisors(specification):
+def construct_supervisors(specification, path):
     """Construct the given specifications supervisor configuration files."""
-    ensure_empty_dir("supervisor")
+    path = os.path.join(path, "supervisor")
+    ensure_empty_dir(path)
 
     for name, container in specification.containers.items():
-        with open(os.path.join("supervisor", "{0}.conf".format(name)), 'w')\
+        with open(os.path.join(path, "{0}.conf".format(name)), 'w')\
                 as supervisor:
             supervisor.write(container.get_supervisor_config())
 
 
-def construct_sites(specification):
+def construct_sites(specification, path):
     """Construct the given specifications nginx configuration files."""
-    ensure_empty_dir("site")
+    path = os.path.join(path, "site")
+    ensure_empty_dir(path)
 
     for container in specification.containers.values():
-        with open(os.path.join("sites", container.fqdn), 'w') as site:
+        with open(os.path.join(path, container.fqdn), 'w') as site:
             site.write(container.get_nginx_config())
 
 
-def construct_dockerfile(specification):
+def construct_dockerfile(specification, path):
     """Construct the given specifications Dockerfile."""
-    with open("Dockerfile", 'w') as dockerfile:
+    with open(os.path.join(path, "Dockerfile"), 'w') as dockerfile:
         dockerfile.write('\n'.join(specification.get_dockerfile()))
 
 
-def construct_buildscript(specification):
+def construct_buildscript(specification, path):
     """Construct the given specifications build script."""
-    with open("build.sh", 'w') as builder:
+    with open(os.path.join(path, "build.sh"), 'w') as builder:
         builder.write("#!/bin/sh")
         builder.write(specification.get_docker_commands())
