@@ -148,7 +148,7 @@ class MetaContainer(Container):
     def get_docker_commands(self):
         """Get commands required to build and run the final product."""
         commands = ["docker build -t {name}-img .".format(name=self.name),
-                    "docker run -d -t --name {0} {0}-img {1}{2}".format(
+                    "docker run -privileged -d -t --name {0} {0}-img {1}{2}".format(
                         self.name, self.get_portmaps(), self.get_volumemaps())]
         return "\n".join(commands)
 
