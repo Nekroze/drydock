@@ -1,5 +1,5 @@
 =============================
-Dry Dock
+DryDock
 =============================
 
 .. image:: https://badge.fury.io/py/drydock.png
@@ -14,7 +14,7 @@ Dry Dock
 
 A Docker cluster construction utility.
 
-Dry Dock can convert a simple configuration file into a Dockerfile
+DryDock can convert a simple configuration file into a Dockerfile
 (and accompanying configs) that when built will run a cluster of docker
 containers. The end product will automatically setup a reverse proxy, exposure
 of ports, and even persistent storage to allow for easy future upgrading by
