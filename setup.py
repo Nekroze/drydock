@@ -18,7 +18,7 @@ doclink = """
 Documentation
 -------------
 
-The full documentation is at http://drydock.rtfd.org."""
+The full documentation is at http://dry-dock.readthedocs.org."""
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
