@@ -3,9 +3,11 @@ Usage
 ========
 
 Primarily DryDock is used to generate a working Dockerfile out of a simple yaml configuration file describing a cluster
-of docker containers.
+of docker containers. Like so:
 
-Here is an example of a ``drydock.yaml`` file that will construct ``nekroze.com`` with *wordpress* and *gitlab*
+    $ drydock ./nekroze.com.yaml
+
+Here is an example of a DryDock specification file that will construct ``nekroze.com`` with *wordpress* and *gitlab*
 available at ``blog.nekroze.com`` and ``lab.nekroze.com``, respectively. Finally the config describes a special ``root``
 container that serves the root of the domain, in this case ``nekroze.com`` gets passed to the ``root`` sub-container
 running *drupal*.
@@ -37,7 +39,8 @@ running *drupal*.
         http_port: 80
 
 
-The ``drydock.yaml`` configuration file consists of two main parts; cluster information and container specification.
+The yaml specification file consists of two main parts; cluster information
+and container specification.
 Together these define a *DryDock Specification* which gets constructed into a **Dockerfile** and accompanying
 configuration files along with a ``build.sh`` script that can be used to construct and run your new docker cluster!
 
