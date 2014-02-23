@@ -14,9 +14,11 @@ Dry Dock
 
 A Docker cluster construction utility.
 
-Dry Dock can convert a simple configuration file into a Dockerfile and accomponying files that when built will run a
-cluster of docker containers that will automatically setup with reverse proxying, exposure of ports and even persistant
-storage to allow for easy future upgrading by simply rebuilding the DryDock Dockerfile!
+Dry Dock can convert a simple configuration file into a Dockerfile and
+accompanying files that when built will run a cluster of docker containers
+that will automatically setup with reverse proxying, exposure of ports and
+even persistent storage to allow for easy future upgrading by simply
+rebuilding the DryDock Dockerfile!
 
 Features
 --------
