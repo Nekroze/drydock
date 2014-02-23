@@ -34,6 +34,11 @@ setup(
     ],
     package_dir={'drydock': 'drydock'},
     include_package_data=True,
+    entry_points={
+        'console_scripts': [
+            'drydock = drydock.drydock:main',
+            ]
+    },
     install_requires=[
     ],
     license='MIT',
