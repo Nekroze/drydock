@@ -40,10 +40,10 @@ Master
 ------
 
 The ``master`` command will construct and run a new Docker_ container under
-the given name based upon ``nekroze/drydock``. This container is setup and
-ready to use **DryDock** to run a cluster of Docker_ containers in a Docker_
-container. This is designed to easily contain a **DryDock** cluster but is not
-required.
+the given name based upon ``nekroze/drydock`` which utilizes Docker_ in Docker_
+(dind_). This container is setup and ready to use **DryDock** to run a
+cluster of Docker_ containers in a Docker_ container. This is designed to
+easily contain a **DryDock** cluster but is not required.
 
 By default the master container will take over the host ports; 80, 443,
 and 2222 by default for; HTTP, HTTPS, and SSH.
@@ -134,5 +134,6 @@ configuration files!
     ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
     domain for specified in the DryDock cluster specification
 
+.. _dind: http://blog.docker.io/2013/09/docker-can-now-run-within-docker/
 .. _YAML: http://wikipedia.org/wiki/YAML
 .. _Docker: https://www.docker.io/
