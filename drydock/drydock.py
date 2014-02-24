@@ -4,12 +4,17 @@ __doc__ = """DryDock
 Usage:
     drydock construct <specification>
     drydock prepare
+    drydock drydock [-pls] <name>
     drydock (-h | --help)
     drydock (-v | --version)
 
 Options:
-    -h --help               Show this screen.
-    -v --version            Show current version.
+    -p --http       HTTP Port. [default: 80]
+    -l --https      HTTPS Port. [default: 443]
+    -s --ssh        SSH Port. [default: 2222]
+
+    -h --help       Show this screen.
+    -v --version    Show current version.
 
 DryDock can convert a simple configuration file into a Dockerfile
 (and accompanying configs) that when built will run a cluster of docker
@@ -20,7 +25,6 @@ simply rebuilding the DryDock specification!
 For documentation go to http://dry-dock.readthedocs.org/
 """
 import yaml
-import sys
 from . import construction
 from .duster import MetaContainer
 from docopt import docopt
@@ -32,18 +36,15 @@ def main():
     args = docopt(__doc__, version="DryDock v" + __version__)
 
     if args["construct"]:
-
-        try:
-            with open(args["specification"]) as drydock:
-                spec = MetaContainer(**yaml.load(drydock.read()))
-                construction.construct(spec, args["--output"])
-        except IOError:
-            print("ERROR: Cannot find '{}' config in ".format(
-                args["specification"]), args["--output"])
-            sys.exit(1)
+        with open(args["specification"], 'r') as drydock:
+            construction.construct(MetaContainer(**yaml.load(drydock.read())))
 
     elif args["prepare"]:
         construction.prepare()
+
+    elif args["container"]:
+        construction.drydock(
+            args["--http"], args["--https"], args["--ssh"], args["name"])
 
 
 if __name__ == "__main__":
