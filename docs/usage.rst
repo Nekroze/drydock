@@ -130,7 +130,7 @@ configuration files!
 .. warning::
 
     ``construct`` will overwrite the configuration files on the host at
-    ``/etc/supervisor/conf.d/supervisord.conf`` and
+    ``/etc/supervisord.conf`` and
     ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
     domain for specified in the DryDock cluster specification
 
