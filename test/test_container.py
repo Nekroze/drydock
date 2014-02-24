@@ -42,10 +42,7 @@ autorestart=true
 
     def test_nginx(self):
         container = Container(**yaml.load(self.config))
-        expected = """upstream blog {
-    server blog.wordpress.containers.drydock;
-}
-server {
+        expected = """server {
     listen       80;
     server_name  blog.nekroze.com;
 
@@ -64,7 +61,7 @@ server {
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://blog:8081/;
+        proxy_pass https://blog.wordpress.containers.drydock:8081/;
     }
 }
 server {
@@ -75,7 +72,7 @@ server {
     allow 192.168.1.0/24;
     allow 192.168.0.0/24;
 
-    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  main;
+    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
 
     ssl on;
@@ -94,7 +91,7 @@ server {
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://blog:4431/;
+        proxy_pass https://blog.wordpress.containers.drydock:4431/;
     }
 }"""
         assert container.get_nginx_config() == expected

@@ -50,7 +50,7 @@ NGINX_HTTP = """server {{
     server_name  {fqdn};
 
     {rules}
-    access_log  /var/log/nginx/log/{fqdn}.access.log  main;
+    access_log  /var/log/nginx/log/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/log/{fqdn}.error.log;
 
     location / {{
@@ -61,7 +61,7 @@ NGINX_HTTP = """server {{
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://{name}:{port}/;
+        proxy_pass https://{skyfqdn}:{port}/;
     }}
 }}"""
 
@@ -70,7 +70,7 @@ NGINX_HTTPS = """server {{
     server_name {fqdn};
 
     {rules}
-    access_log  /var/log/nginx/log/{fqdn}.access.log  main;
+    access_log  /var/log/nginx/log/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/log/{fqdn}.error.log;
 
     ssl on;
@@ -89,7 +89,7 @@ NGINX_HTTPS = """server {{
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://{name}:{port}/;
+        proxy_pass https://{skyfqdn}:{port}/;
     }}
 }}"""
 
@@ -106,8 +106,7 @@ def render_nginx_config(container):
     if not container.http_port and not container.https_port:
         return ""
 
-    config = [NGINX_UPSTREAM.format(name=container.name,
-                                    skyfqdn=container.skyfqdn)]
+    config = []
 
     if not container.external:
         rules = NGINX_RULES_INTERNAL
@@ -115,12 +114,14 @@ def render_nginx_config(container):
         rules = ""
 
     if container.http_port:
-        config.append(NGINX_HTTP.format(name=container.name,
+        config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
+                                        name=container.name,
                                         port=container.http_port,
                                         fqdn=container.fqdn, rules=rules))
 
     if container.https_port:
-        config.append(NGINX_HTTPS.format(name=container.name,
+        config.append(NGINX_HTTPS.format(skyfqdn=container.skyfqdn,
+                                         name=container.name,
                                          port=container.https_port,
                                          fqdn=container.fqdn, rules=rules))
 
