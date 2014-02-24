@@ -4,17 +4,16 @@ __doc__ = """DryDock
 Usage:
     drydock construct <specification>
     drydock prepare
-    drydock drydock [-pls] <name>
-    drydock (-h | --help)
-    drydock (-v | --version)
+    drydock master [options] <name>
+    drydock --help | --version
 
 Options:
-    -p --http       HTTP Port. [default: 80]
-    -l --https      HTTPS Port. [default: 443]
-    -s --ssh        SSH Port. [default: 2222]
+    -p --http=<http>        HTTP Port. [default: 80]
+    -l --https=<https>      HTTPS Port. [default: 443]
+    -s --ssh=<ssh>          SSH Port. [default: 2222]
 
-    -h --help       Show this screen.
-    -v --version    Show current version.
+    -h --help               Show this screen.
+    -v --version            Show current version.
 
 DryDock can convert a simple configuration file into a Dockerfile
 (and accompanying configs) that when built will run a cluster of docker
@@ -42,7 +41,7 @@ def main():
     elif args["prepare"]:
         construction.prepare()
 
-    elif args["container"]:
+    elif args["master"]:
         construction.drydock(
             args["--http"], args["--https"], args["--ssh"], args["name"])
 
