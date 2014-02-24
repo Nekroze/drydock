@@ -12,6 +12,23 @@ Required field
 
 ``info``: description
 
+DryDock Specification
+---------------------
+
+**DryDock** can specify any of the of following fields (some of which may
+overwrite any sub-containers corresponding field).
+
+``name``: name of resulting Docker_ container.
+
+``domain``: domain that all sub containers will server unless specified
+otherwise.
+
+``subcontainers``: a list of sub-container specifications.
+
+While technically any sub-container fields can be specified in the top level
+**DryDock** specification their behaviour is either unspecified, undefined,
+or untested.
+
 Sub-Container Specification
 ---------------------------
 
@@ -35,23 +52,6 @@ point to.
 
 ``volumes``: ``none``: list of paths to be externally available under
 ``/var/lib/{name}/{containername}/{volume}``.
-
-DryDock Specification
----------------------
-
-**DryDock** can specify any of the of following fields (some of which may
-overwrite any sub-containers corresponding field).
-
-``name``: name of resulting Docker_ container.
-
-``domain``: domain that all sub containers will server unless specified
-otherwise.
-
-``subcontainers``: a list of sub-container specifications.
-
-While technically any sub-container fields can be specified in the top level
-**DryDock** specification their behaviour is either unspecified, undefined,
-or untested.
 
 .. _YAML: http://wikipedia.org/wiki/YAML
 .. _Docker: https://www.docker.io/
