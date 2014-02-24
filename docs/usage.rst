@@ -3,7 +3,7 @@ Usage
 ========
 
 **DryDock** has multiple functions, the end goal of which is to setup and
-configure a cluster of `Docker`_ containers.
+configure a cluster of Docker_ containers.
 
 .. code::
 
@@ -39,9 +39,9 @@ configure a cluster of `Docker`_ containers.
 Master
 ------
 
-The ``master`` command will construct and run a new `Docker`_ container under
+The ``master`` command will construct and run a new Docker_ container under
 the given name based upon ``nekroze/drydock``. This container is setup and
-ready to use **DryDock** to run a cluster of `Docker`_ containers in a `Docker`_
+ready to use **DryDock** to run a cluster of Docker_ containers in a Docker_
 container. This is designed to easily contain a **DryDock** cluster but is not
 required.
 
@@ -60,12 +60,12 @@ constructing your specification within the master container with the
 .. warning::
 
     The resulting master container runs in ``-privileged`` mode and retains
-    all security concerns of such a `Docker`_ container.
+    all security concerns of such a Docker_ container.
 
 Prepare
 -------
 
-This command will setup a few `Docker`_ containers, generate an ssl
+This command will setup a few Docker_ containers, generate an ssl
 certificate, and must be run before running ``construct`` on a specification.
 
 The following containers will be setup and run:
@@ -80,7 +80,7 @@ The ``nginx`` container will have a volume mapped to the hosts
 Construct
 ---------
 
-The main function for **DryDock**, ``construct``, takes a `YAML`_ specification file
+The main function for **DryDock**, ``construct``, takes a YAML_ specification file
 and will create the required configuration files (supervisor, and nginx)
 before running and naming containers as defined in the specification.
 
@@ -117,14 +117,14 @@ and ``lab.nekroze.com``. Finally the config describes a special
         http_port: 80
 
 
-The `YAML`_ specification file consists of two main parts; cluster information,
+The YAML_ specification file consists of two main parts; cluster information,
 and container specification. Together these define a *DryDock Specification*
-which gets constructed into running `Docker`_ containers and accompanying
+which gets constructed into running Docker_ containers and accompanying
 configuration files!
 
 .. note::
 
-    This command assumes that both `Docker`_ and supervisor are currently
+    This command assumes that both Docker_ and supervisor are currently
     installed on the system.
 
 .. warning::
@@ -152,7 +152,7 @@ Sub-Container Specification:
 
 Any container can define the following information.
 
-``name``: name of resulting `Docker`_ container.
+``name``: name of resulting Docker_ container.
 
 ``base``: ``ubuntu``: base image for container.
 
@@ -177,10 +177,10 @@ DryDock Specification:
 **DryDock** can specify any of the of following fields (some of which may
 overwrite any sub-containers corresponding field).
 
-``name``: name of resulting `Docker`_ container.
+``name``: name of resulting Docker_ container.
 
 ``base``: ``nekroze/drydock``: base image for resulting drydock.
-Must support `Docker`_ in `Docker`_.
+Must support Docker_ in Docker_.
 
 ``domain``: domain that all sub containers will server unless specified
 otherwise.
@@ -191,5 +191,5 @@ While technically any sub-container fields can be specified in the top level
 **DryDock** specification their behaviour is either unspecified, undefined,
 or untested.
 
-.. _YAML link: http://wikipedia.org/wiki/YAML
-.. _Docker link: https://www.docker.io/
+.. _YAML: http://wikipedia.org/wiki/YAML
+.. _Docker: https://www.docker.io/
