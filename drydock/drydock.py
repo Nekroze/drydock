@@ -39,7 +39,7 @@ def main():
     args = docopt(__doc__, version="DryDock v" + __version__)
 
     if args["construct"]:
-        with open(args["specification"], 'r') as drydock:
+        with open(args["<specification>"], 'r') as drydock:
             construction.construct(MetaContainer(**yaml.load(drydock.read())))
 
     elif args["prepare"]:
@@ -47,7 +47,7 @@ def main():
 
     elif args["master"]:
         construction.drydock(
-            args["--http"], args["--https"], args["--ssh"], args["name"])
+            args["--http"], args["--https"], args["--ssh"], args["<name>"])
 
 
 if __name__ == "__main__":
