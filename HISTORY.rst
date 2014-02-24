@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.3 (TBD)
+++++++++++++++++++
+
+* Added some extra command line feedback to better display what is happening.
+
 0.1.2 (24-02-2014)
 ++++++++++++++++++
 

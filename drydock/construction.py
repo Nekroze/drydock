@@ -1,17 +1,30 @@
-"""DryDock specification construction functions."""
+from __future__ import print_function
+__doc__ = """DryDock specification construction functions."""
 from os.path import join
 import os
 from .templates import base_commands, SUPERVISOR_BASE
 
 
 def drydock(http="80", https="443", ssh="2222", name="drydock"):
+    print("\nConstructing drydock master container.")
     cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/drydock"
     os.system(cmd.format(http, https, ssh, name))
 
 
 def prepare():
-    for command in base_commands():
-        os.system(command)
+    skydns, skydock, nginx, certificate = base_commands()
+
+    print("\nConstructing skydns container.")
+    os.system(skydns)
+
+    print("\nConstructing skydock container.")
+    os.system(skydock)
+
+    print("\nConstructing nginx container.")
+    os.system(nginx)
+
+    print("\nGenerating SSL/HTTPS certificates for nginx.")
+    os.system(certificate)
 
 
 def construct(specification):
@@ -43,4 +56,5 @@ def construct_containers(specification):
     for name in sorted(specification.containers.keys()):
         container = specification.containers[name]
 
+        print("\nConstructing " + name)
         os.system(container.get_docker_command())
