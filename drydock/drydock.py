@@ -2,12 +2,12 @@ from __future__ import print_function
 __doc__ = """DryDock
 
 Usage:
-    drydock [options] <specification>
+    drydock construct <specification>
+    drydock prepare
     drydock (-h | --help)
     drydock (-v | --version)
 
 Options:
-    -o PATH --output PATH   Output path. [default: .]
     -h --help               Show this screen.
     -v --version            Show current version.
 
@@ -20,9 +20,8 @@ simply rebuilding the DryDock specification!
 For documentation go to http://dry-dock.readthedocs.org/
 """
 import yaml
-import os
 import sys
-from .construction import construct
+from . import construction
 from .duster import MetaContainer
 from docopt import docopt
 from . import __version__
@@ -32,14 +31,19 @@ def main():
     """Main entry point."""
     args = docopt(__doc__, version="DryDock v" + __version__)
 
-    try:
-        with open(args["specification"]) as drydock:
-            spec = MetaContainer(**yaml.load(drydock.read()))
-            construct(spec, args["--output"])
-    except IOError:
-        print("ERROR: Cannot find '{}' config in ".format(
-            args["specification"]), args["--output"])
-        sys.exit(1)
+    if args["construct"]:
+
+        try:
+            with open(args["specification"]) as drydock:
+                spec = MetaContainer(**yaml.load(drydock.read()))
+                construction.construct(spec, args["--output"])
+        except IOError:
+            print("ERROR: Cannot find '{}' config in ".format(
+                args["specification"]), args["--output"])
+            sys.exit(1)
+
+    elif args["prepare"]:
+        construction.prepare()
 
 
 if __name__ == "__main__":
