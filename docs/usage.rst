@@ -8,7 +8,7 @@ configure a cluster of Docker_ containers.
 .. code::
 
     $ drydock -h
-    DryDock v0.1.1
+    DryDock v0.1.2
 
     Usage:
         drydock construct <specification>
