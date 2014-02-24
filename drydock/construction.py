@@ -1,51 +1,35 @@
 """DryDock specification construction functions."""
-import os
-import shutil
+from os.path import join
+import subprocess
 
 
-def ensure_empty_dir(path):
-    """Remove the given directory and recreate it."""
-    shutil.rmtree(path)
-    os.makedirs(path)
+def construct(specification):
+    """Construct the given specification."""
+    construct_supervisor(specification)
+    construct_nginx(specification)
+    construct_containers(specification)
 
 
-def construct(specification, path):
-    """Construct the given specification into files."""
-    construct_supervisors(specification, path)
-    construct_sites(specification, path)
-    construct_dockerfile(specification, path)
-    construct_buildscript(specification, path)
+def construct_supervisor(specification):
+    """Construct the given specifications supervisor configuration file."""
+    filename = join("/etc/supervisor/conf.d/", "{0}.conf".format(
+        specification.domain))
+
+    with open(filename, 'w') as supervisor:
+            supervisor.write(specification.get_supervisor_config())
 
 
-def construct_supervisors(specification, path):
-    """Construct the given specifications supervisor configuration files."""
-    path = os.path.join(path, "supervisor")
-    ensure_empty_dir(path)
+def construct_nginx(specification):
+    """Construct the given specifications nginx configuration file."""
+    filename = join("/etc/nginx/sites-enabled/", specification.domain)
 
-    for name, container in specification.containers.items():
-        with open(os.path.join(path, "{0}.conf".format(name)), 'w')\
-                as supervisor:
-            supervisor.write(container.get_supervisor_config())
+    with open(filename, 'w') as supervisor:
+            supervisor.write(specification.get_nginx_config())
 
 
-def construct_sites(specification, path):
-    """Construct the given specifications nginx configuration files."""
-    path = os.path.join(path, "site")
-    ensure_empty_dir(path)
+def construct_containers(specification):
+    """Run the docker commands to construct each container."""
+    for name in sorted(specification.containers.keys()):
+        container = specification.containers[name]
 
-    for container in specification.containers.values():
-        with open(os.path.join(path, container.fqdn), 'w') as site:
-            site.write(container.get_nginx_config())
-
-
-def construct_dockerfile(specification, path):
-    """Construct the given specifications Dockerfile."""
-    with open(os.path.join(path, "Dockerfile"), 'w') as dockerfile:
-        dockerfile.write('\n'.join(specification.get_dockerfile()))
-
-
-def construct_buildscript(specification, path):
-    """Construct the given specifications build script."""
-    with open(os.path.join(path, "build.sh"), 'w') as builder:
-        builder.write("#!/bin/sh")
-        builder.write(specification.get_docker_commands())
+        subprocess.call(container.get_docker_command())
