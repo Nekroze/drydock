@@ -180,7 +180,7 @@ overwrite any sub-containers corresponding field).
 ``name``: name of resulting Docker_ container.
 
 ``base``: ``nekroze/drydock``: base image for resulting drydock.
-Must support Docker_ in Docker_.
+Must support Docker_ in Docker_ (dind_).
 
 ``domain``: domain that all sub containers will server unless specified
 otherwise.
@@ -191,5 +191,6 @@ While technically any sub-container fields can be specified in the top level
 **DryDock** specification their behaviour is either unspecified, undefined,
 or untested.
 
+.. _dind: http://blog.docker.io/2013/09/docker-can-now-run-within-docker/
 .. _YAML: http://wikipedia.org/wiki/YAML
 .. _Docker: https://www.docker.io/
