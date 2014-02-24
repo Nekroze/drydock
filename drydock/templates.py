@@ -1,5 +1,18 @@
 """A collection of templates and rendering functions."""
 
+SUPERVISOR_BASE = """[supervisord]
+nodaemon=true
+
+[program:sshd]
+command=/usr/sbin/sshd -D
+autostart=true
+autorestart=true
+
+[program:docker]
+command=docker -d -dns 172.17.42.1 -H unix:///var/run/docker.sock -r=false
+autostart=true
+autorestart=true"""
+
 SUPERVISOR_CONTAINER = """[program:{0}]
 command=docker start {0}
 autostart=true

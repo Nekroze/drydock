@@ -1,7 +1,7 @@
 """DryDock specification construction functions."""
 from os.path import join
 import subprocess
-from .templates import base_commands
+from .templates import base_commands, SUPERVISOR_BASE
 
 
 def prepare():
@@ -22,6 +22,7 @@ def construct_supervisor(specification):
         specification.domain))
 
     with open(filename, 'w') as supervisor:
+            supervisor.write(SUPERVISOR_BASE + '\n')
             supervisor.write(specification.get_supervisor_config())
 
 
