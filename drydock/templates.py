@@ -1,8 +1,6 @@
 """A collection of templates and rendering functions."""
 
-SUPERVISOR_BASE = """[supervisord]
-nodaemon=true
-
+SUPERVISOR_BASE = """
 [program:sshd]
 command=/usr/sbin/sshd -D
 autostart=true
@@ -31,7 +29,8 @@ autorestart=true"""
 SUPERVISOR_CONTAINER = """[program:{0}]
 command=docker start {0}
 autostart=true
-autorestart=true"""
+autorestart=true
+"""
 
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
