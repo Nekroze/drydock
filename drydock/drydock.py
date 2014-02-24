@@ -15,6 +15,11 @@ Options:
     -h --help               Show this screen.
     -v --version            Show current version.
 
+Commands:
+    construct   Construct the given specification.
+    prepare     Prepare docker for constructing a drydock specification.
+    master      Create a container that can run a drydock specification.
+
 DryDock can convert a simple configuration file into a Dockerfile
 (and accompanying configs) that when built will run a cluster of docker
 containers. The end product will automatically setup a reverse proxy, exposure
