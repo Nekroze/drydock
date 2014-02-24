@@ -1,5 +1,6 @@
 from __future__ import print_function
-__doc__ = """DryDock
+from . import __version__
+__doc__ = """DryDock v{}
 
 Usage:
     drydock construct <specification>
@@ -20,19 +21,17 @@ Commands:
     prepare     Prepare docker for constructing a drydock specification.
     master      Create a container that can run a drydock specification.
 
-DryDock can convert a simple configuration file into a Dockerfile
-(and accompanying configs) that when built will run a cluster of docker
-containers. The end product will automatically setup a reverse proxy, exposure
-of ports, and even persistent storage to allow for easy future upgrading by
-simply rebuilding the DryDock specification!
+DryDock takes a simple (YAML) specification file then can construct and
+configure a cluster of docker containers. DryDock will automatically setup a
+reverse proxy, exposure of ports, and even persistent storage to allow for
+easy future upgrading by simply rebuilding the DryDock specification!
 
 For documentation go to http://dry-dock.readthedocs.org/
-"""
+""".format(__version__)
 import yaml
 from . import construction
 from .duster import MetaContainer
 from docopt import docopt
-from . import __version__
 
 
 def main():
