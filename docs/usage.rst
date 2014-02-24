@@ -8,7 +8,7 @@ configure a cluster of docker containers.
 .. code::
 
     $ drydock -h
-    DryDock v0.1.0
+    DryDock v0.1.1
 
     Usage:
         drydock construct <specification>
@@ -40,7 +40,7 @@ Master
 ------
 
 The ``master`` command will construct and run a new docker container under
-the given name based upon ``nekroze/DryDock``. This container is setup and
+the given name based upon ``nekroze/drydock``. This container is setup and
 ready to use DryDock to run a cluster of docker containers in a docker
 container. This is designed to easily contain a DryDock cluster but is not
 required.

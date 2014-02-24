@@ -5,7 +5,7 @@ from .templates import base_commands, SUPERVISOR_BASE
 
 
 def drydock(http="80", https="443", ssh="2222", name="drydock"):
-    cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/DryDock"
+    cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/drydock"
     subprocess.call(cmd.format(http, https, ssh, name))
 
 
