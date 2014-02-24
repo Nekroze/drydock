@@ -1,17 +1,17 @@
 """DryDock specification construction functions."""
 from os.path import join
-import subprocess
+import os
 from .templates import base_commands, SUPERVISOR_BASE
 
 
 def drydock(http="80", https="443", ssh="2222", name="drydock"):
     cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/drydock"
-    subprocess.call(cmd.format(http, https, ssh, name))
+    os.system(cmd.format(http, https, ssh, name))
 
 
 def prepare():
     for command in base_commands():
-        subprocess.call(command)
+        os.system(command)
 
 
 def construct(specification):
@@ -43,4 +43,4 @@ def construct_containers(specification):
     for name in sorted(specification.containers.keys()):
         container = specification.containers[name]
 
-        subprocess.call(container.get_docker_command())
+        os.system(container.get_docker_command())
