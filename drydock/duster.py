@@ -46,14 +46,12 @@ class Container(object):
 
     def get_docker_command(self):
         """Return the docker command required to create this container."""
-        cmd = 'docker run -d'.split(' ')
-        cmd.append('-name ' + self.name)
-
-        cmd.extend(self.get_portmaps())
-        cmd.extend(self.get_volumemaps())
-
-        cmd.append(self.base)
-        return cmd
+        args = ["docker run -d -dns 172.17.42.1"]
+        args.append("-name " + self.name)
+        args.extend(self.get_portmaps())
+        args.extend(self.get_volumemaps())
+        args.append(self.base)
+        return ' '.join(args)
 
     def get_supervisor_config(self):
         """Get a rendered supervisor configuration file for thiscontainer."""
