@@ -2,12 +2,85 @@
 Usage
 ========
 
-Primarily DryDock is used to generate a working Dockerfile out of a simple
-yaml specification file describing a cluster of docker containers.
+DryDock has multiple functions, the end goal of which is to setup and
+configure a cluster of docker containers.
 
-For example:
+    $ drydock -h
+    DryDock v0.1.0
 
-    $ drydock ./nekroze.com.yaml
+    Usage:
+        drydock construct <specification>
+        drydock prepare
+        drydock master [options] <name>
+        drydock --help | --version
+
+    Options:
+        -p --http=<http>        HTTP Port. [default: 80]
+        -l --https=<https>      HTTPS Port. [default: 443]
+        -s --ssh=<ssh>          SSH Port. [default: 2222]
+
+        -h --help               Show this screen.
+        -v --version            Show current version.
+
+    Commands:
+        construct   Construct the given specification.
+        prepare     Prepare docker for constructing a drydock specification.
+        master      Create a container that can run a drydock specification.
+
+    DryDock takes a simple (YAML) specification file then can construct and
+    configure a cluster of docker containers. DryDock will automatically setup a
+    reverse proxy, exposure of ports, and even persistent storage to allow for
+    easy future upgrading by simply rebuilding the DryDock specification!
+
+    For documentation go to http://dry-dock.readthedocs.org/
+
+Master
+------
+
+The ``master`` command will construct and run a new docker container under
+the given name based upon ``nekroze/DryDock``. This container is setup and
+ready to use DryDock to run a cluster of docker containers in a docker
+container. This is designed to easily contain a DryDock cluster but is not
+required.
+
+By default the master container will take over the host ports; 80, 443,
+and 2222 by default for; HTTP, HTTPS, and SSH.
+
+Once a master container has been constructed and is running the user should
+SSH into the master container and use the ``prepare`` command before
+constructing your specification within the master container with the
+``construct`` command.
+
+.. note::
+
+    Setting up a DryDock master container is entirely optional.
+
+.. warning::
+
+    The resulting master container runs in ``-privileged`` mode and retains
+    all security concerns of such a docker container.
+
+Prepare
+-------
+
+This command will setup a few docker containers, generate an ssl
+certificate, and must be run before running ``construct`` on a specification.
+
+The following containers will be setup and run:
+
+#. ``skydns``: Small dns server.
+#. ``skydock``: Docker skydns registry.
+#. ``nginx``: An nginx powered reverse proxy container.
+
+The ``nginx`` container will have a volume mapped to the hosts
+``/etc/nginx/sites-enabled`` directory for the matching ``nginx`` directory.
+
+Construct
+---------
+
+The main function for DryDock, ``construct``, takes a YAML specification file
+and will create the required configuration files (supervisor, and nginx)
+before running and naming containers as defined in the specification.
 
 Here is an example of a DryDock specification file that will construct
 ``nekroze.com`` with *wordpress* and *gitlab* available at ``blog.nekroze.com``
@@ -42,14 +115,25 @@ and ``lab.nekroze.com``. Finally the config describes a special
         http_port: 80
 
 
-The yaml specification file consists of two main parts; cluster information,
+The YAML specification file consists of two main parts; cluster information,
 and container specification. Together these define a *DryDock Specification*
-which gets constructed into a **Dockerfile** and accompanying configuration
-files along with a ``build.sh`` script that can be used to construct and run
-your new docker cluster!
+which gets constructed into running docker containers and accompanying
+configuration files!
 
-drydock.yaml Specifications
----------------------------
+.. note::
+
+    This command assumes that both docker and supervisor are currently
+    installed on the system.
+
+.. warning::
+
+    ``construct`` will overwrite the configuration files on the host at
+    ``/etc/supervisor/conf.d/supervisord.conf`` and
+    ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
+    domain for specified in the DryDock cluster specification
+
+Specification Reference
+-----------------------
 
 Information fields are displayed as follows:
 

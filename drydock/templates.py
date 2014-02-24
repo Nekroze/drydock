@@ -1,5 +1,36 @@
 """A collection of templates and rendering functions."""
 
+SUPERVISOR_BASE = """
+[program:sshd]
+command=/usr/sbin/sshd -D
+autostart=true
+autorestart=true
+
+[program:docker]
+command=docker -d -dns 172.17.42.1 -H unix:///var/run/docker.sock -r=false
+autostart=true
+autorestart=true
+
+[program:skydns]
+command=docker start skydns
+autostart=true
+autorestart=true
+
+[program:skydock]
+command=docker start skydock
+autostart=true
+autorestart=true
+
+[program:nginx]
+command=docker start nginx
+autostart=true
+autorestart=true"""
+
+SUPERVISOR_CONTAINER = """[program:{0}]
+command=docker start {0}
+autostart=true
+autorestart=true"""
+
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
 }}"""
@@ -84,3 +115,14 @@ def render_nginx_config(container):
                                          fqdn=container.fqdn, rules=rules))
 
     return '\n'.join(config)
+
+
+BASE_CONTAINERS = """docker run -d -p 172.17.42.1:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain drydock
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock -link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
+docker run -d -p 80:80 -p 443:443 --name nginx -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
+cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
+
+
+def base_commands():
+    """Return the base commands in a list"""
+    return [cmd for cmd in BASE_CONTAINERS.split('\n')]
