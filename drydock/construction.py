@@ -57,4 +57,4 @@ def construct_containers(specification):
         container = specification.containers[name]
 
         print("\nConstructing " + name)
-        os.system(' '.join(container.get_docker_command()))
+        os.system(container.get_docker_command())
