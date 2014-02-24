@@ -36,9 +36,7 @@ def construct(specification):
 
 def construct_supervisor(specification):
     """Construct the given specifications supervisor configuration file."""
-    filename = join("/etc/supervisor/conf.d/supervisord.conf")
-
-    with open(filename, 'w') as supervisor:
+    with open("/etc/supervisord.conf", 'w') as supervisor:
             supervisor.write(SUPERVISOR_BASE + '\n')
             supervisor.write(specification.get_supervisor_config())
             supervisor.write(SUPERVISOR_GROUP.format(specification.name,
