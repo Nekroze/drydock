@@ -11,6 +11,21 @@ autorestart=true
 [program:docker]
 command=docker -d -dns 172.17.42.1 -H unix:///var/run/docker.sock -r=false
 autostart=true
+autorestart=true
+
+[program:skydns]
+command=docker start skydns
+autostart=true
+autorestart=true
+
+[program:skydock]
+command=docker start skydock
+autostart=true
+autorestart=true
+
+[program:nginx]
+command=docker start nginx
+autostart=true
 autorestart=true"""
 
 SUPERVISOR_CONTAINER = """[program:{0}]
