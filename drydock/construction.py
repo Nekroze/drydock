@@ -2,7 +2,7 @@ from __future__ import print_function
 __doc__ = """DryDock specification construction functions."""
 from os.path import join
 import os
-from .templates import base_commands, SUPERVISOR_BASE
+from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
 
 
 def drydock(http="80", https="443", ssh="2222", name="drydock"):
@@ -41,6 +41,8 @@ def construct_supervisor(specification):
     with open(filename, 'w') as supervisor:
             supervisor.write(SUPERVISOR_BASE + '\n')
             supervisor.write(specification.get_supervisor_config())
+            supervisor.write(SUPERVISOR_GROUP.format(specification.name,
+                ','.join(list(specification.containers.keys()))))
 
 
 def construct_nginx(specification):

@@ -6,7 +6,8 @@ History
 0.1.3 (TBD)
 ++++++++++++++++++
 
-* Added some extra command line feedback to better display what is happening.
+* Added: extra command line feedback to better display what is happening.
+* Added: supervisor groups. eg. drydock for the base setup.
 * Fix: cli arguments not being referenced correctly causing errors.
 * Fix: os.system cannot take a list for command.
 

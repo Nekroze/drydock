@@ -24,12 +24,18 @@ autorestart=true
 [program:nginx]
 command=docker start nginx
 autostart=true
-autorestart=true"""
+autorestart=true
+
+[group:drydock]
+programs=docker,skydns,skydns,skydock,nginx"""
 
 SUPERVISOR_CONTAINER = """[program:{0}]
 command=docker start {0}
 autostart=true
 autorestart=true"""
+
+SUPERVISOR_GROUP = """[group:{0}]
+programs={1}"""
 
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
