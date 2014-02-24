@@ -141,7 +141,7 @@ Information fields are displayed as follows:
 
 Optional field with default value
 
-``info``: ``[default]``: description
+``info``: ``default``: description
 
 Required field
 
