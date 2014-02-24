@@ -1,6 +1,12 @@
 """DryDock specification construction functions."""
 from os.path import join
 import subprocess
+from .templates import base_commands
+
+
+def prepare():
+    for command in base_commands():
+        subprocess.call(command)
 
 
 def construct(specification):
