@@ -33,10 +33,12 @@ external: No
 
     def test_supervisord(self):
         container = Container(**yaml.load(self.config))
-        assert container.get_supervisor_config() == """[program:blog]
+        assert container.get_supervisor_config() == """
+[program:blog]
 command=docker start blog
 autostart=true
-autorestart=true"""
+autorestart=true
+"""
 
     def test_nginx(self):
         container = Container(**yaml.load(self.config))
@@ -100,5 +102,5 @@ server {
     def test_container_commands(self):
         container = Container(**yaml.load(self.config))
 
-        assert ' '.join(container.get_docker_command()) == \
-               "docker run -d -name blog -p 22:22 -p 2222:222 nekroze/wordpress"
+        assert container.get_docker_command() == \
+               "docker run -d -dns 172.17.42.1 -name blog -p 22:22 -p 2222:222 nekroze/wordpress"
