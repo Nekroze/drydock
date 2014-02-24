@@ -53,7 +53,7 @@ server {
     allow 192.168.1.0/24;
     allow 192.168.0.0/24;
 
-    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  main;
+    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
 
     location / {
