@@ -2,8 +2,8 @@
 Usage
 ========
 
-DryDock has multiple functions, the end goal of which is to setup and
-configure a cluster of docker containers.
+**DryDock** has multiple functions, the end goal of which is to setup and
+configure a cluster of `Docker`_ containers.
 
 .. code::
 
@@ -30,7 +30,7 @@ configure a cluster of docker containers.
         master      Create a container that can run a drydock specification.
 
     DryDock takes a simple (YAML) specification file then can construct and
-    configure a cluster of docker containers. DryDock will automatically setup a
+    configure a cluster of Docker containers. DryDock will automatically setup a
     reverse proxy, exposure of ports, and even persistent storage to allow for
     easy future upgrading by simply rebuilding the DryDock specification!
 
@@ -39,10 +39,10 @@ configure a cluster of docker containers.
 Master
 ------
 
-The ``master`` command will construct and run a new docker container under
+The ``master`` command will construct and run a new `Docker`_ container under
 the given name based upon ``nekroze/drydock``. This container is setup and
-ready to use DryDock to run a cluster of docker containers in a docker
-container. This is designed to easily contain a DryDock cluster but is not
+ready to use **DryDock** to run a cluster of `Docker`_ containers in a `Docker`_
+container. This is designed to easily contain a **DryDock** cluster but is not
 required.
 
 By default the master container will take over the host ports; 80, 443,
@@ -55,17 +55,17 @@ constructing your specification within the master container with the
 
 .. note::
 
-    Setting up a DryDock master container is entirely optional.
+    Setting up a **DryDock** master container is entirely optional.
 
 .. warning::
 
     The resulting master container runs in ``-privileged`` mode and retains
-    all security concerns of such a docker container.
+    all security concerns of such a `Docker`_ container.
 
 Prepare
 -------
 
-This command will setup a few docker containers, generate an ssl
+This command will setup a few `Docker`_ containers, generate an ssl
 certificate, and must be run before running ``construct`` on a specification.
 
 The following containers will be setup and run:
@@ -80,11 +80,11 @@ The ``nginx`` container will have a volume mapped to the hosts
 Construct
 ---------
 
-The main function for DryDock, ``construct``, takes a YAML specification file
+The main function for **DryDock**, ``construct``, takes a `YAML`_ specification file
 and will create the required configuration files (supervisor, and nginx)
 before running and naming containers as defined in the specification.
 
-Here is an example of a DryDock specification file that will construct
+Here is an example of a **DryDock** specification file that will construct
 ``nekroze.com`` with *wordpress* and *gitlab* available at ``blog.nekroze.com``
 and ``lab.nekroze.com``. Finally the config describes a special
 ``root`` container that serves the root of the domain, in this case
@@ -117,14 +117,14 @@ and ``lab.nekroze.com``. Finally the config describes a special
         http_port: 80
 
 
-The YAML specification file consists of two main parts; cluster information,
+The `YAML`_ specification file consists of two main parts; cluster information,
 and container specification. Together these define a *DryDock Specification*
-which gets constructed into running docker containers and accompanying
+which gets constructed into running `Docker`_ containers and accompanying
 configuration files!
 
 .. note::
 
-    This command assumes that both docker and supervisor are currently
+    This command assumes that both `Docker`_ and supervisor are currently
     installed on the system.
 
 .. warning::
@@ -152,7 +152,7 @@ Sub-Container Specification:
 
 Any container can define the following information.
 
-``name``: name of resulting docker container.
+``name``: name of resulting `Docker`_ container.
 
 ``base``: ``ubuntu``: base image for container.
 
@@ -174,13 +174,13 @@ point to.
 DryDock Specification:
 ++++++++++++++++++++++
 
-DryDock can specify any of the of following fields (some of which may
+**DryDock** can specify any of the of following fields (some of which may
 overwrite any sub-containers corresponding field).
 
-``name``: name of resulting docker container.
+``name``: name of resulting `Docker`_ container.
 
 ``base``: ``nekroze/drydock``: base image for resulting drydock.
-Must support docker in docker.
+Must support `Docker`_ in `Docker`_.
 
 ``domain``: domain that all sub containers will server unless specified
 otherwise.
@@ -188,5 +188,8 @@ otherwise.
 ``subcontainers``: a list of sub-container specifications.
 
 While technically any sub-container fields can be specified in the top level
-*DryDock* specification their behaviour is either unspecified, undefined,
+**DryDock** specification their behaviour is either unspecified, undefined,
 or untested.
+
+.. _YAML link: http://wikipedia.org/wiki/YAML
+.. _Docker link: https://www.docker.io/
