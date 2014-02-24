@@ -5,6 +5,8 @@ Usage
 DryDock has multiple functions, the end goal of which is to setup and
 configure a cluster of docker containers.
 
+.. code::
+
     $ drydock -h
     DryDock v0.1.0
 
