@@ -40,7 +40,7 @@ Any container can define the following information.
 
 ``domain``: ``none``: domain that subcontainers will serve.
 
-``external``: ``true``: if false will allow only lan connections.
+``external``: ``Yes``: if ``No`` container will allow only lan connections.
 
 ``exposed_ports``: ``none``: a set of external to internal port maps.
 
