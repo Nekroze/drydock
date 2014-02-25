@@ -31,7 +31,7 @@ Features
 TODO
 ----
 
-* Make a better update path. Remove old containers etc.
+* Make a better update path.
 
 .. _Nginx: http://wiki.nginx.org/
 .. _YAML: http://wikipedia.org/wiki/YAML

@@ -11,7 +11,8 @@ configure a cluster of Docker_ containers.
     DryDock v0.1.0
 
     Usage:
-        drydock construct <specification>
+        drydock construct [-s] <specification>
+        drydock deconstruct [-s] <specification>
         drydock prepare
         drydock master [options] <name>
         drydock --help | --version
@@ -25,9 +26,10 @@ configure a cluster of Docker_ containers.
         -v --version            Show current version.
 
     Commands:
-        construct   Construct the given specification.
-        prepare     Prepare docker for constructing a drydock specification.
-        master      Create a container that can run a drydock specification.
+        construct    Construct the given specification.
+        deconstruct  Deconstruct the given specification.
+        prepare      Prepare docker for constructing a drydock specification.
+        master       Create a container that can run a drydock specification.
 
     DryDock takes a simple (YAML) specification file then can construct and
     configure a cluster of Docker containers. DryDock will automatically setup a
@@ -84,6 +86,9 @@ The main function for **DryDock**, ``construct``, takes a YAML_ specification fi
 and will create the required configuration files (supervisor, and nginx)
 before running and naming containers as defined in the specification.
 
+If you pass the ``-s`` option a supervisor config file will be generated at
+``/etc/supervisord.conf``.
+
 Here is an example of a **DryDock** specification file that will construct
 ``nekroze.com`` with *wordpress* and *gitlab* available at ``blog.nekroze.com``
 and ``lab.nekroze.com``. Finally the config describes a special
@@ -133,6 +138,13 @@ configuration files!
     ``/etc/supervisord.conf`` and
     ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
     domain for specified in the DryDock cluster specification
+
+Deconstruct
+---------
+
+The ``deconstruct`` command is used the same way as the ``construct``
+command, however it will remove any thing created by the corrosponding
+``construct`` command.
 
 .. _dind: http://blog.docker.io/2013/09/docker-can-now-run-within-docker/
 .. _YAML: http://wikipedia.org/wiki/YAML

@@ -27,6 +27,19 @@ def prepare():
     os.system(certificate)
 
 
+def deconstruct(specification, supervisor=False):
+    """Deconstruct the given specification."""
+    if supervisor:
+        os.remove("/etc/supervisord.conf")
+    os.remove(join("/etc/nginx/sites-enabled/", specification.domain))
+
+    for name in sorted(specification.containers.keys()):
+        container = specification.containers[name]
+
+        os.system("docker stop " + name)
+        os.system("docker rm " + name)
+
+
 def construct(specification, supervisor=False):
     """Construct the given specification."""
     if supervisor:
