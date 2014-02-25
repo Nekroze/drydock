@@ -52,6 +52,8 @@ NGINX_HTTP = """server {{
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
 
+    {rules};
+
     location / {{
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -71,6 +73,7 @@ NGINX_HTTPS = """server {{
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
 
+    {rules}
     ssl on;
     ssl_session_timeout 5m;
     ssl_protocols SSLv2 SSLv3 TLSv1;
@@ -91,6 +94,9 @@ NGINX_HTTPS = """server {{
     }}
 }}"""
 
+NGINX_RULES_INTERNAL = """deny all;
+allow 192.168.1.0/24;
+allow 192.168.0.0/24;"""
 
 def render_nginx_config(container):
     """
@@ -101,17 +107,22 @@ def render_nginx_config(container):
 
     config = []
 
+    if not container.external:
+        rules = NGINX_RULES_INTERNAL
+    else:
+        rules = ""
+
     if container.http_port:
         config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
                                         name=container.name,
                                         port=container.http_port,
-                                        fqdn=container.fqdn))
+                                        fqdn=container.fqdn, rules=rules))
 
     if container.https_port:
         config.append(NGINX_HTTPS.format(skyfqdn=container.skyfqdn,
                                          name=container.name,
                                          port=container.https_port,
-                                         fqdn=container.fqdn))
+                                         fqdn=container.fqdn, rules=rules))
 
     return '\n'.join(config)
 

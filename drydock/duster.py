@@ -4,7 +4,7 @@ from . import templates
 
 class Container(object):
     """A docker container specification."""
-    def __init__(self, name, base="ubuntu", exposed_ports=None, external=False,
+    def __init__(self, name, base="ubuntu", exposed_ports=None, external=True,
                  http_port=0, https_port=0, domain="", volumes=None):
         self.name = name
         self.domain = ""
