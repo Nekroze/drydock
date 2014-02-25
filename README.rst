@@ -1,6 +1,6 @@
-=============================
+=======
 DryDock
-=============================
+=======
 
 .. image:: https://badge.fury.io/py/drydock.png
     :target: http://badge.fury.io/py/drydock
@@ -31,7 +31,7 @@ Features
 TODO
 ----
 
-* Make a better update path.
+* Provide a better update path.
 
 .. _Nginx: http://wiki.nginx.org/
 .. _YAML: http://wikipedia.org/wiki/YAML
