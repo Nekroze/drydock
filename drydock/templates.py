@@ -98,6 +98,7 @@ NGINX_RULES_INTERNAL = """deny all;
     allow 192.168.0.0/24;
 """
 
+
 def render_nginx_config(container):
     """
     Render the nginx reverse proxy configuration for the given container.
