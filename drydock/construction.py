@@ -34,8 +34,7 @@ def deconstruct(specification, supervisor=False):
     os.remove(join("/etc/nginx/sites-enabled/", specification.domain))
 
     for name in sorted(specification.containers.keys()):
-        container = specification.containers[name]
-
+        print("Stopping and Removing " + name)
         os.system("docker stop " + name)
         os.system("docker rm " + name)
 
