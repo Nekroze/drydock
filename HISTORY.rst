@@ -3,26 +3,6 @@
 History
 -------
 
-0.1.3 (24-02-2014)
-++++++++++++++++++
-
-* Added: extra command line feedback to better display what is happening.
-* Added: supervisor groups. eg. drydock for the base setup.
-* Fix: added skydock dns config to each container command.
-* Fix: moved supervisord.conf to /etc
-* Fix: cli arguments not being referenced correctly causing errors.
-* Fix: os.system cannot take a list for command.
-
-0.1.2 (24-02-2014)
-++++++++++++++++++
-
-* Use os.system rather then subprocess.call for calling commands.
-
-0.1.1 (24-02-2014)
-++++++++++++++++++
-
-* Fixed nekroze/drydock image repository name.
-
 0.1.0 (24-02-2014)
 ++++++++++++++++++
 

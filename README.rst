@@ -13,11 +13,6 @@ DryDock
 
 A Docker cluster construction utility.
 
-.. warning::
-
-    **DryDock** is currently under active development and at present is not
-    in a usable state at all.
-
 DryDock takes a simple (YAML_) specification file then can construct and
 configure a cluster of Docker_ containers. DryDock will automatically
 setup a reverse proxy, exposure of ports, and even persistent storage to
