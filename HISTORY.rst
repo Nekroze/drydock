@@ -3,7 +3,7 @@
 History
 -------
 
-0.2.0 (TBD)
+0.2.0 (25-02-2014)
 ++++++++++++++++++
 
 * Added: supervisor config writing is now an option.
