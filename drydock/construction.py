@@ -27,9 +27,10 @@ def prepare():
     os.system(certificate)
 
 
-def construct(specification):
+def construct(specification, supervisor=False):
     """Construct the given specification."""
-    construct_supervisor(specification)
+    if supervisor:
+        construct_supervisor(specification)
     construct_nginx(specification)
     construct_containers(specification)
 

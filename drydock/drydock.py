@@ -3,15 +3,17 @@ from . import __version__
 __doc__ = """DryDock v{}
 
 Usage:
-    drydock construct <specification>
+    drydock construct [-s] <specification>
     drydock prepare
     drydock master [options] <name>
     drydock --help | --version
 
 Options:
+    -s --supervisor         Write a supervisor config.
+
     -p --http=<http>        HTTP Port. [default: 80]
     -l --https=<https>      HTTPS Port. [default: 443]
-    -s --ssh=<ssh>          SSH Port. [default: 2222]
+    -h --ssh=<ssh>          SSH Port. [default: 2222]
 
     -h --help               Show this screen.
     -v --version            Show current version.
@@ -40,7 +42,9 @@ def main():
 
     if args["construct"]:
         with open(args["<specification>"], 'r') as drydock:
-            construction.construct(MetaContainer(**yaml.load(drydock.read())))
+            construction.construct(
+                MetaContainer(**yaml.load(drydock.read())),
+                args["--supervisor"])
 
     elif args["prepare"]:
         construction.prepare()
