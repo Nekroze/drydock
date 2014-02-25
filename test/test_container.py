@@ -46,12 +46,8 @@ autorestart=true
     listen       80;
     server_name  blog.nekroze.com;
 
-    deny all;
-    allow 192.168.1.0/24;
-    allow 192.168.0.0/24;
-
-    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  combined;
-    error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
+    access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
+    error_log  /var/log/nginx/blog.nekroze.com.error.log;
 
     location / {
         proxy_set_header Host $host;
@@ -61,19 +57,15 @@ autorestart=true
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://blog.wordpress.containers.drydock:8081/;
+        proxy_pass http://blog.wordpress.containers.drydock:8081/;
     }
 }
 server {
     listen 443;
     server_name blog.nekroze.com;
 
-    deny all;
-    allow 192.168.1.0/24;
-    allow 192.168.0.0/24;
-
-    access_log  /var/log/nginx/log/blog.nekroze.com.access.log  combined;
-    error_log  /var/log/nginx/log/blog.nekroze.com.error.log;
+    access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
+    error_log  /var/log/nginx/blog.nekroze.com.error.log;
 
     ssl on;
     ssl_session_timeout 5m;
@@ -91,7 +83,7 @@ server {
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://blog.wordpress.containers.drydock:4431/;
+        proxy_pass http://blog.wordpress.containers.drydock:4431/;
     }
 }"""
         assert container.get_nginx_config() == expected
