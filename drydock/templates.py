@@ -60,7 +60,7 @@ NGINX_HTTP = """server {{
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://{skyfqdn}:{port}/;
+        proxy_pass http://{skyfqdn}:{port}/;
     }}
 }}"""
 
@@ -87,7 +87,7 @@ NGINX_HTTPS = """server {{
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass https://{skyfqdn}:{port}/;
+        proxy_pass http://{skyfqdn}:{port}/;
     }}
 }}"""
 
