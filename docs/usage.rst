@@ -5,41 +5,6 @@ Usage
 **DryDock** has multiple functions, the end goal of which is to setup and
 configure a cluster of Docker_ containers.
 
-.. code::
-
-    $ drydock -h
-    DryDock v0.1.0
-
-    Usage:
-        drydock construct [-s] <specification>
-        drydock deconstruct [-s] <specification>
-        drydock prepare
-        drydock master [options] <name>
-        drydock --help | --version
-
-    Options:
-        -s --supervisor         Include the supervisor config.
-
-        -p --http=<http>        HTTP Port. [default: 80]
-        -l --https=<https>      HTTPS Port. [default: 443]
-        -h --ssh=<ssh>          SSH Port. [default: 2222]
-
-        -h --help               Show this screen.
-        -v --version            Show current version.
-
-    Commands:
-        construct    Construct the given specification.
-        deconstruct  Deconstruct the given specification.
-        prepare      Prepare docker for constructing a drydock specification.
-        master       Create a container that can run a drydock specification.
-
-    DryDock takes a simple (YAML) specification file then can construct and
-    configure a cluster of Docker containers. DryDock will automatically setup a
-    reverse proxy, exposure of ports, and even persistent storage to allow for
-    easy future upgrading by simply rebuilding the DryDock specification!
-
-    For documentation go to http://dry-dock.readthedocs.org/
-
 Master
 ------
 
