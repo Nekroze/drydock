@@ -49,9 +49,8 @@ NGINX_HTTP = """server {{
     listen       80;
     server_name  {fqdn};
 
-    {rules}
-    access_log  /var/log/nginx/log/{fqdn}.access.log  combined;
-    error_log  /var/log/nginx/log/{fqdn}.error.log;
+    access_log  /var/log/nginx/{fqdn}.access.log  combined;
+    error_log  /var/log/nginx/{fqdn}.error.log;
 
     location / {{
         proxy_set_header Host $host;
@@ -69,9 +68,8 @@ NGINX_HTTPS = """server {{
     listen 443;
     server_name {fqdn};
 
-    {rules}
-    access_log  /var/log/nginx/log/{fqdn}.access.log  combined;
-    error_log  /var/log/nginx/log/{fqdn}.error.log;
+    access_log  /var/log/nginx/{fqdn}.access.log  combined;
+    error_log  /var/log/nginx/{fqdn}.error.log;
 
     ssl on;
     ssl_session_timeout 5m;
@@ -93,11 +91,6 @@ NGINX_HTTPS = """server {{
     }}
 }}"""
 
-NGINX_RULES_INTERNAL = """deny all;
-    allow 192.168.1.0/24;
-    allow 192.168.0.0/24;
-"""
-
 
 def render_nginx_config(container):
     """
@@ -107,19 +100,18 @@ def render_nginx_config(container):
         return ""
 
     config = []
-    rules = ""
 
     if container.http_port:
         config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
                                         name=container.name,
                                         port=container.http_port,
-                                        fqdn=container.fqdn, rules=rules))
+                                        fqdn=container.fqdn))
 
     if container.https_port:
         config.append(NGINX_HTTPS.format(skyfqdn=container.skyfqdn,
                                          name=container.name,
                                          port=container.https_port,
-                                         fqdn=container.fqdn, rules=rules))
+                                         fqdn=container.fqdn))
 
     return '\n'.join(config)
 
