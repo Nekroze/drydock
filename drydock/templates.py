@@ -107,11 +107,7 @@ def render_nginx_config(container):
         return ""
 
     config = []
-
-    if not container.external:
-        rules = NGINX_RULES_INTERNAL
-    else:
-        rules = ""
+    rules = ""
 
     if container.http_port:
         config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
