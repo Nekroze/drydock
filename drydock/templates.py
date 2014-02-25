@@ -52,8 +52,7 @@ NGINX_HTTP = """server {{
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
 
-    {rules};
-
+    {rules}
     location / {{
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -95,8 +94,9 @@ NGINX_HTTPS = """server {{
 }}"""
 
 NGINX_RULES_INTERNAL = """deny all;
-allow 192.168.1.0/24;
-allow 192.168.0.0/24;"""
+    allow 192.168.1.0/24;
+    allow 192.168.0.0/24;
+"""
 
 def render_nginx_config(container):
     """
@@ -110,7 +110,7 @@ def render_nginx_config(container):
     if not container.external:
         rules = NGINX_RULES_INTERNAL
     else:
-        rules = ""
+        rules = "\n"
 
     if container.http_port:
         config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
