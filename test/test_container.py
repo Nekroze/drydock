@@ -49,6 +49,10 @@ autorestart=true
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
 
+    deny all;
+    allow 192.168.1.0/24;
+    allow 192.168.0.0/24;
+
     location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -66,6 +70,10 @@ server {
 
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
+
+    deny all;
+    allow 192.168.1.0/24;
+    allow 192.168.0.0/24;
 
     ssl on;
     ssl_session_timeout 5m;
