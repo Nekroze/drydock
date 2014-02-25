@@ -18,9 +18,11 @@ configure a cluster of Docker_ containers.
         drydock --help | --version
 
     Options:
+        -s --supervisor         Include the supervisor config.
+
         -p --http=<http>        HTTP Port. [default: 80]
         -l --https=<https>      HTTPS Port. [default: 443]
-        -s --ssh=<ssh>          SSH Port. [default: 2222]
+        -h --ssh=<ssh>          SSH Port. [default: 2222]
 
         -h --help               Show this screen.
         -v --version            Show current version.
