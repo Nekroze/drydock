@@ -1,6 +1,6 @@
-========
+=====
 Usage
-========
+=====
 
 **DryDock** has multiple functions, the end goal of which is to setup and
 configure a cluster of Docker_ containers.
@@ -140,7 +140,7 @@ configuration files!
     domain for specified in the DryDock cluster specification
 
 Deconstruct
----------
+-----------
 
 The ``deconstruct`` command is used the same way as the ``construct``
 command, however it will remove any thing created by the corrosponding
