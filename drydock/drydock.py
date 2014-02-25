@@ -6,7 +6,7 @@ Usage:
     drydock construct [-s] <specification>
     drydock deconstruct [-s] <specification>
     drydock prepare
-    drydock master [options] <name>
+    drydock master [-plh] <name>
     drydock --help | --version
 
 Options:
