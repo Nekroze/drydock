@@ -34,12 +34,12 @@ class Report(object):
         success = len(self.containers["success"].keys())
         failed = len(self.containers["failed"].keys())
         if success:
-            output.append("    {} containers {}.".format(
+            output.append("    {} container(s) {}.".format(
                 success, "deleted" if remove else "created"))
             output.append("    >" + ', '.join(
                 name for name in self.containers["success"].keys()))
         if failed:
-            output.append("    {} containers to be {}.".format(
+            output.append("    {} container(s) to be {}.".format(
                 failed, "deleted" if remove else "created"))
             for name, command in self.containers["failed"].items():
                 output.append("    >{}: {}".format(name, command))
@@ -50,9 +50,9 @@ class Report(object):
         success = len(self.commands["success"].keys())
         failed = len(self.commands["failed"].keys())
         if success:
-            output.append("    {} commands succeeded.".format(success))
+            output.append("    {} command(s) succeeded.".format(success))
         if failed:
-            output.append("    {} commands failed.".format(failed))
+            output.append("    {} command(s) failed.".format(failed))
             for desc, command in self.commands["failed"].items():
                 output.append("    >{}: {}".format(desc, command))
 
@@ -60,7 +60,7 @@ class Report(object):
             output.append("")
 
         if len(self.paths):
-            output.append("    {} paths {}.".format(
+            output.append("    {} path(s) {}.".format(
                 len(self.paths), "deleted" if remove else "written"))
             for path in self.paths:
                 output.append("    >" + path)
