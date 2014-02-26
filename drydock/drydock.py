@@ -58,7 +58,7 @@ def main():
         construction.prepare()
 
     elif args["master"]:
-        construction.drydock(
+        construction.master(
             args["--http"], args["--https"], args["--ssh"], args["<name>"])
 
 

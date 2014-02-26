@@ -6,10 +6,14 @@ from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
 from .report import Report
 
 
-def drydock(http="80", https="443", ssh="2222", name="drydock"):
+def master(http="80", https="443", ssh="2222", name="drydock"):
+    report = Report()
     print("\nConstructing drydock master container.")
     cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/drydock"
-    os.system(cmd.format(http, https, ssh, name))
+    cmd = cmd.format(http, https, ssh, name)
+    report.container(name, cmd, os.system(cmd))
+
+    print(report.render())
 
 
 def prepare():
