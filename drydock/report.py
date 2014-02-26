@@ -36,6 +36,8 @@ class Report(object):
         if success:
             output.append("    {} containers {}.".format(
                 success, "deleted" if remove else "created"))
+            output.append("    >" + ', '.join(
+                name for name in self.containers["success"].keys()))
         if failed:
             output.append("    {} containers to be {}.".format(
                 failed, "deleted" if remove else "created"))
