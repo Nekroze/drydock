@@ -57,7 +57,7 @@ def deconstruct(specification, supervisor=False):
         cmd = "docker rm " + name
         report.container(name, cmd, os.system(cmd))
 
-    print(report.render())
+    print(report.render(True))
 
 
 def construct(specification, supervisor=False):
