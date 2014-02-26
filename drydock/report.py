@@ -62,5 +62,7 @@ class Report(object):
         if len(self.paths):
             output.append("    {} paths {}.".format(
                 len(self.paths), "deleted" if remove else "written"))
+            for path in self.paths:
+                output.append("    >" + path)
 
         return '\n'.join(output)
