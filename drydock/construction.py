@@ -3,6 +3,7 @@ __doc__ = """DryDock specification construction functions."""
 from os.path import join
 import os
 from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
+from .report import Report
 
 
 def drydock(http="80", https="443", ssh="2222", name="drydock"):
@@ -12,62 +13,85 @@ def drydock(http="80", https="443", ssh="2222", name="drydock"):
 
 
 def prepare():
+    report = Report()
     skydns, skydock, nginx, certificate = base_commands()
 
     print("\nConstructing skydns container.")
-    os.system(skydns)
+    report.container("skydns", skydns, os.system(skydns))
 
     print("\nConstructing skydock container.")
-    os.system(skydock)
+    report.container("skydock", skydock, os.system(skydock))
 
     print("\nConstructing nginx container.")
-    os.system(nginx)
+    report.container("nginx", nginx, os.system(nginx))
 
     print("\nGenerating SSL/HTTPS certificates for nginx.")
-    os.system(certificate)
+    report.command("Generate SSL Certificates", certificate,
+                   os.system(certificate))
+
+    print(report.render())
 
 
 def deconstruct(specification, supervisor=False):
     """Deconstruct the given specification."""
+    report = Report()
+
     if supervisor:
-        os.remove("/etc/supervisord.conf")
-    os.remove(join("/etc/nginx/sites-enabled/", specification.domain))
+        path = "/etc/supervisord.conf"
+        os.remove(path)
+        report.path(path)
+
+    path = join("/etc/nginx/sites-enabled/", specification.domain)
+    os.remove(path)
+    report.path(path)
 
     for name in sorted(specification.containers.keys()):
         print("Stopping and Removing " + name)
-        os.system("docker stop " + name)
-        os.system("docker rm " + name)
+        cmd = "docker stop " + name
+        report.command("Stop container " + name, cmd, os.system(cmd))
+
+        cmd = "docker rm " + name
+        report.container(name, cmd, os.system(cmd))
+
+    print(report.render())
 
 
 def construct(specification, supervisor=False):
     """Construct the given specification."""
+    report = Report()
+
     if supervisor:
-        construct_supervisor(specification)
-    construct_nginx(specification)
-    construct_containers(specification)
+        construct_supervisor(specification, report)
+    construct_nginx(specification, report)
+    construct_containers(specification, report)
+
+    print(report.render())
 
 
-def construct_supervisor(specification):
+def construct_supervisor(specification, report):
     """Construct the given specifications supervisor configuration file."""
     with open("/etc/supervisord.conf", 'w') as supervisor:
             supervisor.write(SUPERVISOR_BASE + '\n')
             supervisor.write(specification.get_supervisor_config())
             supervisor.write(SUPERVISOR_GROUP.format(specification.name,
                 ','.join(list(specification.containers.keys()))))
+    report.path("/etc/supervisord.conf")
 
 
-def construct_nginx(specification):
+def construct_nginx(specification, report):
     """Construct the given specifications nginx configuration file."""
     filename = join("/etc/nginx/sites-enabled/", specification.domain)
 
     with open(filename, 'w') as supervisor:
             supervisor.write(specification.get_nginx_config())
+    report.path(filename)
 
 
-def construct_containers(specification):
+def construct_containers(specification, report):
     """Run the docker commands to construct each container."""
     for name in sorted(specification.containers.keys()):
         container = specification.containers[name]
 
         print("\nConstructing " + name)
-        os.system(container.get_docker_command())
+        cmd = container.get_docker_command()
+        report.container(name, cmd, os.system(cmd))
