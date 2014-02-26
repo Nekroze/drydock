@@ -39,8 +39,8 @@ class Report(object):
         if failed:
             output.append("    {} containers to be {}.".format(
                 failed, "deleted" if remove else "created"))
-            output.append("    >{}".format(', '.join(
-                name for name in self.containers["failed"].keys())))
+            for name, command in self.containers["failed"].items():
+                output.append("    >{}: {}".format(name, command))
 
         output.append("")
 
