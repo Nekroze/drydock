@@ -50,8 +50,6 @@ class Report(object):
         failed = len(self.commands["failed"].keys())
         if success:
             output.append("    {} commands succeeded.".format(success))
-            for desc in self.commands["success"].values():
-                output.append("    >" + desc)
         if failed:
             output.append("    {} commands failed.".format(failed))
             for desc, command in self.commands["failed"].items():
