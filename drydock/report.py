@@ -44,7 +44,8 @@ class Report(object):
             for name, command in self.containers["failed"].items():
                 output.append("    >{}: {}".format(name, command))
 
-        output.append("")
+        if success or failed:
+            output.append("")
 
         success = len(self.commands["success"].keys())
         failed = len(self.commands["failed"].keys())
@@ -55,7 +56,8 @@ class Report(object):
             for desc, command in self.commands["failed"].items():
                 output.append("    >{}: {}".format(desc, command))
 
-        output.append("")
+        if success or failed:
+            output.append("")
 
         if len(self.paths):
             output.append("    {} paths {}.".format(
