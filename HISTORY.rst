@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.0 (TBD)
+++++++++++++++++++
+
+* Added: reports at the end of running all the major commands.
+
 0.2.0 (25-02-2014)
 ++++++++++++++++++
 
