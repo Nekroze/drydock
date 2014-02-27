@@ -1,5 +1,6 @@
 """End of run reports."""
 __author__ = 'Taylor \"Nekroze\" Lawson'
+import sys
 
 
 class Report(object):
@@ -7,6 +8,13 @@ class Report(object):
         self.containers = {"success": {}, "failed": {}}
         self.paths = []
         self.commands = {"success": {}, "failed": {}}
+
+    def exit(self):
+        """Exit the program with the appropriate code based on the report."""
+        if self.containers["failed"] or self.commands["failed"]:
+            sys.exit(1)
+        else:
+            sys.exit(0)
 
     def container(self, name, command, code):
         """Report on the status of a container"""

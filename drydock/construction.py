@@ -14,6 +14,7 @@ def master(http="80", https="443", ssh="2222", name="drydock"):
     report.container(name, cmd, os.system(cmd))
 
     print(report.render())
+    report.exit()
 
 
 def prepare():
@@ -34,6 +35,7 @@ def prepare():
                    os.system(certificate))
 
     print(report.render())
+    report.exit()
 
 
 def pull(specification):
@@ -45,7 +47,8 @@ def pull(specification):
         cmd = "docker pull " + base
         report.command("Pull image " + base, cmd, os.system(cmd))
 
-    print(report.render(True))
+    print(report.render())
+    report.exit()
 
 
 def deconstruct(specification, supervisor=False):
@@ -70,6 +73,7 @@ def deconstruct(specification, supervisor=False):
         report.container(name, cmd, os.system(cmd))
 
     print(report.render(True))
+    report.exit()
 
 
 def construct(specification, supervisor=False):
@@ -82,6 +86,7 @@ def construct(specification, supervisor=False):
     construct_containers(specification, report)
 
     print(report.render())
+    report.exit()
 
 
 def construct_supervisor(specification, report):
