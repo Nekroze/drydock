@@ -40,6 +40,8 @@ Any container can define the following information.
 
 ``domain``: ``none``: domain that subcontainers will serve.
 
+``envs``: ``none``: map of variable names and values to pass to the container.
+
 ``external``: ``Yes``: if ``No`` container will allow only lan connections.
 
 ``exposed_ports``: ``none``: a set of external to internal port maps.

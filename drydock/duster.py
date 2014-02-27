@@ -5,12 +5,14 @@ from . import templates
 class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None, external=True,
-                 http_port=0, https_port=0, domain="", volumes=None):
+                 http_port=0, https_port=0, domain="", volumes=None,
+                 envs=None):
         self.name = name
         self.domain = ""
         self.fqdn = ""
         self.set_domain(domain)
         self.base = base
+        self.envs = envs if envs else {}
         self.exposed_ports = {}
         if exposed_ports:
             self.exposed_ports.update(exposed_ports)
@@ -44,12 +46,20 @@ class Container(object):
             output.append("-v /var/lib/{0}{1}:{1}".format(self.name, path))
         return output
 
+    def get_envs(self):
+        """Return docker environment variable arguments."""
+        output = []
+        for name, value in self.envs.items():
+            output.append("-e \"{}={}\"".format(name, value))
+        return output
+
     def get_docker_command(self):
         """Return the docker command required to create this container."""
         cmd = ["docker run -d -dns 172.17.42.1"]
         cmd.append("-name " + self.name)
         cmd.extend(self.get_portmaps())
         cmd.extend(self.get_volumemaps())
+        cmd.extend(self.get_envs())
         cmd.append(self.base)
         return ' '.join(cmd)
 
