@@ -106,6 +106,14 @@ configuration files!
     ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
     domain for specified in the DryDock cluster specification
 
+
+Pull
+----
+
+This command is used almost identically to the ``construct`` and
+``deconstruct`` command and will download all of the base images in the
+given specification. This can be useful for caching and or testing.
+
 Deconstruct
 -----------
 

@@ -9,6 +9,8 @@ History
 * Added: reports at the end of running all the major commands.
 * Added: ``envs`` to specification for environment variable definitions.
 * Added: ``command`` to specification for run command definition.
+* Added: ``pull`` command to download all images required for the
+specification.
 
 0.2.0 (25-02-2014)
 ++++++++++++++++++

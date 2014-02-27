@@ -5,6 +5,7 @@ __doc__ = """DryDock v{}
 Usage:
     drydock construct [-s] <specification>
     drydock deconstruct [-s] <specification>
+    drydock pull <specification>
     drydock prepare
     drydock master [-plh] <name>
     drydock --help | --version
@@ -53,6 +54,11 @@ def main():
             construction.deconstruct(
                 MetaContainer(**yaml.load(drydock.read())),
                 args["--supervisor"])
+
+    elif args["pull"]:
+        with open(args["<specification>"], 'r') as drydock:
+            construction.pull(
+                MetaContainer(**yaml.load(drydock.read())))
 
     elif args["prepare"]:
         construction.prepare()

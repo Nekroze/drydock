@@ -36,6 +36,18 @@ def prepare():
     print(report.render())
 
 
+def pull(specification):
+    """Pull all images for the given specification."""
+    report = Report()
+
+    for name in sorted(specification.containers.keys()):
+        base = specification.containers[name].base
+        cmd = "docker pull " + base
+        report.command("Pull image " + base, cmd, os.system(cmd))
+
+    print(report.render(True))
+
+
 def deconstruct(specification, supervisor=False):
     """Deconstruct the given specification."""
     report = Report()
