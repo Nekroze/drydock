@@ -7,6 +7,7 @@ History
 ++++++++++++++++++
 
 * Added: reports at the end of running all the major commands.
+* Added: ``envs`` to specification for environment variable definitions.
 
 0.2.0 (25-02-2014)
 ++++++++++++++++++
