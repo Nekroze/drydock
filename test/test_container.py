@@ -11,6 +11,7 @@ class TestContainer(object):
 name: blog
 base: nekroze/wordpress
 domain: nekroze.com
+command: crump
 envs:
     DB: 123
 exposed_ports:
@@ -102,4 +103,4 @@ server {
         container = Container(**yaml.load(self.config))
 
         assert container.get_docker_command() == \
-               "docker run -d -dns 172.17.42.1 -name blog -p 22:22 -p 2222:222 -e \"DB=123\" nekroze/wordpress"
+               "docker run -d -dns 172.17.42.1 -name blog -p 22:22 -p 2222:222 -e \"DB=123\" nekroze/wordpress crump"

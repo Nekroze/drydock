@@ -6,7 +6,7 @@ class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None, external=True,
                  http_port=0, https_port=0, domain="", volumes=None,
-                 envs=None):
+                 envs=None, command=None):
         self.name = name
         self.domain = ""
         self.fqdn = ""
@@ -14,6 +14,7 @@ class Container(object):
         self.base = base
         self.envs = envs if envs else {}
         self.exposed_ports = {}
+        self.command = command
         if exposed_ports:
             self.exposed_ports.update(exposed_ports)
         self.http_port = http_port
@@ -61,6 +62,8 @@ class Container(object):
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
         cmd.append(self.base)
+        if self.command:
+            cmd.append(self.command)
         return ' '.join(cmd)
 
     def get_supervisor_config(self):

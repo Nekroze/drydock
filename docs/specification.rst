@@ -40,6 +40,9 @@ Any container can define the following information.
 
 ``domain``: ``none``: domain that subcontainers will serve.
 
+``command``: ``none``: if provided this command will be passed to the new
+container for its first time setup.
+
 ``envs``: ``none``: map of variable names and values to pass to the container.
 
 ``external``: ``Yes``: if ``No`` container will allow only lan connections.

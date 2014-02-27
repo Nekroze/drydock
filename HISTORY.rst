@@ -8,6 +8,7 @@ History
 
 * Added: reports at the end of running all the major commands.
 * Added: ``envs`` to specification for environment variable definitions.
+* Added: ``command`` to specification for run command definition.
 
 0.2.0 (25-02-2014)
 ++++++++++++++++++
