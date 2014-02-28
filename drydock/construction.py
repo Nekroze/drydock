@@ -42,6 +42,13 @@ def pull(specification):
     """Pull all images for the given specification."""
     report = Report()
 
+    cmd = "docker pull crosbymichael/skydns"
+    report.command("Pull image skydns", cmd, os.system(cmd))
+    cmd = "docker pull crosbymichael/skydock"
+    report.command("Pull image skydns", cmd, os.system(cmd))
+    cmd = "docker pull dockerfile/nginx"
+    report.command("Pull image nginx", cmd, os.system(cmd))
+
     for name in sorted(specification.containers.keys()):
         base = specification.containers[name].base
         cmd = "docker pull " + base

@@ -3,6 +3,12 @@
 History
 -------
 
+0.4.0 (TBD)
+++++++++++++++++++
+
+* Fix: ``pull`` command also grabs the containers required for the
+``prepare`` command.
+
 0.3.0 (28-02-2014)
 ++++++++++++++++++
 
