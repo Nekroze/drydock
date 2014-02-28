@@ -34,6 +34,7 @@ TODO
 * Provide a better update path.
 * Add a stateless shareable mysql container to prepare and specification.
 * Better support for stateless-ness and volumes
+* Better unittest coverage eg. reports.
 
 .. _Nginx: http://wiki.nginx.org/
 .. _YAML: http://wikipedia.org/wiki/YAML
