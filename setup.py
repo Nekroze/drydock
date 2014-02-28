@@ -37,7 +37,7 @@ setup(
     entry_points={
         'console_scripts': [
             'drydock = drydock.drydock:main',
-            ]
+        ]
     },
     install_requires=[
         "pyyaml>=3.10",
