@@ -40,6 +40,9 @@ setup(
             ]
     },
     install_requires=[
+        "pyyaml>=3.10",
+        "docopt>=0.6.1",
+        "six>=1.5.2",
     ],
     license='MIT',
     zip_safe=False,
