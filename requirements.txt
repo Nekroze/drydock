@@ -1,3 +1,4 @@
 wheel>=0.22
 pyyaml>=3.10
 docopt>=0.6.1
+six>=1.5.2

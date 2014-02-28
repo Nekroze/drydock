@@ -11,6 +11,7 @@ History
 * Added: ``command`` to specification for run command definition.
 * Added: ``pull`` command to download all images required for the
 specification.
+* Added ``specification`` to specification for external specification links.
 
 0.2.0 (25-02-2014)
 ++++++++++++++++++

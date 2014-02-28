@@ -40,6 +40,12 @@ Any container can define the following information.
 
 ``domain``: ``none``: domain that subcontainers will serve.
 
+``specification: ``none``: a link to a container specification that will be
+used as the base for this container. Any fields defined in this
+specification will override the given link's specification. With this docker
+container developers can provide its own specification and leave the
+implementation fields (ie, domain) to the end user.
+
 ``command``: ``none``: if provided this command will be passed to the new
 container for its first time setup.
 

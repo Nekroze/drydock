@@ -1,5 +1,7 @@
 """DryDock cluster specification."""
 from . import templates
+from six.moves.urllib.request import urlopen
+import yaml
 
 
 class Container(object):
@@ -86,7 +88,16 @@ class MetaContainer(Container):
         self.fqdn = domain
 
         for sub in subcontainers:
+            if "specification" in sub:
+                sub = self.grab_specification(sub["specification"], sub)
             self.add_container(Container(**sub))
+
+    def grab_specification(self, link, base):
+        """Create a container specification based off of a web link."""
+        spec = yaml.load(urlopen(link).read()) if link else {}
+        spec.update(base)
+        del spec["specification"]
+        return spec
 
     def set_domain(self, domain):
         """Set fqdn and domain to the same value."""
