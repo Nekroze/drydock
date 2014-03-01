@@ -131,6 +131,9 @@ def construct(specification, supervisor=False):
     construct_nginx(specification, report)
     construct_containers(specification, report)
 
+    cmd = "docker stop nginx && docker start nginx"
+    report.command("Restart reverse proxy nginx", cmd, os.system(cmd))
+
     print(report.render())
     report.exit()
 
