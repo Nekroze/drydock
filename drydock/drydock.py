@@ -6,6 +6,8 @@ Usage:
     drydock construct [-s] <specification>
     drydock deconstruct [-s] <specification>
     drydock pull <specification>
+    drydock start <specification>
+    drydock stop <specification>
     drydock prepare
     drydock master [-plh] <name>
     drydock --help | --version
@@ -58,6 +60,16 @@ def main():
     elif args["pull"]:
         with open(args["<specification>"], 'r') as drydock:
             construction.pull(
+                MetaContainer(**yaml.load(drydock.read())))
+
+    elif args["start"]:
+        with open(args["<specification>"], 'r') as drydock:
+            construction.start(
+                MetaContainer(**yaml.load(drydock.read())))
+
+    elif args["stop"]:
+        with open(args["<specification>"], 'r') as drydock:
+            construction.stop(
                 MetaContainer(**yaml.load(drydock.read())))
 
     elif args["prepare"]:

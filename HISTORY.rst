@@ -6,6 +6,7 @@ History
 0.4.0 (TBD)
 ++++++++++++++++++
 
+* Added: ``start`` and ``stop`` command line commands.
 * Added: ``data`` in subcontainer specification maps volumes at
 ``/mnt/drydock``.
 * Fix: ``pull`` command also grabs the containers required for the

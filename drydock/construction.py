@@ -58,6 +58,46 @@ def pull(specification):
     report.exit()
 
 
+def start(specification):
+    """Start all containers defined in the given specification."""
+    report = Report()
+
+    cmd = "docker start crosbymichael/skydns"
+    report.command("Start container skydns", cmd, os.system(cmd))
+    cmd = "docker start crosbymichael/skydock"
+    report.command("Start container skydns", cmd, os.system(cmd))
+    cmd = "docker start dockerfile/nginx"
+    report.command("Start container nginx", cmd, os.system(cmd))
+
+    for name in sorted(specification.containers.keys()):
+        base = specification.containers[name].base
+        cmd = "docker start " + base
+        report.command("Start container " + base, cmd, os.system(cmd))
+
+    print(report.render())
+    report.exit()
+
+
+def stop(specification):
+    """Stop all containers defined in the given specification."""
+    report = Report()
+
+    cmd = "docker stop crosbymichael/skydns"
+    report.command("Stop container skydns", cmd, os.system(cmd))
+    cmd = "docker stop crosbymichael/skydock"
+    report.command("Stop container skydns", cmd, os.system(cmd))
+    cmd = "docker stop dockerfile/nginx"
+    report.command("Stop container nginx", cmd, os.system(cmd))
+
+    for name in sorted(specification.containers.keys()):
+        base = specification.containers[name].base
+        cmd = "docker stop " + base
+        report.command("Stop container " + base, cmd, os.system(cmd))
+
+    print(report.render())
+    report.exit()
+
+
 def deconstruct(specification, supervisor=False):
     """Deconstruct the given specification."""
     report = Report()
