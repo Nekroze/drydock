@@ -47,7 +47,8 @@ class Container(object):
         """Return docker command volume maps."""
         output = []
         for path in self.volumes:
-            output.append("-v /var/lib/{0}{1}:{1}".format(self.name, path))
+            output.append("-v /var/lib/{0}/{1}{2}:{2}".format(
+                self.domain, self.name, path))
         return output
 
     def get_envs(self):

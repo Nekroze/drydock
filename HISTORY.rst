@@ -12,6 +12,7 @@ History
 * Fix: ``pull`` command also grabs the containers required for the
 ``prepare`` command.
 * Fix: Pass host timezone to subcontainers.
+* Fix: volumes now go map to ``/var/lib/{domain}/{name}/``.
 
 0.3.0 (28-02-2014)
 ++++++++++++++++++
