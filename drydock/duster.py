@@ -8,13 +8,14 @@ class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None, external=True,
                  http_port=0, https_port=0, domain="", volumes=None,
-                 envs=None, command=None):
+                 envs=None, command=None, data=False):
         self.name = name
         self.domain = ""
         self.fqdn = ""
         self.set_domain(domain)
         self.base = base
         self.envs = envs if envs else {}
+        self.data = data
         self.exposed_ports = {}
         self.command = command
         if exposed_ports:
@@ -61,6 +62,8 @@ class Container(object):
         cmd = ["docker run -d -dns 172.17.42.1"]
         cmd.append("-name " + self.name)
         cmd.extend(self.get_portmaps())
+        if self.data:
+            cmd.extend("-v /mnt/drydock:/mnt/drydock")
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
         cmd.append(self.base)

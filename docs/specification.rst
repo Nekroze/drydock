@@ -64,5 +64,8 @@ point to.
 ``volumes``: ``none``: list of paths to be externally available under
 ``/var/lib/{name}/{containername}/{volume}``.
 
+``data``: ``No``: if ``Yes`` this container will have an additional volume
+map from the hosts ``/mnt/drydock`` to the same path in the container.
+
 .. _YAML: http://wikipedia.org/wiki/YAML
 .. _Docker: https://www.docker.io/
