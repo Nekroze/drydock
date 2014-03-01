@@ -66,12 +66,13 @@ def start(specification):
     report.command("Start container skydns", cmd, os.system(cmd))
     cmd = "docker start skydock"
     report.command("Start container skydns", cmd, os.system(cmd))
-    cmd = "docker start nginx"
-    report.command("Start container nginx", cmd, os.system(cmd))
 
     for name in sorted(specification.containers.keys()):
         cmd = "docker start " + name
         report.command("Start container " + name, cmd, os.system(cmd))
+
+    cmd = "docker start nginx"
+    report.command("Start container nginx", cmd, os.system(cmd))
 
     print(report.render())
     report.exit()
