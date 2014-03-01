@@ -11,6 +11,7 @@ History
 ``/mnt/drydock``.
 * Fix: ``pull`` command also grabs the containers required for the
 ``prepare`` command.
+* Fix: Pass host timezone to subcontainers.
 
 0.3.0 (28-02-2014)
 ++++++++++++++++++

@@ -64,6 +64,7 @@ class Container(object):
         cmd.extend(self.get_portmaps())
         if self.data:
             cmd.append("-v /mnt/drydock:/mnt/drydock")
+        cmd.append("-v /etc/timezone:/etc/timezone:ro")
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
         cmd.append(self.base)
