@@ -63,7 +63,7 @@ class Container(object):
         cmd.append("-name " + self.name)
         cmd.extend(self.get_portmaps())
         if self.data:
-            cmd.extend("-v /mnt/drydock:/mnt/drydock")
+            cmd.append("-v /mnt/drydock:/mnt/drydock")
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
         cmd.append(self.base)
