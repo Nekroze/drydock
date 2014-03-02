@@ -9,6 +9,7 @@ History
 * Added: ``start`` and ``stop`` command line commands.
 * Added: ``data`` in subcontainer specification maps volumes at
 ``/mnt/drydock``.
+* Fix: All subcontainers are passed their fqdn as their hostname
 * Fix: ``pull`` command also grabs the containers required for the
 ``prepare`` command.
 * Fix: Pass host timezone to subcontainers.
