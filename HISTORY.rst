@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.0 (TDB)
+++++++++++++++++++
+
+* Added: ``supervise`` command line command. DryDock has its own supervisor!
+
 0.4.0 (08-03-2014)
 ++++++++++++++++++
 

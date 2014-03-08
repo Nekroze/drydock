@@ -2,6 +2,8 @@ from __future__ import print_function
 __doc__ = """DryDock specification construction functions."""
 from os.path import join
 import os
+import time
+import docker
 from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
 from .report import Report
 
@@ -76,6 +78,24 @@ def start(specification):
 
     print(report.render())
     report.exit()
+
+
+def supervise(specification, seconds):
+    """Supervise all containers defined in the given specification."""
+    start(specification)  # ensure the specification is started
+    dock = docker.Client(base_url='unix://var/run/docker.sock')
+
+    while time.sleep(seconds):
+        for cont in dock.containers(all=True):  # check each container
+            tag = cont["Names"][0][1:]  # get containers first tag
+            if "Exit" in cont["Status"]:  # check for exit status
+                log = dock.logs(tag).split('\n')  # get logs as list
+                recent = log[-2:] if len(log) >= 3 else log  # only last few
+                print("Container has stopped: {} Code: {} Log:".format(
+                    tag, cont["Status"][5:],))  # notify stopped container
+                print('\n'.join(tag + ">> " + line for line in recent))
+
+                dock.start(tag)  # attempt to start the container again
 
 
 def stop(specification):

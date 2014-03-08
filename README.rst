@@ -27,6 +27,7 @@ Features
 * Nginx_ reverse proxy configuration with HTTPS/SSL support
 * Easy setup for persistent volumes.
 * Share your DryDock specifications with the world.
+* Container supervisor utilizing the Docker_ API.
 
 TODO
 ----

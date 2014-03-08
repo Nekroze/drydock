@@ -43,6 +43,7 @@ setup(
         "pyyaml>=3.10",
         "docopt>=0.6.1",
         "six>=1.5.2",
+        "docker-py>=0.3.0",
     ],
     license='MIT',
     zip_safe=False,

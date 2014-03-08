@@ -3,17 +3,18 @@ from . import __version__
 __doc__ = """DryDock v{}
 
 Usage:
-    drydock construct [-s] <specification>
-    drydock deconstruct [-s] <specification>
+    drydock construct <specification>
+    drydock deconstruct <specification>
     drydock pull <specification>
     drydock start <specification>
+    drydock supervise [-r] <specification>
     drydock stop <specification>
     drydock prepare
     drydock master [-plh] <name>
     drydock --help | --version
 
 Options:
-    -s --supervisor         Include the supervisor config.
+    -r --rate=<rate>        Polling rate for supervising. [default: 30]
 
     -p --http=<http>        HTTP Port. [default: 80]
     -l --https=<https>      HTTPS Port. [default: 443]
@@ -48,14 +49,12 @@ def main():
     if args["construct"]:
         with open(args["<specification>"], 'r') as drydock:
             construction.construct(
-                MetaContainer(**yaml.load(drydock.read())),
-                args["--supervisor"])
+                MetaContainer(**yaml.load(drydock.read())))
 
     elif args["deconstruct"]:
         with open(args["<specification>"], 'r') as drydock:
             construction.deconstruct(
-                MetaContainer(**yaml.load(drydock.read())),
-                args["--supervisor"])
+                MetaContainer(**yaml.load(drydock.read())))
 
     elif args["pull"]:
         with open(args["<specification>"], 'r') as drydock:
@@ -66,6 +65,12 @@ def main():
         with open(args["<specification>"], 'r') as drydock:
             construction.start(
                 MetaContainer(**yaml.load(drydock.read())))
+
+    elif args["supervise"]:
+        with open(args["<specification>"], 'r') as drydock:
+            construction.supverise(
+                MetaContainer(**yaml.load(drydock.read())),
+                int(args["--seconds"]))
 
     elif args["stop"]:
         with open(args["<specification>"], 'r') as drydock:
