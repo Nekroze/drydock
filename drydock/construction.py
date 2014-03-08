@@ -88,7 +88,7 @@ def supervise(specification):
 
     dock = docker.Client(base_url='unix://var/run/docker.sock')
 
-    while time.sleep(30):
+    while True:
         ps = {cont["Names"][0][1:]: cont["Status"]
               for cont in dock.containers(all=True)}
 
@@ -100,6 +100,7 @@ def supervise(specification):
                     tag, ps[tag][5:],))  # notify stopped container
                 print('\n'.join(tag + ">> " + line for line in recent))
                 dock.start(tag)  # attempt to start the container again
+        time.sleep(30)
 
 
 def stop(specification):
