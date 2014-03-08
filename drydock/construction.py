@@ -111,7 +111,7 @@ def stop(specification):
     report.command("Stop container nginx", cmd, os.system(cmd))
 
     for name in sorted(specification.containers.keys()):
-        cmd = "docker stop " + name
+        cmd = "docker stop " + specification.containers[name].fqdn
         report.command("Stop container " + name, cmd, os.system(cmd))
 
     print(report.render())
@@ -133,10 +133,10 @@ def deconstruct(specification, supervisor=False):
 
     for name in sorted(specification.containers.keys()):
         print("Stopping and Removing " + name)
-        cmd = "docker stop " + name
+        cmd = "docker stop " + specification.containers[name].fqdn
         report.command("Stop container " + name, cmd, os.system(cmd))
 
-        cmd = "docker rm " + name
+        cmd = "docker rm " + specification.containers[name].fqdn
         report.container(name, cmd, os.system(cmd))
 
     print(report.render(True))
