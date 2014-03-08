@@ -91,15 +91,10 @@ def supervise(specification):
     while True:
         ps = {cont["Names"][0][1:]: cont["Status"]
               for cont in dock.containers(all=True)}
-
         for tag in containers:
             if "Exit" in ps[tag]:  # check for exit status
-                log = dock.logs(tag).split('\n')  # get logs as list
-                recent = log[-2:] if len(log) >= 3 else log  # only last few
-                print("Container has stopped: {} Code: {} Log:".format(
-                    tag, ps[tag][5:],))  # notify stopped container
-                print('\n'.join(tag + ">> " + line for line in recent))
-                dock.start(tag)  # attempt to start the container again
+                print("Container has stopped: {} Code: {}".format(tag))
+                dock.start(tag)
         time.sleep(30)
 
 
