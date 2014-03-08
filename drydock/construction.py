@@ -82,19 +82,23 @@ def start(specification):
 
 def supervise(specification):
     """Supervise all containers defined in the given specification."""
-    start(specification)  # ensure the specification is started
+    containers = ["skydns", "skydock"]
+    containers.extend(sorted(specification.containers.keys()))
+    containers.append("nginx")
+
     dock = docker.Client(base_url='unix://var/run/docker.sock')
 
     while time.sleep(30):
-        for cont in dock.containers(all=True):  # check each container
-            tag = cont["Names"][0][1:]  # get containers first tag
-            if "Exit" in cont["Status"]:  # check for exit status
+        ps = {cont["Names"][0][1:]: cont["Status"]
+              for cont in dock.containers(all=True)}
+
+        for tag in containers:
+            if "Exit" in ps[tag]:  # check for exit status
                 log = dock.logs(tag).split('\n')  # get logs as list
                 recent = log[-2:] if len(log) >= 3 else log  # only last few
                 print("Container has stopped: {} Code: {} Log:".format(
-                    tag, cont["Status"][5:],))  # notify stopped container
+                    tag, ps[tag][5:],))  # notify stopped container
                 print('\n'.join(tag + ">> " + line for line in recent))
-
                 dock.start(tag)  # attempt to start the container again
 
 
