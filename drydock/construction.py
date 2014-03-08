@@ -107,11 +107,11 @@ def stop(specification):
     report.command("Stop container skydns", cmd, os.system(cmd))
     cmd = "docker stop skydock"
     report.command("Stop container skydns", cmd, os.system(cmd))
-    cmd = "docker stop nginx"
+    cmd = "docker restart nginx"
     report.command("Stop container nginx", cmd, os.system(cmd))
 
     for name in sorted(specification.containers.keys()):
-        cmd = "docker stop " + specification.containers[name].fqdn
+        cmd = "docker stop " + name
         report.command("Stop container " + name, cmd, os.system(cmd))
 
     print(report.render())
@@ -133,10 +133,10 @@ def deconstruct(specification, supervisor=False):
 
     for name in sorted(specification.containers.keys()):
         print("Stopping and Removing " + name)
-        cmd = "docker stop " + specification.containers[name].fqdn
+        cmd = "docker stop " + name
         report.command("Stop container " + name, cmd, os.system(cmd))
 
-        cmd = "docker rm " + specification.containers[name].fqdn
+        cmd = "docker rm " + name
         report.container(name, cmd, os.system(cmd))
 
     print(report.render(True))
