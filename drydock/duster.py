@@ -32,7 +32,7 @@ class Container(object):
             self.fqdn = self.domain
         else:
             self.fqdn = self.name + '.' + self.domain
-        self.skyfqdn = '.'.join([self.fqdn, self.base.split('/')[-1],
+        self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1],
                                  "containers", "drydock"])
 
     def get_portmaps(self):
@@ -61,7 +61,7 @@ class Container(object):
     def get_docker_command(self):
         """Return the docker command required to create this container."""
         cmd = ["docker run -d -dns 172.17.42.1"]
-        cmd.append("-name " + self.fqdn)
+        cmd.append("-name " + self.name)
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())
         if self.data:

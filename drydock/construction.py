@@ -83,8 +83,7 @@ def start(specification):
 def supervise(specification):
     """Supervise all containers defined in the given specification."""
     containers = ["skydns", "skydock"]
-    for name in sorted(specification.containers.keys()):
-        containers.append(specification.containers[name].fqdn)
+    containers.extend(sorted(specification.containers.keys()))
     containers.append("nginx")
 
     dock = docker.Client(base_url='unix://var/run/docker.sock')

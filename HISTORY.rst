@@ -13,7 +13,6 @@ History
 ``/mnt/drydock``.
 * Fix: All containers are passed their FQDN as their hostname
 * Fix: ``pull`` command also grabs the containers required for the
-* Fix: containers are now named by their FQDN not their subdomain.
 ``prepare`` command.
 * Fix: Pass host timezone to subcontainers.
 * Fix: volumes now go map to ``/var/lib/{domain}/{name}/``.
