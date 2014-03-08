@@ -31,7 +31,7 @@ external: No
         assert container.http_port == 8081
         assert container.https_port == 4431
         assert container.external is False
-        assert container.skyfqdn == "blog.wordpress.containers.drydock"
+        assert container.skyfqdn == "blog.nekroze.com.wordpress.containers.drydock"
         assert container.fqdn == "blog.nekroze.com"
 
     def test_supervisord(self):
@@ -64,7 +64,7 @@ autorestart=true
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass http://blog.wordpress.containers.drydock:8081/;
+        proxy_pass http://blog.nekroze.com.wordpress.containers.drydock:8081/;
     }
 }
 server {
@@ -94,7 +94,7 @@ server {
         proxy_redirect off;
         proxy_buffering off;
 
-        proxy_pass http://blog.wordpress.containers.drydock:4431/;
+        proxy_pass http://blog.nekroze.com.wordpress.containers.drydock:4431/;
     }
 }"""
         assert container.get_nginx_config() == expected
@@ -103,4 +103,4 @@ server {
         container = Container(**yaml.load(self.config))
 
         assert container.get_docker_command() == \
-               "docker run -d -dns 172.17.42.1 -name blog -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"
+               "docker run -d -dns 172.17.42.1 -name blog.nekroze.com -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"

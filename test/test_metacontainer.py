@@ -6,7 +6,7 @@ from drydock.duster import MetaContainer
 import yaml
 
 
-class TestContainer(object):
+class TestMetaContainer(object):
     config = """
 name: nekroze.com
 domain: nekroze.com
@@ -52,7 +52,7 @@ subcontainers:
         assert subcontainer.http_port == 8081
         assert subcontainer.https_port == 4431
         assert subcontainer.external is True
-        assert subcontainer.skyfqdn == "blog.wordpress.containers.drydock"
+        assert subcontainer.skyfqdn == "blog.nekroze.com.wordpress.containers.drydock"
         assert subcontainer.fqdn == "blog.nekroze.com"
 
     def test_root_subcontainer(self):

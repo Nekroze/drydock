@@ -12,7 +12,6 @@ class Container(object):
         self.name = name
         self.domain = ""
         self.fqdn = ""
-        self.set_domain(domain)
         self.base = base
         self.envs = envs if envs else {}
         self.data = data
@@ -24,8 +23,7 @@ class Container(object):
         self.https_port = https_port
         self.external = external
         self.volumes = volumes if volumes else []
-        self.skyfqdn = '.'.join([self.name, self.base.split('/')[-1],
-                                 "containers", "drydock"])
+        self.set_domain(domain)
 
     def set_domain(self, domain):
         """Set fqdn and domain."""
@@ -34,6 +32,8 @@ class Container(object):
             self.fqdn = self.domain
         else:
             self.fqdn = self.name + '.' + self.domain
+        self.skyfqdn = '.'.join([self.fqdn, self.base.split('/')[-1],
+                                 "containers", "drydock"])
 
     def get_portmaps(self):
         """Get docker command port maps."""
@@ -61,7 +61,7 @@ class Container(object):
     def get_docker_command(self):
         """Return the docker command required to create this container."""
         cmd = ["docker run -d -dns 172.17.42.1"]
-        cmd.append("-name " + self.name)
+        cmd.append("-name " + self.fqdn)
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())
         if self.data:

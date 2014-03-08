@@ -3,19 +3,17 @@
 History
 -------
 
-0.5.0 (TDB)
-++++++++++++++++++
-
-* Added: ``supervise`` command line command. DryDock has its own supervisor!
-
 0.4.0 (08-03-2014)
 ++++++++++++++++++
 
+
+* Added: ``supervise`` command line command. DryDock has its own supervisor!
 * Added: ``start`` and ``stop`` command line commands.
 * Added: ``data`` in subcontainer specification maps volumes at
 ``/mnt/drydock``.
-* Fix: All subcontainers are passed their fqdn as their hostname
+* Fix: All containers are passed their FQDN as their hostname
 * Fix: ``pull`` command also grabs the containers required for the
+* Fix: containers are now named by their FQDN not their subdomain.
 ``prepare`` command.
 * Fix: Pass host timezone to subcontainers.
 * Fix: volumes now go map to ``/var/lib/{domain}/{name}/``.
