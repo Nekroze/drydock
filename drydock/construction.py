@@ -124,11 +124,13 @@ def deconstruct(specification, supervisor=False):
 
     if supervisor:
         path = "/etc/supervisord.conf"
-        os.remove(path)
+        if os.path.exists(path):
+            os.remove(path)
         report.path(path)
 
     path = join("/etc/nginx/sites-enabled/", specification.domain)
-    os.remove(path)
+    if os.path.exists(path):
+        os.remove(path)
     report.path(path)
 
     for name in sorted(specification.containers.keys()):
