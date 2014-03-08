@@ -3,7 +3,7 @@
 History
 -------
 
-0.4.0 (TBD)
+0.4.0 (08-03-2014)
 ++++++++++++++++++
 
 * Added: ``start`` and ``stop`` command line commands.
