@@ -94,7 +94,8 @@ def supervise(specification):
               for cont in dock.containers(all=True)}
         for tag in containers:
             if "Exit" in ps[tag]:  # check for exit status
-                print("Container has stopped: {} Code: {}".format(tag))
+                print("Container has stopped: {} Code: {}".format(
+                    tag, ps[tag][5:]))
                 dock.start(tag)
         time.sleep(30)
 
