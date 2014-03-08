@@ -7,15 +7,13 @@ Usage:
     drydock deconstruct <specification>
     drydock pull <specification>
     drydock start <specification>
-    drydock supervise [-r] <specification>
+    drydock supervise <specification>
     drydock stop <specification>
     drydock prepare
     drydock master [-plh] <name>
     drydock --help | --version
 
 Options:
-    -r --rate=<rate>        Polling rate for supervising. [default: 30]
-
     -p --http=<http>        HTTP Port. [default: 80]
     -l --https=<https>      HTTPS Port. [default: 443]
     -h --ssh=<ssh>          SSH Port. [default: 2222]
@@ -68,9 +66,8 @@ def main():
 
     elif args["supervise"]:
         with open(args["<specification>"], 'r') as drydock:
-            construction.supverise(
-                MetaContainer(**yaml.load(drydock.read())),
-                int(args["--seconds"]))
+            construction.supervise(
+                MetaContainer(**yaml.load(drydock.read())))
 
     elif args["stop"]:
         with open(args["<specification>"], 'r') as drydock:

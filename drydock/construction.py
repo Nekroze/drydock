@@ -80,12 +80,12 @@ def start(specification):
     report.exit()
 
 
-def supervise(specification, seconds):
+def supervise(specification):
     """Supervise all containers defined in the given specification."""
     start(specification)  # ensure the specification is started
     dock = docker.Client(base_url='unix://var/run/docker.sock')
 
-    while time.sleep(seconds):
+    while time.sleep(30):
         for cont in dock.containers(all=True):  # check each container
             tag = cont["Names"][0][1:]  # get containers first tag
             if "Exit" in cont["Status"]:  # check for exit status
