@@ -3,10 +3,11 @@
 History
 -------
 
-0.4.1 (TBD)
+0.4.1 (09-03-2014)
 ++++++++++++++++++
 
 * Fix: check for config files before removing them.
+* Fix: ``supervise`` command will now recreate the nginx container each run.
 
 0.4.0 (08-03-2014)
 ++++++++++++++++++

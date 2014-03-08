@@ -23,7 +23,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='drydock',
-    version='0.4.0',
+    version='0.4.1',
     description='A Docker cluster construction utility.',
     long_description=readme + '\n\n' + doclink + '\n\n' + history,
     author='Taylor "Nekroze" Lawson',

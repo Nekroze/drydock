@@ -87,6 +87,8 @@ def supervise(specification):
     containers.append("nginx")
 
     dock = docker.Client(base_url='unix://var/run/docker.sock')
+    os.system("docker stop nginx && docker rm nginx")
+    os.system(base_commands()[2])
 
     while True:
         ps = {cont["Names"][0][1:]: cont["Status"]
