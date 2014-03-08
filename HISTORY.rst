@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.1 (TBD)
+++++++++++++++++++
+
+* Fix: check for config files before removing them.
+
 0.4.0 (08-03-2014)
 ++++++++++++++++++
 
