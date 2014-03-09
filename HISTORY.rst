@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.2 (TBD)
+++++++++++++++++++
+
+* Fix: allow self connections to the host when nginx blocks external.
+
 0.4.1 (09-03-2014)
 ++++++++++++++++++
 
