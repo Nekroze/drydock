@@ -55,6 +55,7 @@ autorestart=true
     location / {
         deny    192.168.1.1;
         allow   192.168.1.0/24;
+        allow   172.17.42.1/24;
         deny    all;
 
         proxy_set_header Host $host;
@@ -85,6 +86,7 @@ server {
     location / {
         deny    192.168.1.1;
         allow   192.168.1.0/24;
+        allow   172.17.42.1/24;
         deny    all;
 
         proxy_set_header Host $host;
