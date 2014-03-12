@@ -7,6 +7,7 @@ History
 ++++++++++++++++++
 
 * Fix: use ``--name`` for naming containers for future proofing.
+* Fix: use ``--dns`` for future proofing.
 
 0.4.2 (11-03-2014)
 ++++++++++++++++++
