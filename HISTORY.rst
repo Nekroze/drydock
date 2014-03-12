@@ -3,7 +3,7 @@
 History
 -------
 
-0.4.3 (TBD)
+0.4.3 (12-03-2014)
 ++++++++++++++++++
 
 * Fix: use ``--name`` for naming containers for future proofing.
