@@ -95,7 +95,7 @@ NGINX_HTTPS = """server {{
 
 NGINX_RULES_INTERNAL = """deny    192.168.1.1;
         allow   192.168.1.0/24;
-        allow   172.17.42.1/24;
+        allow   172.17.42.0/24;
         deny    all;
 """
 
