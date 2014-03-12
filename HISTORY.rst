@@ -3,7 +3,12 @@
 History
 -------
 
-0.4.2 (TBD)
+0.4.3 (TBD)
+++++++++++++++++++
+
+* Fix: use ``--name`` for naming containers for future proofing.
+
+0.4.2 (11-03-2014)
 ++++++++++++++++++
 
 * Fix: allow self connections to the host when nginx blocks external.
