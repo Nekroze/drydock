@@ -130,8 +130,8 @@ def render_nginx_config(container):
 
 
 BASE_CONTAINERS = """docker run -d -p 172.17.42.1:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain drydock
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock -dns 172.17.42.1 -link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
-docker run -d -p 80:80 -p 443:443 --name nginx -dns 172.17.42.1 -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns 172.17.42.1 --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
+docker run -d -p 80:80 -p 443:443 --name nginx --dns 172.17.42.1 -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
 cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
 
 
