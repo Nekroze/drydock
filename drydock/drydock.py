@@ -10,13 +10,13 @@ Usage:
     drydock supervise <specification>
     drydock stop <specification>
     drydock prepare
-    drydock master [-plh] <name>
+    drydock master [--http=80 --https=443 --ssh=443] <name>
     drydock --help | --version
 
 Options:
-    -p --http=<http>        HTTP Port. [default: 80]
-    -l --https=<https>      HTTPS Port. [default: 443]
-    -s --ssh=<ssh>          SSH Port. [default: 2222]
+    -p --http=PORT          HTTP Port [default: 80].
+    -l --https=PORT         HTTPS Port [default: 443].
+    -s --ssh=PORT           SSH Port [default: 2222].
 
     -h --help               Show this screen.
     -v --version            Show current version.
