@@ -4,7 +4,7 @@ from os.path import join
 import os
 import time
 import docker
-from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
+from .templates import base_commands
 from .report import Report
 
 
