@@ -16,7 +16,7 @@ Usage:
 Options:
     -p --http=<http>        HTTP Port. [default: 80]
     -l --https=<https>      HTTPS Port. [default: 443]
-    -h --ssh=<ssh>          SSH Port. [default: 2222]
+    -s --ssh=<ssh>          SSH Port. [default: 2222]
 
     -h --help               Show this screen.
     -v --version            Show current version.
