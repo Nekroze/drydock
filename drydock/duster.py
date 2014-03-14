@@ -86,17 +86,13 @@ class Container(object):
 class MetaContainer(Container):
     """A container that stores containers."""
     def __init__(self, name, domain, subcontainers, base="nekroze/drydock",
-                 ssh_port="2222", command="drydock supervise /drydock.yaml",
-                 *args,  **kwargs):
+                 command="drydock supervise /drydock.yaml", *args,  **kwargs):
         super(MetaContainer, self).__init__(*args, name=name, base=base,
                                             command=command, domain=domain,
                                             **kwargs)
         self.containers = {}
         self.reverse_proxies = {}
         self.fqdn = domain
-        self.exposed_ports[self.http_port] = "80"
-        self.exposed_ports[self.https_port] = "443"
-        self.exposed_ports[ssh_port] = "2222"
 
         for sub in subcontainers:
             if "specification" in sub:
@@ -137,14 +133,6 @@ class MetaContainer(Container):
         for name in sorted(self.containers.keys()):
             container = self.containers[name]
             output.append(container.get_nginx_config())
-        return '\n'.join(output)
-
-    def get_supervisor_config(self):
-        """Get a rendered supervisor configuration file for all containers."""
-        output = []
-        for name in sorted(self.containers.keys()):
-            container = self.containers[name]
-            output.append(container.get_supervisor_config())
         return '\n'.join(output)
 
     def get_docker_command(self):

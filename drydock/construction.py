@@ -21,7 +21,7 @@ def master(specification, filename):
         ["docker insert", fqdn, filename, "/drydock.yaml"])
     report.command("Insert specification", cmd, os.system(cmd))
 
-    images = ' '.join(cont.base for cont in specification.containers.values)
+    images = ' '.join(cont.base for cont in specification.containers.values())
     cmd = ' '.join(
         ["docker run --privileged", fqdn, "docker pull", images])
     report.command("Pull specification images", cmd, os.system(cmd))

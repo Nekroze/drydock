@@ -1,46 +1,5 @@
 """A collection of templates and rendering functions."""
 
-SUPERVISOR_BASE = """
-[program:sshd]
-command=/usr/sbin/sshd -D
-autostart=true
-autorestart=true
-
-[program:docker]
-command=docker -d -dns 172.17.42.1 -H unix:///var/run/docker.sock -r=false
-autostart=true
-autorestart=true
-
-[program:skydns]
-command=docker start skydns
-autostart=true
-autorestart=true
-
-[program:skydock]
-command=docker start skydock
-autostart=true
-autorestart=true
-
-[program:nginx]
-command=docker start nginx
-autostart=true
-autorestart=true
-
-[group:drydock]
-programs=docker,skydns,skydns,skydock,nginx"""
-
-SUPERVISOR_CONTAINER = """
-[program:{0}]
-command=docker start {0}
-autostart=true
-autorestart=true
-"""
-
-SUPERVISOR_GROUP = """
-[group:{0}]
-programs={1}
-"""
-
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
 }}"""
