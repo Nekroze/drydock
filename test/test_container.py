@@ -34,15 +34,6 @@ external: No
         assert container.skyfqdn == "blog.wordpress.containers.drydock"
         assert container.fqdn == "blog.nekroze.com"
 
-    def test_supervisord(self):
-        container = Container(**yaml.load(self.config))
-        assert container.get_supervisor_config() == """
-[program:blog]
-command=docker start blog
-autostart=true
-autorestart=true
-"""
-
     def test_nginx(self):
         container = Container(**yaml.load(self.config))
         expected = """server {
