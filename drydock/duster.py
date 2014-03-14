@@ -86,12 +86,17 @@ class Container(object):
 class MetaContainer(Container):
     """A container that stores containers."""
     def __init__(self, name, domain, subcontainers, base="nekroze/drydock",
-                 *args, **kwargs):
+                 ssh_port="2222", command="drydock supervise /drydock.yaml",
+                 *args,  **kwargs):
         super(MetaContainer, self).__init__(*args, name=name, base=base,
-                                            domain=domain, **kwargs)
+                                            command=command, domain=domain,
+                                            **kwargs)
         self.containers = {}
         self.reverse_proxies = {}
         self.fqdn = domain
+        self.exposed_ports[self.http_port] = "80"
+        self.exposed_ports[self.https_port] = "443"
+        self.exposed_ports[ssh_port] = "2222"
 
         for sub in subcontainers:
             if "specification" in sub:
@@ -141,3 +146,19 @@ class MetaContainer(Container):
             container = self.containers[name]
             output.append(container.get_supervisor_config())
         return '\n'.join(output)
+
+    def get_docker_command(self):
+        """
+        Return the docker command required to create specification in
+        a master container.
+        """
+        cmd = ["docker run --privileged"]
+        cmd.append("--name " + self.fqdn)
+        cmd.append("-h " + self.fqdn)
+        cmd.extend(self.get_portmaps())
+        ngx = "-v /var/lib/{}/etc/nginx/sites-enabled:/etc/nginx/sites-enabled"
+        cmd.append(ngx.format(self.fqdn))
+        cmd.append("-v /etc/timezone:/etc/timezone:ro")
+        cmd.extend(self.get_volumemaps())
+        cmd.append(self.base)
+        return ' '.join(cmd)

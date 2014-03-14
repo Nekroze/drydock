@@ -8,12 +8,27 @@ from .templates import base_commands, SUPERVISOR_BASE, SUPERVISOR_GROUP
 from .report import Report
 
 
-def master(http="80", https="443", ssh="2222", name="drydock"):
+def master(specification, filename):
+    """Construct the given specification in a master container."""
     report = Report()
     print("\nConstructing drydock master container.")
-    cmd = "docker run -privileged -name {3} -p {0}:80 -p {1}:443 -p {2}:2222 nekroze/drydock"
-    cmd = cmd.format(http, https, ssh, name)
-    report.container(name, cmd, os.system(cmd))
+    fqdn = specification.fqdn
+
+    cmd = specification.get_docker_command()
+    report.container(fqdn, cmd, os.system(cmd))
+
+    cmd = ' '.join(
+        ["docker insert", fqdn, filename, "/drydock.yaml"])
+    report.command("Insert specification", cmd, os.system(cmd))
+
+    images = ' '.join(cont.base for cont in specification.containers.values)
+    cmd = ' '.join(
+        ["docker run --privileged", fqdn, "docker pull", images])
+    report.command("Pull specification images", cmd, os.system(cmd))
+
+    cmd = ' '.join(
+        ["docker run -d --privileged", fqdn, specification.command])
+    report.command("Run master supervisor", cmd, os.system(cmd))
 
     print(report.render())
     report.exit()

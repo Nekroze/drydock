@@ -10,14 +10,10 @@ Usage:
     drydock supervise <specification>
     drydock stop <specification>
     drydock prepare
-    drydock master [--http=80 --https=443 --ssh=443] <name>
+    drydock master <specification>
     drydock --help | --version
 
 Options:
-    -p --http=PORT          HTTP Port [default: 80].
-    -l --https=PORT         HTTPS Port [default: 443].
-    -s --ssh=PORT           SSH Port [default: 2222].
-
     -h --help               Show this screen.
     -v --version            Show current version.
 
@@ -74,12 +70,14 @@ def main():
             construction.stop(
                 MetaContainer(**yaml.load(drydock.read())))
 
+    elif args["master"]:
+        with open(args["<specification>"], 'r') as drydock:
+            construction.master(
+                MetaContainer(**yaml.load(drydock.read())),
+                args["<specification>"])
+
     elif args["prepare"]:
         construction.prepare()
-
-    elif args["master"]:
-        construction.master(
-            args["--http"], args["--https"], args["--ssh"], args["<name>"])
 
 
 if __name__ == "__main__":

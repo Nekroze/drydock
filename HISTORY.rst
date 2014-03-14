@@ -6,6 +6,8 @@ History
 0.5.0 (TBD)
 ++++++++++++++++++
 
+* Changed: ``master`` command now takes a specification to automatically
+build it.
 * Removed: any usage of ``supervisord`` in favor of the new
 ``drydock supervisor``.
 
