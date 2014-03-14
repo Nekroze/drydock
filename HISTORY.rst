@@ -6,6 +6,9 @@ History
 0.5.0 (TBD)
 ++++++++++++++++++
 
+* Removed: any usage of ``supervisord`` in favor of the new
+``drydock supervisor``.
+
 0.4.3 (12-03-2014)
 ++++++++++++++++++
 

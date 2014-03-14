@@ -120,15 +120,9 @@ def stop(specification):
     report.exit()
 
 
-def deconstruct(specification, supervisor=False):
+def deconstruct(specification):
     """Deconstruct the given specification."""
     report = Report()
-
-    if supervisor:
-        path = "/etc/supervisord.conf"
-        if os.path.exists(path):
-            os.remove(path)
-        report.path(path)
 
     path = join("/etc/nginx/sites-enabled/", specification.domain)
     if os.path.exists(path):
@@ -147,12 +141,9 @@ def deconstruct(specification, supervisor=False):
     report.exit()
 
 
-def construct(specification, supervisor=False):
+def construct(specification):
     """Construct the given specification."""
     report = Report()
-
-    if supervisor:
-        construct_supervisor(specification, report)
     construct_nginx(specification, report)
     construct_containers(specification, report)
 
@@ -161,16 +152,6 @@ def construct(specification, supervisor=False):
 
     print(report.render())
     report.exit()
-
-
-def construct_supervisor(specification, report):
-    """Construct the given specifications supervisor configuration file."""
-    with open("/etc/supervisord.conf", 'w') as supervisor:
-            supervisor.write(SUPERVISOR_BASE + '\n')
-            supervisor.write(specification.get_supervisor_config())
-            supervisor.write(SUPERVISOR_GROUP.format(specification.name,
-                ','.join(list(specification.containers.keys()))))
-    report.path("/etc/supervisord.conf")
 
 
 def construct_nginx(specification, report):

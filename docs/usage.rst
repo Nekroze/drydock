@@ -53,9 +53,6 @@ The main function for **DryDock**, ``construct``, takes a YAML_ specification fi
 and will create the required configuration files (supervisor, and nginx)
 before running and naming containers as defined in the specification.
 
-If you pass the ``-s`` option a supervisor config file will be generated at
-``/etc/supervisord.conf``.
-
 Here is an example of a **DryDock** specification file that will construct
 ``nekroze.com`` with *wordpress* and *gitlab* available at ``blog.nekroze.com``
 and ``lab.nekroze.com``. Finally the config describes a special
@@ -102,7 +99,6 @@ configuration files!
 .. warning::
 
     ``construct`` will overwrite the configuration files on the host at
-    ``/etc/supervisord.conf`` and
     ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
     domain for specified in the DryDock cluster specification
 
