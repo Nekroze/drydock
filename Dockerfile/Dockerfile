@@ -1,7 +1,7 @@
 FROM jpetazzo/dind
 MAINTAINER Taylor "Nekroze" Lawson
 
-RUN apt-get install -y python-pip
+RUN apt-get install -y python-pip aufs-tools
 RUN pip install drydock
 
 ENV PORT 4444
