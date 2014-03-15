@@ -25,7 +25,7 @@ def master(specification, filename):
     report.container(fqdn, cmd, os.system(cmd))
 
     run = '["bash", "-l", "-c", "{}"]'.format(specification.command)
-    cmd = "docker commit --run='{{\"Cmd\": \"{}\" }}' {} {}".format(
+    cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
         run, fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
