@@ -74,10 +74,6 @@ class Container(object):
             cmd.append(self.command)
         return ' '.join(cmd)
 
-    def get_supervisor_config(self):
-        """Get a rendered supervisor configuration file for thiscontainer."""
-        return templates.SUPERVISOR_CONTAINER.format(self.name)
-
     def get_nginx_config(self):
         """Get a rendered nginx configuration file for this container."""
         return templates.render_nginx_config(self)
@@ -93,6 +89,8 @@ class MetaContainer(Container):
         self.containers = {}
         self.reverse_proxies = {}
         self.fqdn = domain
+        self.exposed_ports[self.http_port] = "80"
+        self.exposed_ports[self.https_port] = "443"
 
         for sub in subcontainers:
             if "specification" in sub:
