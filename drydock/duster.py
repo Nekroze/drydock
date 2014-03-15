@@ -81,11 +81,13 @@ class Container(object):
 
 class MetaContainer(Container):
     """A container that stores containers."""
-    def __init__(self, name, domain, subcontainers, base="nekroze/drydock",
-                 command="drydock supervise /drydock.yaml", *args,  **kwargs):
+    def __init__(self, name, domain, subcontainers, base="nekroze/drydock", *args,  **kwargs):
         super(MetaContainer, self).__init__(*args, name=name, base=base,
                                             command=command, domain=domain,
                                             **kwargs)
+        if not self.command:
+            self.command = \
+                "startdocker && drydock supervise /drydock/specification.yaml"
         self.containers = {}
         self.reverse_proxies = {}
         self.fqdn = domain
@@ -150,4 +152,6 @@ class MetaContainer(Container):
         cmd.append("-v /var/lib/{0}/drydock:/drydock".format(self.fqdn))
         cmd.extend(self.get_volumemaps())
         cmd.append(self.base)
+        cmd.append(
+            "startdocker && drydock construct /drydock/specification.yaml")
         return ' '.join(cmd)

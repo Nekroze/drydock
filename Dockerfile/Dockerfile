@@ -4,4 +4,10 @@ MAINTAINER Taylor "Nekroze" Lawson
 RUN apt-get install -y python-pip
 RUN pip install drydock
 
-EXPOSE 80 443 2222
+ENV PORT 4444
+EXPOSE 80 443 2222 4444
+
+ADD ./startdocker /usr/local/bin/startdocker
+RUN chmod +x /usr/local/bin/startdocker
+
+CMD startdocker && drydock supervise /drydock/specification.yaml

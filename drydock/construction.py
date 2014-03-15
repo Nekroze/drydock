@@ -24,12 +24,7 @@ def master(specification, filename):
     cmd = specification.get_docker_command()
     report.container(fqdn, cmd, os.system(cmd))
 
-    cmd = ' '.join(
-        ["docker run --privileged", "--name {}-construct".format(fqdn),
-         specification.base, "drydock construct /drydock/specification.yaml"])
-    report.command("Construct specification", cmd, os.system(cmd))
-
-    cmd = "docker commit --run='{{\"Cmd\": \"{}\" }}' {}-construct {}".format(
+    cmd = "docker commit --run='{{\"Cmd\": \"{}\" }}' {} {}-live".format(
         specification.command, fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
