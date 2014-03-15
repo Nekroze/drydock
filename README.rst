@@ -32,10 +32,15 @@ Features
 TODO
 ----
 
-* Provide a better update path.
-* Add a stateless shareable mysql container to prepare and specification.
+* Provide a better update path, specific update commands, custom pre-post.
+* Container monitoring, ensure a container is working else reconstruct it.
 * Better support for stateless-ness and volumes
-* Better unittest coverage eg. reports.
+* Better unittest coverage.
+* Ability to provide a custom docker images repository for master containers.
+* Control/detection of IP's and DNS's to use in networking.
+* An external facing DNS server or config generation.
+* Control over a master container cluster, Drydock as a Service?.
+* Web interface for control, logging and monitoring. Far future.
 
 .. _Nginx: http://wiki.nginx.org/
 .. _YAML: http://wikipedia.org/wiki/YAML
