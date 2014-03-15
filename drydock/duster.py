@@ -7,7 +7,7 @@ import yaml
 class Container(object):
     """A docker container specification."""
     def __init__(self, name, base="ubuntu", exposed_ports=None, external=True,
-                 http_port=0, https_port=0, domain="", volumes=None,
+                 http_port="80", https_port="443", domain="", volumes=None,
                  envs=None, command=None, data=False):
         self.name = name
         self.domain = ""
@@ -145,6 +145,7 @@ class MetaContainer(Container):
         ngx = "-v /var/lib/{}/etc/nginx/sites-enabled:/etc/nginx/sites-enabled"
         cmd.append(ngx.format(self.fqdn))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
+        cmd.append("-v /var/lib/{0}/drydock:/drydock".format(self.fqdn))
         cmd.extend(self.get_volumemaps())
         cmd.append(self.base)
         return ' '.join(cmd)

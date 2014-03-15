@@ -14,20 +14,20 @@ def master(specification, filename):
     print("\nConstructing drydock master container.")
     fqdn = specification.fqdn
 
+    cmd = ' '.join(["cp -f", filename,
+                    "/var/lib/{0}/drydock/specification.yaml".format(fqdn)])
+    report.command("Store specification", cmd, os.system(cmd))
+
     cmd = specification.get_docker_command()
     report.container(fqdn, cmd, os.system(cmd))
 
     cmd = ' '.join(
-        ["docker insert", fqdn, filename, "/drydock.yaml"])
-    report.command("Insert specification", cmd, os.system(cmd))
+        ["docker run --privileged", "--name {}-construct".format(fqdn),
+         specification.base, "drydock construct /drydock/specification.yaml"])
+    report.command("Construct specification", cmd, os.system(cmd))
 
-    images = ' '.join(cont.base for cont in specification.containers.values())
-    cmd = ' '.join(
-        ["docker run --privileged", fqdn, "docker pull", images])
-    report.command("Pull specification images", cmd, os.system(cmd))
-
-    cmd = ' '.join(
-        ["docker run -d --privileged", fqdn, specification.command])
+    cmd = "docker commit --run='{\"Cmd\": \"{}\" }' {}-construct {}".format(
+        specification.command, fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
     print(report.render())
