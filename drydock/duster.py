@@ -151,6 +151,7 @@ class MetaContainer(Container):
         cmd.append("-v /var/lib/{0}/drydock:/drydock".format(self.fqdn))
         cmd.extend(self.get_volumemaps())
         cmd.append(self.base)
+        cmd.append("bash -l -c")
         cmd.append(
-            "startdocker && drydock construct /drydock/specification.yaml")
+            '"startdocker && drydock construct /drydock/specification.yaml"')
         return ' '.join(cmd)
