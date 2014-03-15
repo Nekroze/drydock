@@ -3,8 +3,12 @@
 History
 -------
 
-0.5.0 (TBD)
+0.5.0 (15-03-2014)
 ++++++++++++++++++
+
+.. warning:
+This release has a major emphasis on the ``master`` command and containers
+and is released early to facilitate testing.
 
 * Changed: ``master`` command now takes a specification to automatically
 build it.
