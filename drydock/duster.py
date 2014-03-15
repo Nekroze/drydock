@@ -142,7 +142,9 @@ class MetaContainer(Container):
         cmd.append("--name " + self.fqdn)
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())
-        ngx = "-v /var/lib/{}/etc/nginx/sites-enabled:/etc/nginx/sites-enabled"
+        ngx = "-v /var/lib/{}/nginx/sites-enabled:/etc/nginx/sites-enabled"
+        cmd.append(ngx.format(self.fqdn))
+        ngx = "-v /var/lib/{}/nginx/ssl:/etc/nginx/ssl"
         cmd.append(ngx.format(self.fqdn))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
         cmd.append("-v /var/lib/{0}/drydock:/drydock".format(self.fqdn))
