@@ -24,8 +24,9 @@ def master(specification, filename):
     cmd = specification.get_docker_command()
     report.container(fqdn, cmd, os.system(cmd))
 
+    run = '["bash", "-l", "-c", "{}"]'.format(specification).command.split()
     cmd = "docker commit --run='{{\"Cmd\": \"{}\" }}' {} {}".format(
-        str(specification.command.split()), fqdn, fqdn)
+        run, fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
     cmd = "docker rm " + fqdn
@@ -35,7 +36,7 @@ def master(specification, filename):
     report.exit()
 
 
-def prepare():
+def prepare(ssl=False):
     report = Report()
     skydns, skydock, nginx, certificate = base_commands()
 
@@ -48,9 +49,10 @@ def prepare():
     print("\nConstructing nginx container.")
     report.container("nginx", nginx, os.system(nginx))
 
-    print("\nGenerating SSL/HTTPS certificates for nginx.")
-    report.command("Generate SSL Certificates", certificate,
-                   os.system(certificate))
+    if ssl:
+        print("\nGenerating SSL/HTTPS certificates for nginx.")
+        report.command("Generate SSL Certificates", certificate,
+                       os.system(certificate))
 
     print(report.render())
     report.exit()

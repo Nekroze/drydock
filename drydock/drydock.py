@@ -9,11 +9,13 @@ Usage:
     drydock start <specification>
     drydock supervise <specification>
     drydock stop <specification>
-    drydock prepare
+    drydock prepare [--ssl]
     drydock master <specification>
     drydock --help | --version
 
 Options:
+    -s --ssl                Generate SSL certificates.
+
     -h --help               Show this screen.
     -v --version            Show current version.
 
@@ -77,7 +79,7 @@ def main():
                 args["<specification>"])
 
     elif args["prepare"]:
-        construction.prepare()
+        construction.prepare(args["--ssl"])
 
 
 if __name__ == "__main__":
