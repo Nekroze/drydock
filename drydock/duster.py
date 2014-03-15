@@ -155,5 +155,5 @@ class MetaContainer(Container):
         start = ["startdocker"]
         start.append("drydock prepare")
         start.append("drydock construct /drydock/specification.yaml")
-        cmd.append(" && ".join(start))
+        cmd.append('"' + " && ".join(start) + '"')
         return ' '.join(cmd)
