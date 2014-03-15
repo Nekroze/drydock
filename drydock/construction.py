@@ -28,6 +28,9 @@ def master(specification, filename):
         str(specification.command.split()), fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
+    cmd = "docker rm " + fqdn
+    report.command("Run master supervisor", cmd, os.system(cmd))
+
     print(report.render())
     report.exit()
 
