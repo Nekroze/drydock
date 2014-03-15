@@ -14,6 +14,9 @@ def master(specification, filename):
     print("\nConstructing drydock master container.")
     fqdn = specification.fqdn
 
+    cmd = ' '.join(["mkdir -p /var/lib/{0}/drydock".format(fqdn)])
+    report.command("Create specification store", cmd, os.system(cmd))
+
     cmd = ' '.join(["cp -f", filename,
                     "/var/lib/{0}/drydock/specification.yaml".format(fqdn)])
     report.command("Store specification", cmd, os.system(cmd))
@@ -26,7 +29,7 @@ def master(specification, filename):
          specification.base, "drydock construct /drydock/specification.yaml"])
     report.command("Construct specification", cmd, os.system(cmd))
 
-    cmd = "docker commit --run='{\"Cmd\": \"{}\" }' {}-construct {}".format(
+    cmd = "docker commit --run='{{\"Cmd\": \"{}\" }}' {}-construct {}".format(
         specification.command, fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
