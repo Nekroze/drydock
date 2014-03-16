@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.10 (16-03-2014)
+++++++++++++++++++
+
+* Fix: properly wrap final master command in qoutes for bash.
+
 0.5.9 (16-03-2014)
 ++++++++++++++++++
 

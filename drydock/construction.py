@@ -27,7 +27,7 @@ def master(specification, filename):
     cmd = ' '.join([master, "bash -l -c", '"' + " && ".join(cmds) + '"'])
     report.container(fqdn, cmd, os.system(cmd))
 
-    run = '["bash", "-l", "-c", "{}"]'.format(" && ".join(
+    run = '["bash", "-l", "-c", "\'{}\'"]'.format(" && ".join(
         ["drydock prepare", "drydock construct /drydock/specification.yaml",
          specification.command]))
     cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
