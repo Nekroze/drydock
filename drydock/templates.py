@@ -75,7 +75,9 @@ NETWORK = {}
 def prepare_networking(lani="eth0", dockeri="docker0",
                        gateway='1', dns="8.8.8.8"):
     """Stores useful network information and renders templates."""
-    global NGINX_RULES_INTERNAL BASE_CONTAINERS NETWORK
+    global NGINX_RULES_INTERNAL
+    global BASE_CONTAINERS
+    global NETWORK
     lan = get_ip_range(lani)
     gateway = lan[:-1] + [gateway]
     docker = get_ip_range(dockeri)
