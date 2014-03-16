@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.2 (16-03-2014)
+++++++++++++++++++
+
+* Fix: master containers nginx sites are now read write.
+
 0.5.1 (15-03-2014)
 ++++++++++++++++++
 
