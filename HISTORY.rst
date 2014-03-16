@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.0 (TBD)
+++++++++++++++++++
+
+* Fix: each image only gets pulled once via the pull command.
+
 0.5.8 (16-03-2014)
 ++++++++++++++++++
 
@@ -18,7 +23,7 @@ History
 0.5.6 (16-03-2014)
 ++++++++++++++++++
 
-* Fixed: only create nginx configs where needed.
+* Fix: only create nginx configs where needed.
 
 0.5.5 (16-03-2014)
 ++++++++++++++++++

@@ -76,7 +76,7 @@ def pull(specification):
     cmd = "docker pull dockerfile/nginx"
     report.command("Pull image nginx", cmd, os.system(cmd))
 
-    for name in sorted(specification.containers.keys()):
+    for name in set(sorted(specification.containers.keys())):
         base = specification.containers[name].base
         cmd = "docker pull " + base
         report.command("Pull image " + base, cmd, os.system(cmd))
