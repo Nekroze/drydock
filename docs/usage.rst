@@ -22,7 +22,10 @@ ports for those will also be exposed through the master container.
 
 Once a master container has been constructed it will be stored as an image
 in the hosts docker repository and **DryDock** will provide the user with
-the command required to run that specific container.
+the command required to run that specific container. It may be worth adding
+the docker ``--rm=true`` switch to the provided command. using this in an
+upstart script for example would mean that each boot or restart of the
+master container will be fresh from the original image that was created.
 
 .. note::
 
