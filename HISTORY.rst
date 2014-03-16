@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.6 (16-03-2014)
+++++++++++++++++++
+
+* Fixed: only create nginx configs where needed.
+
 0.5.5 (16-03-2014)
 ++++++++++++++++++
 

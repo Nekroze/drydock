@@ -115,12 +115,12 @@ def render_nginx_config(container):
     else:
         rules = ""
 
-    if container.http_port:
+    if container.http:
         config.append(TEMPLATES["NGINX"]["HTTP"].format(
             skyfqdn=container.skyfqdn, name=container.name,
             port=container.http_port, fqdn=container.fqdn, rules=rules))
 
-    if container.https_port:
+    if container.https:
         config.append(TEMPLATES["NGINX"]["HTTPS"].format(
             skyfqdn=container.skyfqdn, name=container.name,
             port=container.https_port, fqdn=container.fqdn, rules=rules))

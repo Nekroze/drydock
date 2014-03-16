@@ -22,7 +22,7 @@ The full documentation is at http://dry-dock.readthedocs.org."""
 
 setup(
     name='drydock',
-    version='0.5.5',
+    version='0.5.6',
     description='A Docker cluster construction utility.',
     long_description=readme + '\n\n' + doclink,
     author='Taylor "Nekroze" Lawson',

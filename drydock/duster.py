@@ -17,6 +17,8 @@ class Container(object):
         self.data = data
         self.exposed_ports = {}
         self.command = command
+        self.http = False
+        self.https = False
         if exposed_ports:
             self.exposed_ports.update(exposed_ports)
         self.http_port = http_port
@@ -96,7 +98,10 @@ class MetaContainer(Container):
         for sub in subcontainers:
             if "specification" in sub:
                 sub = self.grab_specification(sub["specification"], sub)
-            self.add_container(Container(**sub))
+            container = Container(**sub)
+            container.http = "http_port" in sub
+            container.https = "https_port" in sub
+            self.add_container(container)
 
     def grab_specification(self, link, base):
         """Create a container specification based off of a web link."""
