@@ -3,6 +3,13 @@
 History
 -------
 
+0.5.8 (16-03-2014)
+++++++++++++++++++
+
+* Changed: The shared data directory to map
+``/var/lib/{domain}/drydock/data`` to the containers ``/mnt/data``.
+* Added: Shared data container now works for master containers.
+
 0.5.7 (16-03-2014)
 ++++++++++++++++++
 

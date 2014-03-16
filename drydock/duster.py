@@ -67,7 +67,8 @@ class Container(object):
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())
         if self.data:
-            cmd.append("-v /mnt/drydock:/mnt/drydock")
+            cmd.append("-v /var/lib/{}/drydock/data:/mnt/data".format(
+                self.domain))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
@@ -154,6 +155,8 @@ class MetaContainer(Container):
         cmd.append(ngx.format(self.fqdn))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
         cmd.append("-v /var/lib/{0}/docker:/var/lib/docker".format(
+            self.fqdn))
+        cmd.append("-v /var/lib/{0}/drydock/data:/var/lib/{0}/drydock/data".format(
             self.fqdn))
         cmd.append("-v /var/lib/{0}/drydock:/drydock:ro".format(self.fqdn))
         cmd.extend(self.get_volumemaps())

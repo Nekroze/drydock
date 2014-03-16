@@ -96,16 +96,13 @@ and container specification. Together these define a *DryDock Specification*
 which gets constructed into running Docker_ containers and accompanying
 configuration files!
 
+All peristant data should be stored in ``/var/lib/{domain}/`` where domain
+is the specifications domain
+
 .. note::
 
     This command assumes that both Docker_ and supervisor are currently
     installed on the system.
-
-.. warning::
-
-    ``construct`` will overwrite the configuration files on the host at
-    ``/etc/nginx/sites-enabled/domain.com`` where ``domain.com`` is the
-    domain for specified in the DryDock cluster specification
 
 
 Pull
