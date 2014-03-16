@@ -8,6 +8,13 @@ configure a cluster of Docker_ containers.
 Master
 ------
 
+.. warning::
+
+    Currently master containers do not function correctly. There are issues
+    with running multiple commands on the first run. There also seems to be
+    an issue with running ``Skydock`` the docker dns inside a docker
+    container.
+
 The ``master`` command will construct and run a new Docker_ container under
 the given name based upon ``nekroze/drydock`` . This container is setup and
 ready to use **DryDock** to run a cluster of Docker_ containers in a Docker_
