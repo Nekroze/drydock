@@ -15,12 +15,14 @@ container (dind_). This is designed to easily contain a **DryDock** cluster
 but is not required.
 
 By default the master container will take over the host ports; 80, 443,
-and 2222 by default for; HTTP, HTTPS, and SSH.
+for; HTTP, and HTTPS. This can be customized by providing the root
+specification a ``http_port`` and ``https_port`` respectively. If the
+specification describes any exposed ports for sub-containers the external
+ports for those will also be exposed through the master container.
 
-Once a master container has been constructed and is running the user should
-SSH into the master container and use the ``prepare`` command before
-constructing your specification within the master container with the
-``construct`` command.
+Once a master container has been constructed it will be stored as an image
+in the hosts docker repository and **DryDock** will provide the user with
+the command required to run that specific container.
 
 .. note::
 
@@ -28,7 +30,7 @@ constructing your specification within the master container with the
 
 .. warning::
 
-    The resulting master container runs in ``-privileged`` mode and retains
+    The resulting master container runs in ``--privileged`` mode and retains
     all security concerns of such a Docker_ container.
 
 Prepare
