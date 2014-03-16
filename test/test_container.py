@@ -3,6 +3,7 @@ Tests for `drydock.duster` module and Container object.
 """
 import pytest
 from drydock.duster import Container
+from drydock.templates import NETWORK
 import yaml
 
 
@@ -36,12 +37,18 @@ external: No
 
     def test_nginx(self):
         container = Container(**yaml.load(self.config))
+        NETWORK["dns"] = "172.17.42.1"
+        container.http = True
+        container.https = True
         expected = """server {
     listen       80;
     server_name  blog.nekroze.com;
 
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
+
+    resolver 172.17.42.1 valid=5s;
+    resolver_timeout 5s;
 
     location / {
         deny    {gateway};
@@ -65,6 +72,9 @@ server {
 
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
+
+    resolver 172.17.42.1 valid=5s;
+    resolver_timeout 5s;
 
     ssl on;
     ssl_session_timeout 5m;

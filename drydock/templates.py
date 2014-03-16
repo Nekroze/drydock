@@ -55,7 +55,7 @@ TEMPLATES["NGINX"]["HTTPS"] = """server {{
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
 
-    resolver 172.17.42.1 valid=5s;
+    resolver {dns} valid=5s;
     resolver_timeout 5s;
 
     ssl on;
