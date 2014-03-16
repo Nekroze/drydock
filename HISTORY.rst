@@ -3,8 +3,13 @@
 History
 -------
 
+0.5.11 (16-03-2014)
++++++++++++++++++++
+
+* Fix: disabled nginx event config.
+
 0.5.10 (16-03-2014)
-++++++++++++++++++
++++++++++++++++++++
 
 * Fix: properly wrap final master command in qoutes for bash.
 

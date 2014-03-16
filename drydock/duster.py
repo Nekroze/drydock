@@ -134,7 +134,8 @@ class MetaContainer(Container):
 
     def get_nginx_config(self):
         """Get a rendered nginx configuration file for all containers."""
-        output = [TEMPLATES["NGINX"]["HEADER"]]
+        #output = [TEMPLATES["NGINX"]["HEADER"]]
+        output = []
         for name in sorted(self.containers.keys()):
             container = self.containers[name]
             output.append(container.get_nginx_config())
