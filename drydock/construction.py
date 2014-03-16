@@ -23,13 +23,12 @@ def master(specification, filename):
 
     master = specification.get_docker_command()
     cmds = ["startdocker"]
-    cmds.append("drydock prepare")
     cmds.append("drydock pull /drydock/specification.yaml")
     cmd = ' '.join([master, "bash -l -c", '"' + " && ".join(cmds) + '"'])
     report.container(fqdn, cmd, os.system(cmd))
 
     run = '["bash", "-l", "-c", "{}"]'.format(" && ".join(
-        ["drydock construct /drydock/specification.yaml",
+        ["drydock prepare", "drydock construct /drydock/specification.yaml",
          specification.command]))
     cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
         run, fqdn, fqdn)

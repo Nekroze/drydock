@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.7 (16-03-2014)
+++++++++++++++++++
+
+* Changed: Moved master container prepare to first time run.
+
 0.5.6 (16-03-2014)
 ++++++++++++++++++
 
