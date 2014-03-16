@@ -148,6 +148,8 @@ class MetaContainer(Container):
         ngx = "-v /var/lib/{}/nginx/ssl:/etc/nginx/ssl:ro"
         cmd.append(ngx.format(self.fqdn))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
+        cmd.append("-v /var/lib/{0}/docker:/var/lib/docker".format(
+            self.fqdn))
         cmd.append("-v /var/lib/{0}/drydock:/drydock:ro".format(self.fqdn))
         cmd.extend(self.get_volumemaps())
         cmd.append(self.base)

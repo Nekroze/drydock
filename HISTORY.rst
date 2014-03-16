@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.4 (16-03-2014)
+++++++++++++++++++
+
+* Fix: volume mapped master containers drydock volume for persistance.
+
 0.5.3 (16-03-2014)
 ++++++++++++++++++
 
