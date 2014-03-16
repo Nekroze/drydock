@@ -21,7 +21,11 @@ def master(specification, filename):
                     "/var/lib/{0}/drydock/specification.yaml".format(fqdn)])
     report.command("Store specification", cmd, os.system(cmd))
 
-    cmd = specification.get_docker_command()
+    master = specification.get_docker_command()
+    cmds = ["startdocker"]
+    cmds.append("drydock prepare")
+    cmds.append("drydock construct /drydock/specification.yaml")
+    cmd = ' '.join([master, "bash -l -c", '"' + " && ".join(cmds) + '"'])
     report.container(fqdn, cmd, os.system(cmd))
 
     run = '["bash", "-l", "-c", "{}"]'.format(specification.command)
@@ -33,6 +37,8 @@ def master(specification, filename):
     report.command("Run master supervisor", cmd, os.system(cmd))
 
     print(report.render())
+    print("Master container run command:")
+    print(master)
     report.exit()
 
 

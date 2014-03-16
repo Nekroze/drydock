@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.3 (16-03-2014)
+++++++++++++++++++
+
+* Added: display of final master container run command to end user.
+
 0.5.2 (16-03-2014)
 ++++++++++++++++++
 

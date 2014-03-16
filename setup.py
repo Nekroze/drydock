@@ -19,13 +19,12 @@ Documentation
 -------------
 
 The full documentation is at http://dry-dock.readthedocs.org."""
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='drydock',
-    version='0.5.2',
+    version='0.5.3',
     description='A Docker cluster construction utility.',
-    long_description=readme + '\n\n' + doclink + '\n\n' + history,
+    long_description=readme + '\n\n' + doclink,
     author='Taylor "Nekroze" Lawson',
     author_email='nekroze@eturnilnetwork.com',
     url='https://github.com/Nekroze/drydock',
