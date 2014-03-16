@@ -4,7 +4,7 @@ from os.path import join
 import os
 import time
 import docker
-from .templates import base_commands
+from .templates import base_commands, NETWORK
 from .report import Report
 
 
@@ -188,4 +188,5 @@ def construct_containers(specification, report):
 
         print("\nConstructing " + name)
         cmd = container.get_docker_command()
+        cmd.format(dockerdns=NETWORK["dockerdns"])
         report.container(name, cmd, os.system(cmd))

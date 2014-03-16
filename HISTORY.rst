@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.1 (15-03-2014)
+++++++++++++++++++
+
+* Added: Customize your network interfaces, ips, and dns from cli.
+
 0.5.0 (15-03-2014)
 ++++++++++++++++++
 

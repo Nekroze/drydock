@@ -3,17 +3,22 @@ from . import __version__
 __doc__ = """DryDock v{}
 
 Usage:
-    drydock construct <specification>
+    drydock construct [options] <specification>
     drydock deconstruct <specification>
     drydock pull <specification>
     drydock start <specification>
     drydock supervise <specification>
     drydock stop <specification>
-    drydock prepare [--ssl]
-    drydock master <specification>
+    drydock prepare [options]
+    drydock master [options] <specification>
     drydock --help | --version
 
 Options:
+    -n --dns=<IP>           External dns server to use. [default: 8.8.8.8]
+    -d --docker=<IFACE>     Docker  network interface. [default: docker0]
+    -l --lan=<IFACE>        Local area network interface. [default: eth0]
+    -g --gate=<INT>         Position of network gateway. [default: 1]
+
     -s --ssl                Generate SSL certificates.
 
     -h --help               Show this screen.
@@ -36,6 +41,7 @@ import yaml
 from . import construction
 from .duster import MetaContainer
 from docopt import docopt
+from .templates import prepare_networking
 
 
 def main():
@@ -43,6 +49,8 @@ def main():
     args = docopt(__doc__, version="DryDock v" + __version__)
 
     if args["construct"]:
+        prepare_networking(args["--lan"], args["--docker"], args["--gate"],
+                           args["--dns"])
         with open(args["<specification>"], 'r') as drydock:
             construction.construct(
                 MetaContainer(**yaml.load(drydock.read())))
@@ -73,12 +81,16 @@ def main():
                 MetaContainer(**yaml.load(drydock.read())))
 
     elif args["master"]:
+        prepare_networking(args["--lan"], args["--docker"], args["--gate"],
+                           args["--dns"])
         with open(args["<specification>"], 'r') as drydock:
             construction.master(
                 MetaContainer(**yaml.load(drydock.read())),
                 args["<specification>"])
 
     elif args["prepare"]:
+        prepare_networking(args["--lan"], args["--docker"], args["--gate"],
+                           args["--dns"])
         construction.prepare(args["--ssl"])
 
 

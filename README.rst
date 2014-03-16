@@ -37,7 +37,6 @@ TODO
 * Better support for stateless-ness and volumes
 * Better unittest coverage.
 * Ability to provide a custom docker images repository for master containers.
-* Control/detection of IP's and DNS's to use in networking.
 * An external facing DNS server or config generation.
 * Control over a master container cluster, Drydock as a Service?.
 * Web interface for control, logging and monitoring. Far future.

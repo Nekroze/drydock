@@ -60,7 +60,7 @@ class Container(object):
 
     def get_docker_command(self):
         """Return the docker command required to create this container."""
-        cmd = ["docker run -d --dns 172.17.42.1"]
+        cmd = ["docker run -d --dns {dockerdns}"]
         cmd.append("--name " + self.name)
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())

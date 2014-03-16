@@ -1,4 +1,13 @@
 """A collection of templates and rendering functions."""
+import subprocess
+
+
+def get_ip_range(interface="docker0"):
+    cmd = "ip address show dev " + interface
+    addr = subprocess.check_output(cmd.split()).split()
+    ip = addr[addr.index('inet') + 1].split('/')[0]
+    return ip.split('.')[:-1] + ['0']
+
 
 NGINX_UPSTREAM = """upstream {name} {{
     server {skyfqdn};
@@ -52,11 +61,36 @@ NGINX_HTTPS = """server {{
     }}
 }}"""
 
-NGINX_RULES_INTERNAL = """deny    192.168.1.1;
-        allow   192.168.1.0/24;
-        allow   172.17.42.0/24;
+
+NGINX_RULES_INTERNAL = """deny    {gateway};
+        allow   {lan}/24;
+        allow   {docker}/24;
         deny    all;
 """
+
+
+NETWORK = {}
+
+
+def prepare_networking(lani="eth0", dockeri="docker0",
+                       gateway='1', dns="8.8.8.8"):
+    """Stores useful network information and renders templates."""
+    lan = get_ip_range(lani)
+    gateway = lan[:-1] + [gateway]
+    docker = get_ip_range(dockeri)
+    dockerdns = lan[:-1] + ['1']
+
+    NGINX_RULES_INTERNAL = NGINX_RULES_INTERNAL.format(
+        lan=lan, gateway=gateway, docker=docker)
+
+    BASE_CONTAINERS = BASE_CONTAINERS.format(lan=lan, gateway=gateway,
+                                             docker=docker, dns=dns,
+                                             dockerdns=dockerdns)
+    NETWORK["lan"] = lan
+    NETWORK["gateway"] = gateway
+    NETWORK["docker"] = docker
+    NETWORK["dockerdns"] = dockerdns
+    NETWORK["dns"] = dns
 
 
 def render_nginx_config(container):
@@ -88,9 +122,9 @@ def render_nginx_config(container):
     return '\n'.join(config)
 
 
-BASE_CONTAINERS = """docker run -d -p 172.17.42.1:53:53/udp --name skydns crosbymichael/skydns -nameserver 8.8.8.8:53 -domain drydock
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns 172.17.42.1 --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
-docker run -d -p 80:80 -p 443:443 --name nginx --dns 172.17.42.1 -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
+BASE_CONTAINERS = """docker run -d -p {dockerdns}:53:53/udp --name skydns crosbymichael/skydns -nameserver {dns}:53 -domain drydock
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns {dockerdns} --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
+docker run -d -p 80:80 -p 443:443 --name nginx --dns {dockerdns} -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
 cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
 
 

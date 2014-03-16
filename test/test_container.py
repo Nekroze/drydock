@@ -44,9 +44,9 @@ external: No
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
 
     location / {
-        deny    192.168.1.1;
-        allow   192.168.1.0/24;
-        allow   172.17.42.0/24;
+        deny    {gateway};
+        allow   {lan}/24;
+        allow   {docker}/24;
         deny    all;
 
         proxy_set_header Host $host;
@@ -75,9 +75,9 @@ server {
     ssl_certificate_key /etc/nginx/certs/server.key;
 
     location / {
-        deny    192.168.1.1;
-        allow   192.168.1.0/24;
-        allow   172.17.42.0/24;
+        deny    {gateway};
+        allow   {lan}/24;
+        allow   {docker}/24;
         deny    all;
 
         proxy_set_header Host $host;
@@ -96,4 +96,4 @@ server {
         container = Container(**yaml.load(self.config))
 
         assert container.get_docker_command() == \
-               "docker run -d --dns 172.17.42.1 --name blog -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"
+               "docker run -d --dns {dockerdns} --name blog -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"
