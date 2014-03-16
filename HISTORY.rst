@@ -3,10 +3,11 @@
 History
 -------
 
-0.6.0 (TBD)
+0.5.9 (16-03-2014)
 ++++++++++++++++++
 
 * Fix: each image only gets pulled once via the pull command.
+* Fix: more specific nginx config for use with skydock.
 
 0.5.8 (16-03-2014)
 ++++++++++++++++++

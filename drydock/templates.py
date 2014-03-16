@@ -16,6 +16,11 @@ docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns {dockerd
 docker run -d -p 80:80 -p 443:443 --name nginx --dns {dockerdns} -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
 cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
 
+TEMPLATES["NGINX"]["HEADER"] = """events {{
+    worker_connections 1024;
+    use epoll;
+}}"""
+
 TEMPLATES["NGINX"]["UPSTREAM"] = """upstream {name} {{
     server {skyfqdn};
 }}"""
@@ -26,6 +31,9 @@ TEMPLATES["NGINX"]["HTTP"] = """server {{
 
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
+
+    resolver {dns} valid=5s;
+    resolver_timeout 5s;
 
     location / {{
         {rules}
@@ -46,6 +54,9 @@ TEMPLATES["NGINX"]["HTTPS"] = """server {{
 
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
+
+    resolver 172.17.42.1 valid=5s;
+    resolver_timeout 5s;
 
     ssl on;
     ssl_session_timeout 5m;
@@ -117,12 +128,12 @@ def render_nginx_config(container):
 
     if container.http:
         config.append(TEMPLATES["NGINX"]["HTTP"].format(
-            skyfqdn=container.skyfqdn, name=container.name,
+            skyfqdn=container.skyfqdn, name=container.name, dns=NETWORK["dns"],
             port=container.http_port, fqdn=container.fqdn, rules=rules))
 
     if container.https:
         config.append(TEMPLATES["NGINX"]["HTTPS"].format(
-            skyfqdn=container.skyfqdn, name=container.name,
+            skyfqdn=container.skyfqdn, name=container.name, dns=NETWORK["dns"],
             port=container.https_port, fqdn=container.fqdn, rules=rules))
 
     return '\n'.join(config)
