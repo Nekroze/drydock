@@ -3,6 +3,12 @@
 History
 -------
 
+0.5.5 (16-03-2014)
+++++++++++++++++++
+
+* Changed: master containers only pull on creation and will construct at
+first run.
+
 0.5.4 (16-03-2014)
 ++++++++++++++++++
 
