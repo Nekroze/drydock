@@ -82,10 +82,12 @@ NETWORK = {}
 def prepare_networking(lani="eth0", dockeri="docker0",
                        gateway='1', dns="8.8.8.8"):
     """Stores useful network information and renders templates."""
-    lan = '.'.join(get_ip_range(lani))
-    gateway = '.'.join(lan[:-1] + [gateway])
-    docker = '.'.join(get_ip_range(dockeri))
-    dockerdns = '.'.join(lan[:-1] + ['1'])
+    lanip = get_ip_range(lani)
+    lan = '.'.join(lanip)
+    gateway = '.'.join(lanip[:-1] + [gateway])
+    dockerip = get_ip_range(dockeri)
+    docker = '.'.join(dockerip)
+    dockerdns = '.'.join(dockerip[:-1] + ['1'])
 
     TEMPLATES["NGINX"]["RULES"] = TEMPLATES["NGINX"]["RULES"].format(
         lan=lan, gateway=gateway, docker=docker)
