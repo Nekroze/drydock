@@ -91,7 +91,7 @@ def prepare_networking(lani="eth0", dockeri="docker0",
     TEMPLATES["NGINX"]["RULES"] = TEMPLATES["NGINX"]["RULES"].format(
         lan=lan, gateway=gateway, docker=docker)
 
-    TEMPLATES["BASE"]["CONTAINERS"] = TEMPLATES["BASE"]["CONTIANERS"].format(
+    TEMPLATES["BASE"]["CONTAINERS"] = TEMPLATES["BASE"]["CONTAINERS"].format(
         lan=lan, gateway=gateway, docker=docker, dns=dns, dockerdns=dockerdns)
     NETWORK["lan"] = lan
     NETWORK["gateway"] = gateway
