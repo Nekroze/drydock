@@ -128,4 +128,4 @@ def render_nginx_config(container):
 
 def base_commands():
     """Return the base commands in a list"""
-    return [cmd for cmd in TEMPLATES["Base"]["CONTAINERS"].split('\n')]
+    return [cmd for cmd in TEMPLATES["BASE"]["CONTAINERS"].split('\n')]
