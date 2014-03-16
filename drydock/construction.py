@@ -176,8 +176,8 @@ def construct_nginx(specification, report):
     """Construct the given specifications nginx configuration file."""
     filename = join("/etc/nginx/sites-enabled/", specification.domain)
 
-    with open(filename, 'w') as supervisor:
-            supervisor.write(specification.get_nginx_config())
+    with open(filename, 'w') as site:
+            site.write(specification.get_nginx_config())
     report.path(filename)
 
 
