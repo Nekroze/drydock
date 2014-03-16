@@ -1,5 +1,5 @@
 """DryDock cluster specification."""
-from . import templates
+from .templates import render_nginx_config
 from six.moves.urllib.request import urlopen
 import yaml
 
@@ -76,7 +76,7 @@ class Container(object):
 
     def get_nginx_config(self):
         """Get a rendered nginx configuration file for this container."""
-        return templates.render_nginx_config(self)
+        return render_nginx_config(self)
 
 
 class MetaContainer(Container):

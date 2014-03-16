@@ -7,6 +7,7 @@ History
 ++++++++++++++++++
 
 * Added: Customize your network interfaces, ips, and dns from cli.
+* Fix: cleaned up template storage to allow manipulation.
 
 0.5.0 (15-03-2014)
 ++++++++++++++++++

@@ -60,8 +60,8 @@ external: No
     }
 }
 server {
-    listen 443;
-    server_name blog.nekroze.com;
+    listen       443;
+    server_name  blog.nekroze.com;
 
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;

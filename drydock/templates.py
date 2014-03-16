@@ -9,11 +9,19 @@ def get_ip_range(interface="docker0"):
     return ip.split('.')[:-1] + ['0']
 
 
-NGINX_UPSTREAM = """upstream {name} {{
+TEMPLATES = {"NGINX": {}, "BASE": {}}
+
+TEMPLATES["BASE"]["CONTAINERS"] = """docker run -d -p {
+    dockerdns}:53:53/udp --name skydns crosbymichael/skydns -nameserver {dns}:53 -domain drydock
+docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns {dockerdns} --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
+docker run -d -p 80:80 -p 443:443 --name nginx --dns {dockerdns} -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
+cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
+
+TEMPLATES["NGINX"]["UPSTREAM"] = """upstream {name} {{
     server {skyfqdn};
 }}"""
 
-NGINX_HTTP = """server {{
+TEMPLATES["NGINX"]["HTTP"] = """server {{
     listen       80;
     server_name  {fqdn};
 
@@ -33,9 +41,9 @@ NGINX_HTTP = """server {{
     }}
 }}"""
 
-NGINX_HTTPS = """server {{
-    listen 443;
-    server_name {fqdn};
+TEMPLATES["NGINX"]["HTTPS"] = """server {{
+    listen       443;
+    server_name  {fqdn};
 
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
@@ -62,7 +70,7 @@ NGINX_HTTPS = """server {{
 }}"""
 
 
-NGINX_RULES_INTERNAL = """deny    {gateway};
+TEMPLATES["NGINX"]["RULES"] = """deny    {gateway};
         allow   {lan}/24;
         allow   {docker}/24;
         deny    all;
@@ -75,20 +83,16 @@ NETWORK = {}
 def prepare_networking(lani="eth0", dockeri="docker0",
                        gateway='1', dns="8.8.8.8"):
     """Stores useful network information and renders templates."""
-    global NGINX_RULES_INTERNAL
-    global BASE_CONTAINERS
-    global NETWORK
     lan = get_ip_range(lani)
     gateway = lan[:-1] + [gateway]
     docker = get_ip_range(dockeri)
     dockerdns = lan[:-1] + ['1']
 
-    NGINX_RULES_INTERNAL = NGINX_RULES_INTERNAL.format(
+    TEMPLATES["NGINX"]["RULES"] = TEMPLATES["NGINX"]["RULES"].format(
         lan=lan, gateway=gateway, docker=docker)
 
-    BASE_CONTAINERS = BASE_CONTAINERS.format(lan=lan, gateway=gateway,
-                                             docker=docker, dns=dns,
-                                             dockerdns=dockerdns)
+    TEMPLATES["BASE"]["CONTAINERS"] = TEMPLATES["BASE"]["CONTIANERS"].format(
+        lan=lan, gateway=gateway, docker=docker, dns=dns, dockerdns=dockerdns)
     NETWORK["lan"] = lan
     NETWORK["gateway"] = gateway
     NETWORK["docker"] = docker
@@ -106,31 +110,23 @@ def render_nginx_config(container):
     config = []
 
     if not container.external:
-        rules = NGINX_RULES_INTERNAL
+        rules = TEMPLATES["NGINX"]["RULES"]
     else:
         rules = ""
 
     if container.http_port:
-        config.append(NGINX_HTTP.format(skyfqdn=container.skyfqdn,
-                                        name=container.name,
-                                        port=container.http_port,
-                                        fqdn=container.fqdn, rules=rules))
+        config.append(TEMPLATES["NGINX"]["HTTP"].format(
+            skyfqdn=container.skyfqdn, name=container.name,
+            port=container.http_port, fqdn=container.fqdn, rules=rules))
 
     if container.https_port:
-        config.append(NGINX_HTTPS.format(skyfqdn=container.skyfqdn,
-                                         name=container.name,
-                                         port=container.https_port,
-                                         fqdn=container.fqdn, rules=rules))
+        config.append(TEMPLATES["NGINX"]["HTTPS"].format(
+            skyfqdn=container.skyfqdn, name=container.name,
+            port=container.https_port, fqdn=container.fqdn, rules=rules))
 
     return '\n'.join(config)
 
 
-BASE_CONTAINERS = """docker run -d -p {dockerdns}:53:53/udp --name skydns crosbymichael/skydns -nameserver {dns}:53 -domain drydock
-docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns {dockerdns} --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
-docker run -d -p 80:80 -p 443:443 --name nginx --dns {dockerdns} -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
-cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
-
-
 def base_commands():
     """Return the base commands in a list"""
-    return [cmd for cmd in BASE_CONTAINERS.split('\n')]
+    return [cmd for cmd in TEMPLATES["Base"]["CONTAINERS"].split('\n')]
