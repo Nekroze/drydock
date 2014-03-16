@@ -112,6 +112,18 @@ This command is used almost identically to the ``construct`` and
 ``deconstruct`` command and will download all of the base images in the
 given specification. This can be useful for caching and or testing.
 
+
+Supervise
+---------
+
+This is a supervisor for a **DryDock** container cluster and can be used to
+ensure sub-container uptime.
+
+.. note::
+
+    When using a master container, its default entrypoint command will be to
+    supervise the given specification.
+
 Deconstruct
 -----------
 
