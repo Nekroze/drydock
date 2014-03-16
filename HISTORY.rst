@@ -11,7 +11,7 @@ History
 0.5.0 (15-03-2014)
 ++++++++++++++++++
 
-.. warning:
+.. warning::
 This release has a major emphasis on the ``master`` command and containers
 and is released early to facilitate testing.
 
