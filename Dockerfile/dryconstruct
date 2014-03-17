@@ -1,4 +1,2 @@
 #!/bin/bash
 wrapdocker &
-drydock prepare
-drydock construct /drydock/specification.yaml
