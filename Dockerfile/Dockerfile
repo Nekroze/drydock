@@ -6,7 +6,9 @@ RUN pip install drydock
 
 EXPOSE 80 443 2222
 
-ADD ./startdocker /usr/local/bin/startdocker
-RUN chmod +x /usr/local/bin/startdocker
+ADD ./drypull /usr/local/bin/drypull
+ADD ./dryconstruct /usr/local/bin/dryconstruct
+ADD ./drysupervise /usr/local/bin/drysupervise
+RUN chmod +x /usr/local/bin/drypull /usr/local/bin/dryconstruct /usr/local/bin/drysupervise
 
-CMD startdocker && drydock supervise /drydock/specification.yaml
+CMD drysupervise

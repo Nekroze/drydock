@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.12 (17-03-2014)
++++++++++++++++++++
+
+* Added: new master container scripts to manage drydock cluster.
+
 0.5.11 (16-03-2014)
 +++++++++++++++++++
 

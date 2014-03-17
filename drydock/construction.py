@@ -22,16 +22,11 @@ def master(specification, filename):
     report.command("Store specification", cmd, os.system(cmd))
 
     master = specification.get_docker_command()
-    cmds = ["startdocker"]
-    cmds.append("drydock pull /drydock/specification.yaml")
-    cmd = ' '.join([master, "bash -l -c", '"' + " && ".join(cmds) + '"'])
+    cmd = ' '.join([master, "dryconstruct"])
     report.container(fqdn, cmd, os.system(cmd))
 
-    run = '["bash", "-l", "-c", "\'{}\'"]'.format(" && ".join(
-        ["drydock prepare", "drydock construct /drydock/specification.yaml",
-         specification.command]))
     cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
-        run, fqdn, fqdn)
+        '["drysupervise"]', fqdn, fqdn)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
     cmd = "docker rm " + fqdn
