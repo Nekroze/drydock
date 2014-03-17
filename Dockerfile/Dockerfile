@@ -6,7 +6,7 @@ RUN pip install drydock
 
 EXPOSE 80 443 2222
 
-ADD ./drymastert /usr/local/bin/drymaster
+ADD ./drymaster /usr/local/bin/drymaster
 RUN chmod +x /usr/local/bin/drymaster
 
 CMD drymaster
