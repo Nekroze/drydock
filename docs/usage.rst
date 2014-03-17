@@ -118,7 +118,9 @@ Supervise
 ---------
 
 This is a supervisor for a **DryDock** container cluster and can be used to
-ensure sub-container uptime.
+ensure sub-container uptime. The ``supervise`` command can be run without
+running prepare or even construct as it will maintain and construct
+containers as needed.
 
 .. note::
 
@@ -129,7 +131,7 @@ Deconstruct
 -----------
 
 The ``deconstruct`` command is used the same way as the ``construct``
-command, however it will remove any thing created by the corrosponding
+command, however it will remove any thing created by the corresponding
 ``construct`` command.
 
 .. _dind: http://blog.docker.io/2013/09/docker-can-now-run-within-docker/

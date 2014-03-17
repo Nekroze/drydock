@@ -21,8 +21,13 @@ def master(specification, filename):
                     "/var/lib/{0}/drydock/specification.yaml".format(name)])
     report.command("Store specification", cmd, os.system(cmd))
     print(report.render())
+    print()
+    print("Master container prepare command:")
+    print(specification.get_docker_command() + " drypull")
+    print()
     print("Master container run command:")
     print(specification.get_docker_command())
+    print()
     report.exit()
 
 
@@ -90,19 +95,27 @@ def start(specification):
 
 def supervise(specification):
     """Supervise all containers defined in the given specification."""
-    containers = ["skydns", "skydock"]
-    containers.extend(sorted(specification.containers.keys()))
-    containers.append("nginx")
+    skydns, skydock, nginx, certificate = base_commands()
+    containers = [("skydns", skydns), ("skydock", skydock)]
+    for name in sorted(specification.containers.keys()):
+        cmd = specification.containers[name].get_docker_command()
+        containers.append((name, cmd.format(dockerdns=NETWORK["dockerdns"])))
+    containers.append(("nginx", nginx))
+
+    construct_nginx(specification)
 
     dock = docker.Client(base_url='unix://var/run/docker.sock')
     while True:
         ps = {cont["Names"][0][1:]: cont["Status"]
               for cont in dock.containers(all=True)}
-        for tag in containers:
-            if "Exit" in ps[tag]:  # check for exit status
+        for tag, cmd in containers:
+            if tag not in ps:
+                os.system(cmd)
+            elif "Exit" in ps[tag]:  # check for exit status
                 print("Container has stopped: {} Code: {}".format(
                     tag, ps[tag][5:]))
-                dock.start(tag)
+                dock.remove_container(tag)
+                os.system(cmd)
         time.sleep(30)
 
 
@@ -159,13 +172,14 @@ def construct(specification):
     report.exit()
 
 
-def construct_nginx(specification, report):
+def construct_nginx(specification, report=None):
     """Construct the given specifications nginx configuration file."""
     filename = join("/etc/nginx/sites-enabled/", specification.domain)
 
     with open(filename, 'w') as site:
             site.write(specification.get_nginx_config())
-    report.path(filename)
+    if report:
+        report.path(filename)
 
 
 def construct_containers(specification, report):

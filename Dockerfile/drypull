@@ -1,0 +1,3 @@
+#!/bin/bash
+wrapdocker &
+drydock pull /drydock/specification.yaml

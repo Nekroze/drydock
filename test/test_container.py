@@ -106,4 +106,4 @@ server {
         container = Container(**yaml.load(self.config))
 
         assert container.get_docker_command() == \
-               "docker run -d --dns {dockerdns} --name blog -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"
+               "docker run -d --rm=true --dns {dockerdns} --name blog -h blog.nekroze.com -p 22:22 -p 2222:222 -v /etc/timezone:/etc/timezone:ro -e \"DB=123\" nekroze/wordpress crump"

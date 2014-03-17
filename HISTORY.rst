@@ -3,8 +3,14 @@
 History
 -------
 
-0.6.0 (TBD)
+0.6.0 (17-03-2014)
 ++++++++++++++++++
+
+* Changed: ``supervise`` now prepares and constructs all containers for a
+**DryDock** cluster and will re-create them on failure.
+* Changed: After running ``master`` two command will be provided,
+one to pull all required images and first time setup,
+another to run the **DryDock** cluster.
 
 0.5.15 (17-03-2014)
 +++++++++++++++++++
