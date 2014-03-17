@@ -22,7 +22,7 @@ def master(specification, filename):
     report.command("Store specification", cmd, os.system(cmd))
 
     master = specification.get_docker_command()
-    cmd = ' '.join([master, "dryconstruct"])
+    cmd = ' '.join([master, "drypull"])
     report.container(fqdn, cmd, os.system(cmd))
 
     cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(

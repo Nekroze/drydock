@@ -3,6 +3,11 @@
 History
 -------
 
+0.5.13 (17-03-2014)
++++++++++++++++++++
+
+* Changed: only construct master cluster when supervising.
+
 0.5.12 (17-03-2014)
 +++++++++++++++++++
 
