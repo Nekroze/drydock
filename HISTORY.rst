@@ -3,6 +3,18 @@
 History
 -------
 
+0.5.14 (17-03-2014)
++++++++++++++++++++
+
+* Changed: ``supervise`` will no longer reconstruct nginx at start.
+* Changed: moved full master and cluster container construction to
+construction of master image not first time run run.
+* Changed: master images will now have ``-master`` appended to the end of
+their name
+* Changed: master images will now be named based on the specification name
+not domain, as will their location in ``/var/lib/..``.
+* Fix: Attempted to provide a better final run command for the master image.
+
 0.5.13 (17-03-2014)
 +++++++++++++++++++
 

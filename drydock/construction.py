@@ -13,6 +13,8 @@ def master(specification, filename):
     report = Report()
     print("\nConstructing drydock master container.")
     fqdn = specification.fqdn
+    name = specification.name
+    namemaster = specification.name + "-master"
 
     cmd = ' '.join(["mkdir -p /var/lib/{0}/drydock".format(fqdn)])
     report.command("Create specification store", cmd, os.system(cmd))
@@ -22,19 +24,20 @@ def master(specification, filename):
     report.command("Store specification", cmd, os.system(cmd))
 
     master = specification.get_docker_command()
-    cmd = ' '.join([master, "drypull"])
+    cmd = ' '.join([master, "dryconstruct"])
     report.container(fqdn, cmd, os.system(cmd))
 
     cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
-        '["drysupervise"]', fqdn, fqdn)
+        '["drysupervise"]', namemaster, namemaster)
     report.command("Run master supervisor", cmd, os.system(cmd))
 
-    cmd = "docker rm " + fqdn
+    cmd = "docker rm " + namemaster
     report.command("Run master supervisor", cmd, os.system(cmd))
 
     print(report.render())
     print("Master container run command:")
-    print(master)
+    print(master.replace(namemaster, name).replace(
+        "nekroze/drydock", namemaster))
     report.exit()
 
 
@@ -107,9 +110,6 @@ def supervise(specification):
     containers.append("nginx")
 
     dock = docker.Client(base_url='unix://var/run/docker.sock')
-    os.system("docker stop nginx && docker rm nginx")
-    os.system(base_commands()[2])
-
     while True:
         ps = {cont["Names"][0][1:]: cont["Status"]
               for cont in dock.containers(all=True)}

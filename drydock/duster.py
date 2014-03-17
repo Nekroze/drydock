@@ -141,13 +141,20 @@ class MetaContainer(Container):
             output.append(container.get_nginx_config())
         return '\n'.join(output)
 
+    def get_volumemaps(self):
+        """Return docker command volume maps."""
+        output = []
+        for path in self.volumes:
+            output.append("-v /var/lib/{0}{1}:{1}".format(self.name, path))
+        return output
+
     def get_docker_command(self):
         """
         Return the docker command required to create specification in
         a master container.
         """
         cmd = ["docker run --privileged"]
-        cmd.append("--name " + self.fqdn)
+        cmd.append("--name {}-master".format(self.name))
         cmd.append("-h " + self.fqdn)
         cmd.extend(self.get_portmaps())
         ngx = "-v /var/lib/{}/nginx/sites-enabled:/etc/nginx/sites-enabled"
@@ -156,9 +163,9 @@ class MetaContainer(Container):
         cmd.append(ngx.format(self.fqdn))
         cmd.append("-v /etc/timezone:/etc/timezone:ro")
         cmd.append("-v /var/lib/{0}/docker:/var/lib/docker".format(
-            self.fqdn))
+            self.name))
         cmd.append("-v /var/lib/{0}/drydock/data:/var/lib/{0}/drydock/data".format(
-            self.fqdn))
+            self.name))
         cmd.append("-v /var/lib/{0}/drydock:/drydock:ro".format(self.fqdn))
         cmd.extend(self.get_volumemaps())
         cmd.append(self.base)
