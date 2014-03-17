@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.1 (17-03-2014)
+++++++++++++++++++
+
+* Fix: detect networking before running ``supervise``.
+
 0.6.0 (17-03-2014)
 ++++++++++++++++++
 

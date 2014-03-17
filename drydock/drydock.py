@@ -71,6 +71,8 @@ def main():
                 MetaContainer(**yaml.load(drydock.read())))
 
     elif args["supervise"]:
+        prepare_networking(args["--lan"], args["--docker"], args["--gate"],
+                           args["--dns"])
         with open(args["<specification>"], 'r') as drydock:
             construction.supervise(
                 MetaContainer(**yaml.load(drydock.read())))
