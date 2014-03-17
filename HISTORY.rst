@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.2 (18-03-2014)
+++++++++++++++++++
+
+* Fix: remove conflicting args for containers ``-d`` and ``--rm``.
+
 0.6.1 (17-03-2014)
 ++++++++++++++++++
 
