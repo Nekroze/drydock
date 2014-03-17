@@ -6,8 +6,7 @@ RUN pip install drydock
 
 EXPOSE 80 443 2222
 
-ADD ./dryconstruct /usr/local/bin/dryconstruct
-ADD ./drysupervise /usr/local/bin/drysupervise
-RUN chmod +x /usr/local/bin/dryconstruct /usr/local/bin/drysupervise
+ADD ./drymastert /usr/local/bin/drymaster
+RUN chmod +x /usr/local/bin/drymaster
 
-CMD drysupervise
+CMD drymaster

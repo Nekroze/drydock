@@ -1,0 +1,6 @@
+#!/bin/bash
+wrapdocker &
+drydock pull /drydock/specification.yaml
+drydock prepare
+drydock construct /drydock/specification.yaml
+drydock supervise /drydock/specification.yaml

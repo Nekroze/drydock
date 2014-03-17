@@ -12,32 +12,17 @@ def master(specification, filename):
     """Construct the given specification in a master container."""
     report = Report()
     print("\nConstructing drydock master container.")
-    fqdn = specification.fqdn
     name = specification.name
-    namemaster = specification.name + "-master"
 
-    cmd = ' '.join(["mkdir -p /var/lib/{0}/drydock".format(fqdn)])
+    cmd = ' '.join(["mkdir -p /var/lib/{0}/drydock".format(name)])
     report.command("Create specification store", cmd, os.system(cmd))
 
     cmd = ' '.join(["cp -f", filename,
-                    "/var/lib/{0}/drydock/specification.yaml".format(fqdn)])
+                    "/var/lib/{0}/drydock/specification.yaml".format(name)])
     report.command("Store specification", cmd, os.system(cmd))
-
-    master = specification.get_docker_command()
-    cmd = ' '.join([master, "dryconstruct"])
-    report.container(fqdn, cmd, os.system(cmd))
-
-    cmd = "docker commit --run='{{\"Cmd\": {} }}' {} {}".format(
-        '["drysupervise"]', namemaster, namemaster)
-    report.command("Run master supervisor", cmd, os.system(cmd))
-
-    cmd = "docker rm " + namemaster
-    report.command("Run master supervisor", cmd, os.system(cmd))
-
     print(report.render())
     print("Master container run command:")
-    print(master.replace(namemaster, name).replace(
-        "nekroze/drydock", namemaster))
+    print(specification.get_docker_command())
     report.exit()
 
 

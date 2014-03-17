@@ -8,18 +8,11 @@ configure a cluster of Docker_ containers.
 Master
 ------
 
-.. warning::
-
-    Currently master containers do not function correctly. There are issues
-    with running multiple commands on the first run. There also seems to be
-    an issue with running ``Skydock`` the docker dns inside a docker
-    container.
-
-The ``master`` command will construct and run a new Docker_ container under
-the given name based upon ``nekroze/drydock`` . This container is setup and
-ready to use **DryDock** to run a cluster of Docker_ containers in a Docker_
-container (dind_). This is designed to easily contain a **DryDock** cluster
-but is not required.
+The ``master`` command will prepare and provide the command for a new
+Docker_ container under the given name based upon ``nekroze/drydock`` . This
+container is setup and ready to use **DryDock** to run a cluster of Docker_
+containers in a Docker_ container (dind_). This is designed to easily
+contain a **DryDock** cluster but is not required.
 
 By default the master container will take over the host ports; 80, 443,
 for; HTTP, and HTTPS. This can be customized by providing the root
@@ -27,12 +20,13 @@ specification a ``http_port`` and ``https_port`` respectively. If the
 specification describes any exposed ports for sub-containers the external
 ports for those will also be exposed through the master container.
 
-Once a master container has been constructed it will be stored as an image
-in the hosts docker repository and **DryDock** will provide the user with
-the command required to run that specific container. It may be worth adding
-the docker ``--rm=true`` switch to the provided command. using this in an
-upstart script for example would mean that each boot or restart of the
-master container will be fresh from the original image that was created.
+Once a master container has been prepared **DryDock** will provide the user
+with the command required to run that specific cluster. It may be worth
+adding the docker ``--rm=true`` switch to the provided command. using this
+in an upstart script for example would mean that each boot or restart of the
+master container will be fresh from the original image that was created. If
+you wish to run it in the background immediately then the ``-d`` do that for
+you.
 
 .. note::
 

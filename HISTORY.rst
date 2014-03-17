@@ -3,6 +3,15 @@
 History
 -------
 
+0.5.15 (17-03-2014)
++++++++++++++++++++
+
+* Removed: got rid of master containers constructing special images.
+* Changed: the master command just prepares the files and gives you a run
+command for the master.
+* Added: a volume map from the internal cluster containers based on FQDN and
+the master containers ``/var/lib/{name}`` persistance directory.
+
 0.5.14 (17-03-2014)
 +++++++++++++++++++
 
