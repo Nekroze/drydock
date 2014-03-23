@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.3 (23-03-2014)
+++++++++++++++++++
+
+* Fix: stale NFS file handles should no longer crash the supervisor.
+
 0.6.2 (18-03-2014)
 ++++++++++++++++++
 

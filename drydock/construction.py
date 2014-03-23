@@ -114,7 +114,7 @@ def supervise(specification):
             elif "Exit" in ps[tag]:  # check for exit status
                 print("Container has stopped: {} Code: {}".format(
                     tag, ps[tag][5:]))
-                dock.remove_container(tag)
+                os.system("docker rm " + tag)
                 os.system(cmd)
         time.sleep(30)
 
