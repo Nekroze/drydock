@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.4 (31-03-2014)
+++++++++++++++++++
+
+* Changed: Altered the HTTPS/SSL reverse proxy config to hopefully work.
+
 0.6.3 (23-03-2014)
 ++++++++++++++++++
 
