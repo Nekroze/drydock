@@ -76,11 +76,11 @@ server {
     resolver 172.17.42.1 valid=5s;
     resolver_timeout 5s;
 
-    ssl on;
-    ssl_session_timeout 5m;
-    ssl_protocols SSLv2 SSLv3 TLSv1;
-    ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
-    ssl_prefer_server_ciphers on;
+    ssl                         on;
+    ssl_session_timeout         10m;
+    ssl_protocols               SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers                 RC4:HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers   on;
     ssl_certificate /etc/nginx/certs/server.crt;
     ssl_certificate_key /etc/nginx/certs/server.key;
 
@@ -90,12 +90,14 @@ server {
         allow   {docker}/24;
         deny    all;
 
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-NginX-Proxy true;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504
+        proxy_set_header        Accept-Encoding   "";
+        proxy_set_header        Host            $host;
+        proxy_set_header        X-Real-IP       $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        add_header              Front-End-Https   on;
         proxy_redirect off;
-        proxy_buffering off;
 
         proxy_pass http://blog.wordpress.containers.drydock:4431/;
     }
