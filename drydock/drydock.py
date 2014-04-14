@@ -6,8 +6,8 @@ Usage:
     drydock construct [options] <specification>
     drydock deconstruct <specification>
     drydock pull <specification>
-    drydock start <specification>
-    drydock supervise <specification>
+    drydock start [options] <specification>
+    drydock supervise [options] <specification>
     drydock stop <specification>
     drydock prepare [options]
     drydock master [options] <specification>
@@ -66,6 +66,8 @@ def main():
                 MetaContainer(**yaml.load(drydock.read())))
 
     elif args["start"]:
+        prepare_networking(args["--lan"], args["--docker"], args["--gate"],
+                           args["--dns"])
         with open(args["<specification>"], 'r') as drydock:
             construction.start(
                 MetaContainer(**yaml.load(drydock.read())))

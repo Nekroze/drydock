@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.5 (14-04-2014)
+++++++++++++++++++
+
+* Added: Full options to start and supervise to allow for custom dns settings.
+
 0.6.4 (31-03-2014)
 ++++++++++++++++++
 
