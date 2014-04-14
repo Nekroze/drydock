@@ -68,7 +68,7 @@ TEMPLATES["NGINX"]["HTTPS"] = """server {{
 
     location / {{
         {rules}
-        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_set_header        Accept-Encoding   "";
         proxy_set_header        Host            $host;
         proxy_set_header        X-Real-IP       $remote_addr;

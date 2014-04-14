@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.6 (14-04-2014)
+++++++++++++++++++
+
+* Fixed: Missing semicolon line ending for nginx https.
+
 0.6.5 (14-04-2014)
 ++++++++++++++++++
 
