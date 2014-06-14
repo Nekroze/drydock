@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.8 (14-06-2014)
+++++++++++++++++++
+
+* Fixed: ssl key generation commands now work and produce strong keys.
+
 0.6.7 (14-06-2014)
 ++++++++++++++++++
 
