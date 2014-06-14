@@ -33,16 +33,7 @@ def master(specification, filename):
 
 def prepare(ssl=False):
     report = Report()
-    skydns, skydock, nginx, certificate = base_commands()
-
-    print("\nConstructing skydns container.")
-    report.container("skydns", skydns, os.system(skydns))
-
-    print("\nConstructing skydock container.")
-    report.container("skydock", skydock, os.system(skydock))
-
-    print("\nConstructing nginx container.")
-    report.container("nginx", nginx, os.system(nginx))
+    certificate = base_commands()[-1]
 
     if ssl:
         print("\nGenerating SSL/HTTPS certificates for nginx.")

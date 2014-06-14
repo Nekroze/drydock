@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.7 (14-06-2014)
+++++++++++++++++++
+
+* Removed: ``prepare`` no longer constructs base containers.
+
 0.6.6 (14-04-2014)
 ++++++++++++++++++
 
