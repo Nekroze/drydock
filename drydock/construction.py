@@ -101,11 +101,14 @@ def supervise(specification):
               for cont in dock.containers(all=True)}
         for tag, cmd in containers:
             if tag not in ps:
+                print(cmd)
                 os.system(cmd)
             elif "Exit" in ps[tag]:  # check for exit status
                 print("Container has stopped: {} Code: {}".format(
                     tag, ps[tag][5:]))
+                print("docker rm " + tag)
                 os.system("docker rm " + tag)
+                print(cmd)
                 os.system(cmd)
         time.sleep(30)
 

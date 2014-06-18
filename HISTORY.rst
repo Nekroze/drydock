@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.9 (18-06-2014)
+++++++++++++++++++
+
+* Added: ``supervise`` now prints out each system command before calling it.
+
 0.6.8 (14-06-2014)
 ++++++++++++++++++
 
