@@ -3,7 +3,7 @@
 History
 -------
 
-0.6.10 (TBD)
+0.6.10 (19-06-2014)
 ++++++++++++++++++
 
 * Changed: pass /etc/localtime to containers rather then /etc/timezone
