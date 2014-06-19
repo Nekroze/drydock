@@ -69,7 +69,7 @@ class Container(object):
         if self.data:
             cmd.append("-v /var/lib/{}/drydock/data:/mnt/data".format(
                 self.domain))
-        cmd.append("-v /etc/timezone:/etc/timezone:ro")
+        cmd.append("--v /etc/localtime:/etc/localtime:ro")
         cmd.extend(self.get_volumemaps())
         cmd.extend(self.get_envs())
         cmd.append(self.base)
