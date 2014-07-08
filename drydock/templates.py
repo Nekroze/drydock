@@ -14,7 +14,7 @@ TEMPLATES = {"NGINX": {}, "BASE": {}}
 TEMPLATES["BASE"]["CONTAINERS"] = """docker run -d -p {dockerdns}:53:53/udp --name skydns crosbymichael/skydns -nameserver {dns}:53 -domain drydock
 docker run -d -v /var/run/docker.sock:/docker.sock --name skydock --dns {dockerdns} --link skydns:skydns crosbymichael/skydock -ttl 30 -environment containers -s /docker.sock -domain drydock
 docker run -d -p 80:80 -p 443:443 --name nginx --dns {dockerdns} -v /etc/nginx/certs:/etc/nginx/certs -v /etc/nginx/sites-enabled:/etc/nginx/sites-enabled -v /var/log/nginx:/var/log/nginx dockerfile/nginx
-cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out gitlab.csr && openssl x509 -req -days 365 -in gitlab.csr -signkey server.key -out gitlab.crt"""
+cd /etc/nginx/certs && openssl genrsa -out server.key 2048 && openssl req -new -key server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt"""
 
 TEMPLATES["NGINX"]["HEADER"] = """events {
     worker_connections 1024;
