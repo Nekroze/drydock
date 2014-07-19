@@ -57,7 +57,7 @@ class Container(object):
         """Return docker environment variable arguments."""
         output = []
         for name, value in self.envs.items():
-            output.append("-e \"{0}={1}\"".format(name, value))
+            output.append("-e {0}=\"{1}\"".format(name, value))
         return output
 
     def get_docker_command(self):
