@@ -47,6 +47,8 @@ external: No
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
 
+    client_max_body_size 500M;
+
     resolver 172.17.42.1 valid=5s;
     resolver_timeout 5s;
 
@@ -72,6 +74,8 @@ server {
 
     access_log  /var/log/nginx/blog.nekroze.com.access.log  combined;
     error_log  /var/log/nginx/blog.nekroze.com.error.log;
+
+    client_max_body_size 500M;
 
     resolver 172.17.42.1 valid=5s;
     resolver_timeout 5s;

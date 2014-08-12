@@ -32,6 +32,8 @@ TEMPLATES["NGINX"]["HTTP"] = """server {{
     access_log  /var/log/nginx/{fqdn}.access.log  combined;
     error_log  /var/log/nginx/{fqdn}.error.log;
 
+    client_max_body_size 500M;
+
     resolver {dns} valid=5s;
     resolver_timeout 5s;
 
@@ -57,6 +59,8 @@ TEMPLATES["NGINX"]["HTTPS"] = """server {{
 
     resolver {dns} valid=5s;
     resolver_timeout 5s;
+
+    client_max_body_size 500M;
 
     ssl                         on;
     ssl_session_timeout         10m;

@@ -8,6 +8,11 @@ History
 
 * Fixed: Improved environment variable handling
 
+0.6.12 (19-06-2014)
+++++++++++++++++++
+
+* Changed: increased nginx upload limit for flexability
+
 0.6.10 (19-06-2014)
 ++++++++++++++++++
 
