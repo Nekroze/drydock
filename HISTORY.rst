@@ -3,6 +3,11 @@
 History
 -------
 
+0.6.11 (10-08-2014)
+++++++++++++++++++
+
+* Fixed: Improved environment variable handling
+
 0.6.10 (19-06-2014)
 ++++++++++++++++++
 
